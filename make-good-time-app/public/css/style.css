@@ -8,5 +8,60 @@ html, body {
 #map {
   height: 100%;
   width: 100%;
-  z-index: 0;
+  z-index: -1;
 }
+/*Font*/
+.primary-font {
+  font-family: 'Pacifico', cursive;
+}
+
+/*Center*/
+.center {
+  margin: 0 auto;
+  text-align: center;
+}
+
+
+/*Navbar*/
+nav.navbar.navbar-default {
+    background-color: transparent;
+    border-color: #e7e7e7;
+}
+
+/*Main Page*/
+.mainpage-background {
+  height: 200%;
+  width: 100%;
+  background-color: white;
+  z-index: 1;
+  position: absolute;
+  top: 84px; 
+  /* need a media query for 691px if we keep the z-index, because breakpoint for navbar at 691px */
+  left: 0px;
+  background-image: url("https://alphabetcityestates.files.wordpress.com/2013/03/london-skyline.jpg");
+}
+
+.shader {
+  background-color: rgba(1,1,1,0.2);
+
+}
+.title {
+  font-size: 90px;  
+  color: #000099;
+  margin-top: 200px;
+  /*border: 1px solid blue;*/
+}
+.secondary-title {
+  font-size: 50px;
+  /*border: 1px solid red;*/
+  margin-top: -41px;
+  color: white;
+}
+
+.description {
+  font-size: 30px;
+  width: 310px;
+  border: 1px solid black;
+  margin-top: 30px;
+}
+
