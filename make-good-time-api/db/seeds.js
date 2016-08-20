@@ -109,6 +109,66 @@ Activity.create([
     postcode: "NW1 4RY",
     location: "26 Outer Circle, Regents Park, London"
   },
+  { 
+    name: "The Bottle Shop",
+    categories: ["Beer", "Shopping"],
+    description: "One of London’s best bottle shops, with loads of great events and rare beers from all over the world.",
+    photo: "http://c8.alamy.com/comp/G1MFN0/people-outside-the-bottle-shop-in-druid-street-near-maltby-street-G1MFN0.jpg",
+    lat: 51.498675, 
+    lng: -0.073205,
+    postcode: "SE1 2HH",
+    location: "128 Druid St, London"
+  }, 
+  { 
+    name: "Mother Kelly’s",
+    categories: ["Beer", "Bars"],
+    description: "Under railway arches, this industrial bar and shop with a patio offers draft and bottled beers.",
+    photo: "http://beerlens.com/wp-content/uploads/2014/12/MotherKellys02.jpg",
+    lat: 51.528505, 
+    lng: -0.056231,
+    postcode: "E2 9LE",
+    location: "251 Paradise Row, London"
+  },
+  { 
+    name: "Hop Burns and Black",
+    categories: ["Beer", "Bars", "Shopping"],
+    description: "Craft beer, hot sauce and records - together at last. Shop and tasting room",
+    photo: "http://www.beerguideldn.com/images/hopburnsblack/sized/2015-10-31%2016.20.37.jpg",
+    lat: 51.462107, 
+    lng: -0.069670,
+    postcode: "SE22 9AX",
+    location: "38 E Dulwich Rd, London"
+  },
+  { 
+    name: "Bermondsey Beer Mile",
+    categories: ["Beer", "Breweries"],
+    description: "With Kernel Brewery, Brew By Numbers, Partizan Brewing, FourPure, and Ansbach and Hobday all located in arches beneath the same stretch of railway, the beer mile is a great way to see Bermondsey and get your local beer fix.",
+    photo: "http://thecitylane.com/wp-content/uploads/2015/03/bermondseybeermile.jpg",
+    lat: 51.498163, 
+    lng: -0.071997,
+    postcode: "SE16 3RA",
+    location: "Enid Street, London"
+  },
+  { 
+    name: "Wellcome Collection",
+    categories: ["Science", "Museums"],
+    description: "19th-century collector Henry Wellcome's medical antiquities, plus hi-tech modern displays and art.",
+    photo: "http://www.travelsupermarket.com/blog/wp-content/uploads/2012/06/Wellcome-Trust-Image.jpg",
+    lat: 51.529995, 
+    lng: -0.133775,
+    postcode: "NW1 2BE",
+    location: "183 Euston Rd, London"
+  },
+  { 
+    name: "Borough Market",
+    categories: ["Food", "Shopping", "Beer"],
+    description: "Borough Market is a wholesale and retail food market in Southwark, Central London, England. It is one of the largest and oldest food markets in London. In 2014, it celebrated its 1,000th birthday.",
+    photo: "http://www.bloglmn.com/wp-content/uploads/Borough-Market-Credit-Simon-Rawles2.jpg",
+    lat: 51.509430,  
+    lng: -0.090559,
+    postcode: "SE1 1TL",
+    location: "8 Southwark Street, London"
+  }
 
 ], function(err, activities) {
   console.log(activities);
