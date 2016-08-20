@@ -9,6 +9,7 @@ Activity.collection.drop();
 Activity.create([
   {
     name: "High Bar",
+    categories: ["Bears", "Entertainment"],
     description: "The best bar rated by London Bar Insitution",
     photo: "http://d2cd7s18nw3zcy.cloudfront.net/files/hotel/buddha-bar-hotel-budapest-klotild-palace/dining/Lounge/BarMixer.jpg",
     lat: 51.9,
@@ -18,6 +19,7 @@ Activity.create([
   },
   { 
     name: "Low Bar",
+    categories: ["Bears", "Entertainment"],
     description: "The cheapest bar rated by London Bar Insitution",
     photo: "https://affotd.files.wordpress.com/2011/03/swimming-pool-bar1.jpg",
     lat: 53,

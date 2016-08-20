@@ -7,6 +7,7 @@ var activitySchema = new mongoose.Schema({
   lat: { type: Number, required: true },
   lng: { type: Number, required: true },
   postcode: { type: String, required: true },
+  categories: [{ type: String, required: true }],
   location: { type: String, required: true }
 }, {
   timestamps: true
