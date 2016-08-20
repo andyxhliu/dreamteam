@@ -15,7 +15,6 @@ GoodTimeApp.getTemplate = function(template, data) {
   });
 }
 
-
 GoodTimeApp.getDirections = function() {
   if(event) event.preventDefault();
 

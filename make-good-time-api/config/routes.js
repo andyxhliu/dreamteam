@@ -2,6 +2,7 @@
 var router = require('express').Router();
 
 // require our controller(s)
+var activitiesController = require('../controllers/activities');
 var authController = require('../controllers/authentications');
 var secret = require('../config/token').secret;
 var jwt = require('jsonwebtoken');
@@ -19,6 +20,18 @@ function secureRoute(req, res, next) {
     next();
   });
 }
+
+// hook up our controller methods to urls/paths
+router.route('/activities')
+  .get(activitiesController.index)
+  .post(secureRoute, activitiesController.create);
+
+router.route('/activities/:id')
+  // .all(secureRoute)
+  .get(activitiesController.show)
+  .put(secureRoute, activitiesController.update)
+  .patch(secureRoute, activitiesController.update)
+  .delete(secureRoute, activitiesController.delete);
 
 router.post('/register', authController.register);
 router.post('/login', authController.login);
