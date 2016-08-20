@@ -26,7 +26,80 @@ Activity.create([
     lng: 33,
     postcode: "SW7 4XX",
     location: "3a Cromwell Road, London"
-  }
+  },
+  ///////////////////////////
+  ///////////////////////////
+  ///////////////////////////
+  ///////////////////////////
+  ///////////////////////////
+  ///////////////////////////
+  //// What i've  added /////
+  ///////////////////////////
+  ///////////////////////////
+  ///////////////////////////
+  ///////////////////////////
+  ///, ////////////////////////
+  ///////////////////////////
+  { 
+    name: "Tate Modern",
+    categories: ["Musuem"],
+    description: "Tate Modern is a modern art gallery located in London. It is Britain's national gallery of international modern art and forms part of the Tate group.",
+    photo: "http://images.tate.org.uk/sites/default/files/images/newtatemodernsouthview.jpg",
+    lat: 51.507669,    
+    lng: -0.099388,
+    postcode: "SE1 9TG",
+    location: "Bankside, London"
+  },
+  { 
+    name: "",
+    categories: [""],
+    description: "",
+    photo: "",
+    lat: ,    
+    lng: ,
+    postcode: "",
+    location: ""
+  },
+  { 
+    name: "",
+    categories: [""],
+    description: "",
+    photo: "",
+    lat: ,    
+    lng: ,
+    postcode: "",
+    location: ""
+  },
+  { 
+    name: "",
+    categories: [""],
+    description: "",
+    photo: "",
+    lat: ,    
+    lng: ,
+    postcode: "",
+    location: ""
+  },
+  { 
+    name: "",
+    categories: [""],
+    description: "",
+    photo: "",
+    lat: ,    
+    lng: ,
+    postcode: "",
+    location: ""
+  },
+  { 
+    name: "",
+    categories: [""],
+    description: "",
+    photo: "",
+    lat: ,    
+    lng: ,
+    postcode: "",
+    location: ""
+  },
 ], function(err, activities) {
   console.log(activities);
   mongoose.connection.close();
