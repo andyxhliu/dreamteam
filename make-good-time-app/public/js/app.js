@@ -28,30 +28,33 @@ GoodTimeApp.getTemplate = function(template, data) {
 //   });
 // }
 
-// GoodTimeApp.createMarkerForActivity = function(activity) {
-//   var latLng = new google.maps.LatLng(activity.lat, activity.lng);
-//   var activityMarker = new google.maps.Marker({
-//     position: latLng,
-//     map: GoodTimeApp.map,
-//     // icon: tbd
-//   });
-//   GoodTimeApp.addInfoWindowForActivity(activity, activityMarker);
-// }
+GoodTimeApp.createMarkerForActivity = function(activity) {
+  console.log(activity.lat);
+  console.log(activity.lng);
+  var latLng = new google.maps.LatLng(activity.lat, activity.lng);
+  console.log(latLng);
+  var activityMarker = new google.maps.Marker({
+    position: latLng,
+    map: GoodTimeApp.map,
+    icon: "http://maps.google.com/mapfiles/ms/icons/yellow-dot.png"
+  });
+  // GoodTimeApp.addInfoWindowForActivity(activity, activityMarker);
+}
 
-// GoodTimeApp.loopThroughActivities = function(data) {
-//   return data.activities
-//   .forEach(GoodTimeApp.createMarkerForActivity);
-// }
+GoodTimeApp.loopThroughActivities = function(data) {
+  return data.forEach(GoodTimeApp.createMarkerForActivity);
+}
 
-// GoodTimeApp.getActivities = function() {
-//   if(event) event.preventDefault();
-
-//   return $.ajax({
-//   }).done(function(data) {
-//     GoodTimeApp.getTemplate("index", { activities: data });
-//   });
-// }
-
+GoodTimeApp.getActivities = function() {
+  if(event) event.preventDefault();
+  return $.ajax({
+    method: "GET",
+    url: "http://localhost:3000/api/activities"
+  }).done(function(data) {
+    GoodTimeApp.getTemplate("index", { activities: data });
+    GoodTimeApp.loopThroughActivities( data );
+  });
+}
 
 GoodTimeApp.handleForm = function() {
   event.preventDefault();
@@ -73,7 +76,7 @@ GoodTimeApp.handleForm = function() {
     if(!!data.token) {
       window.localStorage.setItem("token", data.token);
     }
-    // GoodTimeApp.getActivities();
+    GoodTimeApp.getActivities();
   })
   .fail(GoodTimeApp.handleFormErrors);
 }
@@ -85,7 +88,6 @@ GoodTimeApp.handleFormErrors = function(jqXHR) {
   }
   $form.find('button').removeAttr('disabled');
 }
-
 
 GoodTimeApp.loadPage = function() {
   event.preventDefault();
@@ -134,7 +136,7 @@ GoodTimeApp.initializeMap = function() {
     center: this.latLng
   });
 
-  // this.getActivities();
+  this.getActivities();
 
   // Place marker on map at load time
   this.startMark = new google.maps.Marker({
