@@ -94,10 +94,56 @@ GoodTimeApp.updateUI = function() {
   }
 }
 
+GoodTimeApp.initializeMap = function() {
+  console.log("loading map");
+
+  // Arbitrary starting point
+  this.latLng = { lat: 51.5080072, lng: -0.1019284 };
+
+  // Position map within #map div
+  this.map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 12,
+    center: this.latLng
+  });
+
+  // Place marker on map at load time
+  this.startMark = new google.maps.Marker({
+    position: this.latLng,
+    map: this.map,
+    title: 'You are here.'
+  });
+
+  // Include transit lines
+  this.transitLayer = new google.maps.TransitLayer();
+  this.transitLayer.setMap(this.map);
+
+  // HTML5 geolocation
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      var pos = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
+      };
+
+      GoodTimeApp.map.setCenter(pos);
+      GoodTimeApp.startMark.setPosition(pos);
+    }, function() {
+      handleLocationError(true, infoWindow, map.getCenter());
+    });
+  } else {
+    // Browser doesn't support Geolocation
+    handleLocationError(false, infoWindow, map.getCenter());
+  }
+
+}
+
 GoodTimeApp.init = function() {
+  this.initializeMap();
   this.initEventHandlers();
-  GoodTimeApp.getTemplate("homepage");
-  GoodTimeApp.updateUI();
+  this.getTemplate("homepage");
+  this.updateUI();
 }.bind(GoodTimeApp);
 
+
 $(GoodTimeApp.init);
+
