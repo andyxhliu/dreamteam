@@ -15,15 +15,42 @@ GoodTimeApp.getTemplate = function(template, data) {
   });
 }
 
+// GoodTimeApp.addInfoWindowForActivity = function(activity, activityMarker) {
+//   activityMarker.addListener('click', function() {
 
-GoodTimeApp.getDirections = function() {
-  if(event) event.preventDefault();
+//     if(GoodTimeApp.infoWindow) GoodTimeApp.infoWindow.close();
 
-  return $.ajax({
-  }).done(function(data) {
-    GoodTimeApp.getTemplate("index", { directions: data });
-  });
-}
+//     GoodTimeApp.infoWindow = new google.maps.InfoWindow({
+//       content: tbd
+//     });
+
+//     GoodTimeApp.infoWindow.open(GoodTimeApp.map, activityMarker);
+//   });
+// }
+
+// GoodTimeApp.createMarkerForActivity = function(activity) {
+//   var latLng = new google.maps.LatLng(activity.lat, activity.lng);
+//   var activityMarker = new google.maps.Marker({
+//     position: latLng,
+//     map: GoodTimeApp.map,
+//     // icon: tbd
+//   });
+//   GoodTimeApp.addInfoWindowForActivity(activity, activityMarker);
+// }
+
+// GoodTimeApp.loopThroughActivities = function(data) {
+//   return data.activities
+//   .forEach(GoodTimeApp.createMarkerForActivity);
+// }
+
+// GoodTimeApp.getActivities = function() {
+//   if(event) event.preventDefault();
+
+//   return $.ajax({
+//   }).done(function(data) {
+//     GoodTimeApp.getTemplate("index", { activities: data });
+//   });
+// }
 
 GoodTimeApp.handleForm = function() {
   event.preventDefault();
@@ -45,7 +72,7 @@ GoodTimeApp.handleForm = function() {
     if(!!data.token) {
       window.localStorage.setItem("token", data.token);
     }
-    GoodTimeApp.getDirections();
+    // GoodTimeApp.getActivities();
   })
   .fail(GoodTimeApp.handleFormErrors);
 }
@@ -66,7 +93,7 @@ GoodTimeApp.loadPage = function() {
 
 GoodTimeApp.initEventHandlers = function() {
   this.$main = $("main");
-  $("a.navbar-brand").on('click', this.getDirections);
+  // $("a.navbar-brand").on('click', this.getActivities);
   this.$main.on("submit", "form", this.handleForm);
   $(".navbar-nav a").not(".logout").on('click', this.loadPage);
   $(".navbar-nav a.logout").on('click', this.logout);
@@ -105,6 +132,8 @@ GoodTimeApp.initializeMap = function() {
     zoom: 12,
     center: this.latLng
   });
+
+  // this.getActivities();
 
   // Place marker on map at load time
   this.startMark = new google.maps.Marker({
