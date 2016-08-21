@@ -21,8 +21,6 @@ GoodTimeApp.getTemplate = function(template, data) {
 }
 
 GoodTimeApp.addInfoWindowForActivity = function(activity, activityMarker) {
-  console.log("info before");
-  console.log(activityMarker);
   activityMarker.addListener('click', function() {
 
     if(GoodTimeApp.infoWindow) GoodTimeApp.infoWindow.close();
@@ -60,7 +58,6 @@ submitMarkers = function() {
   for (i = 0; i < correctMarker.length; i++) {
     marker = correctMarker[i];
     marker.setVisible(true);
-    console.log(marker.name);
     GoodTimeApp.$sideBar.append("<div>\
                                   <li>\
                                     <input type='checkbox' id='"+ marker.name + "' value='"+marker.name+"' onchange='changeMarkers(this.value, this.id);' checked />\
@@ -103,7 +100,6 @@ changeMarkers = function(name, id) {
         toAddMarker.push(marker);
       }
     }
-    console.log(toAddMarker);
   } else {
     for (i = 0; i < gmarkers1.length; i++) {
       marker = gmarkers1[i];
@@ -111,7 +107,6 @@ changeMarkers = function(name, id) {
         toDeleteMarker.push(marker);
       }
     }
-    console.log(toDeleteMarker);
   }
 }
 
@@ -133,12 +128,10 @@ GoodTimeApp.createMarkerForActivity = function(activity) {
   activityMarker.setVisible(false);
 
   GoodTimeApp.addInfoWindowForActivity(activity, activityMarker);
-  console.log("in create marker");
 }
 
 GoodTimeApp.loopThroughActivities = function(data) {
   return data.forEach(GoodTimeApp.createMarkerForActivity);
-  console.log("in loopThroughActivities");
 }
 
 GoodTimeApp.getActivities = function() {
@@ -150,6 +143,43 @@ GoodTimeApp.getActivities = function() {
     GoodTimeApp.getTemplate("index", { activities: data });
     GoodTimeApp.loopThroughActivities( data );
   });
+}
+
+GoodTimeApp.getDirections = function() {
+  this.waypoints = [];
+  for (var i=0; i < correctMarker.length; i++) {
+    GoodTimeApp.waypoints.push(correctMarker[i].position);
+  }
+}
+
+GoodTimeApp.calcRoute = function(directionsService, directionsDisplay) {
+  this.getDirections();
+  this.start = new google.maps.LatLng(51.540805, -0.076285);
+  
+  this.request = {
+    origin: this.start,
+    destination: this.start,
+    waypoints: this.waypoints,
+    travelMode: 'WALKING' }
+
+    GoodTimeApp.directionsService.route(this.request, function(response, status) {
+      if (status == 'OK') {
+        GoodTimeApp.directionsDisplay.setDirections(response);
+        var route = response.routes[0];
+        var summaryPanel = document.getElementById('side-bar');
+        summaryPanel.innerHTML = '';
+        
+        for (var i = 0; i < route.legs.length; i++) {
+          var routeSegment = i + 1;
+          summaryPanel.innerHTML += '<b>Route Segment: ' + routeSegment +
+              '</b><br>';
+          summaryPanel.innerHTML += 'to ' + route.legs[i].end_address + '<br>';
+          summaryPanel.innerHTML += route.legs[i].duration.text + '<br>';
+          summaryPanel.innerHTML += route.legs[i].distance.text + '<br><br>';
+        }
+        console.log(response.routes[0].legs[1].duration.text);
+      }
+    });     
 }
 
 GoodTimeApp.handleForm = function() {
@@ -230,6 +260,10 @@ GoodTimeApp.updateUI = function() {
 
 GoodTimeApp.initializeMap = function() {
 
+  this.directionsDisplay = new google.maps.DirectionsRenderer();
+
+  this.directionsService = new google.maps.DirectionsService();
+
   // Arbitrary starting point
   GoodTimeApp.latLng = { lat: 51.5080072, lng: -0.1019284 };
 
@@ -257,7 +291,7 @@ GoodTimeApp.initializeMap = function() {
   // HTML5 geolocation
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function(position) {
-      var pos = {
+      pos = {
         lat: position.coords.latitude,
         lng: position.coords.longitude
       };
@@ -271,6 +305,8 @@ GoodTimeApp.initializeMap = function() {
     // Browser doesn't support Geolocation
     handleLocationError(false, infoWindow, map.getCenter());
   }
+  GoodTimeApp.calcRoute();
+  GoodTimeApp.directionsDisplay.setMap(GoodTimeApp.map);
 }
 
 
@@ -284,6 +320,7 @@ GoodTimeApp.init = function() {
   toAddMarker = [];
   this.initEventHandlers();
   this.getTemplate("homepage");
+
   this.updateUI();
 }.bind(GoodTimeApp);
 
