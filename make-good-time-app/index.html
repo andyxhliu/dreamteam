@@ -10,6 +10,9 @@
   <link rel="stylesheet" type="text/css" href="/public/css/style.css">
 
   <link rel="stylesheet" type="text/css" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
+
+  <link href="https://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet">
+
 </head>
 
 <body>
@@ -22,19 +25,38 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="/">Make Good Time</a>
+          <!-- <a class="navbar-brand" href="/">Make Good Time</a> -->
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav">
+            
+          <li>
+            <a href="#" data-template="homepage" class="navbar-brand makegoodtimebrand">
+              Make Good Time
+            </a>
+          </li>
+
+          <li>
+            <a href="#" data-template="index" id="map-nav" class="navbar-brand makegoodtimebrand">
+              Map
+            </a>
+          </li>
+
             <li>
-              <a href="#" data-template="register" class="logged-out">Register</a>
+              <a href="#" data-template="register" class="logged-out">
+                <img src="/public/icons/register-icon.png">
+              </a>
             </li>
 
               <li>
-                <a href="#" data-template="login" class="logged-out">Log in</a>
+                <a href="#" data-template="login" class="logged-out">
+                  <img src="/public/icons/login-icon.png">
+                </a>
               </li>
             <li>
-              <a href="#" class="logout logged-in">LogOut</a>
+              <a href="#" class="logout logged-in">
+                <img src="/public/icons/logout-icon.png">
+              </a>
             </li>
           </ul>
         </div>

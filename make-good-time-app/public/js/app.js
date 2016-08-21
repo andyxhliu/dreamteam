@@ -9,6 +9,11 @@ GoodTimeApp.setRequestHeader = function(jqHXR) {
 
 GoodTimeApp.getTemplate = function(template, data) {
   return $.get('/templates/' + template + '.html').done(function(templateHtml) {
+    if (template === 'homepage' || template === 'register' || template === 'login') {
+      $('#map').hide();
+    } else {
+      $('#map').show();
+    }
     var html = _.template(templateHtml)(data);
     GoodTimeApp.$main.html(html);
     GoodTimeApp.updateUI();
@@ -22,7 +27,7 @@ GoodTimeApp.addInfoWindowForActivity = function(activity, activityMarker) {
     var iwBackground = iwOuter.prev();
     iwBackground.children(':nth-child(2)').css({'display' : 'none!important'});
     iwBackground.children(':nth-child(4)').css({'display' : 'none!important'});
-    
+
     if(GoodTimeApp.infoWindow) GoodTimeApp.infoWindow.close();
 
     GoodTimeApp.infoWindow = new google.maps.InfoWindow({
@@ -43,14 +48,53 @@ GoodTimeApp.addInfoWindowForActivity = function(activity, activityMarker) {
   });
 }
 
+filterMarkers = function (category) {
+  // if(event) event.preventDefault();
+  // return $.ajax({
+  //   method: "GET",
+  //   url: "http://localhost:3000/api/activities"
+  // }).done(function(data) {
+  //   GoodTimeApp.getTemplate("index", { activities: data });
+  //   GoodTimeApp.filterActivities( data );
+  // });
+  console.log(gmarkers1);
+  for (i = 0; i < gmarkers1.length; i++) {
+    marker = gmarkers1[i];
+    // If is same category or category not picked
+    if (marker.categories.join(" ").includes(category) || category.length === 0) {
+        marker.setVisible(true);
+    }
+    else if (category === "0") {
+      marker.setVisible(false);
+    }
+    // Categories don't match 
+    else {
+        marker.setVisible(false);
+    }
+  }
+}
+
+// GoodTimeApp.filterActivity = function(data) {
+//   return data.forEach(GoodTimeApp.createMarkerForFilteredActivity);
+// }
+
+// GoodTimeApp.createMarkerForFilteredActivity = function(activity) {
+
+// }
+var gmarkers1 = [];
 
 GoodTimeApp.createMarkerForActivity = function(activity) {
   var latLng = new google.maps.LatLng(activity.lat, activity.lng);
+  var categories = activity.categories;
   var activityMarker = new google.maps.Marker({
     position: latLng,
     map: GoodTimeApp.map,
+    categories: categories,
     icon: "http://maps.google.com/mapfiles/ms/icons/yellow-dot.png"
   });
+  gmarkers1.push(activityMarker);
+  activityMarker.setVisible(false);
+
   GoodTimeApp.addInfoWindowForActivity(activity, activityMarker);
 }
 
@@ -109,6 +153,12 @@ GoodTimeApp.loadPage = function() {
 
 GoodTimeApp.initEventHandlers = function() {
   this.$main = $("main");
+  this.$option = $("#filters :checkbox");
+  this.$mapNav = $('#map-nav');
+  this.$mapNav.on('click', GoodTimeApp.initializeMap);
+  this.$option.on("click", function() {
+    return this.value
+  })
   // $("a.navbar-brand").on('click', this.getActivities);
   this.$main.on("submit", "form", this.handleForm);
   $(".navbar-nav a").not(".logout").on('click', this.loadPage);
@@ -137,31 +187,38 @@ GoodTimeApp.updateUI = function() {
   }
 }
 
-
+// GoodTimeApp.addFilterListener = function() {
+//   $("#filters :checkbox").click(function() {
+//     console.log("Hello world");
+//   });
+// }
 
 GoodTimeApp.initializeMap = function() {
   console.log("loading map");
+
   // Arbitrary starting point
-  this.latLng = { lat: 51.5080072, lng: -0.1019284 };
+  GoodTimeApp.latLng = { lat: 51.5080072, lng: -0.1019284 };
 
   // Position map within #map div
-  this.map = new google.maps.Map(document.getElementById('map'), {
+  GoodTimeApp.map = new google.maps.Map(document.getElementById('map'), {
     zoom: 12,
-    center: this.latLng
+    center: GoodTimeApp.latLng
   });
 
-  this.getActivities();
+  // this.addFilterListener();
+
+  GoodTimeApp.getActivities();
 
   // Place marker on map at load time
-  this.startMark = new google.maps.Marker({
-    position: this.latLng,
-    map: this.map,
+  GoodTimeApp.startMark = new google.maps.Marker({
+    position: GoodTimeApp.latLng,
+    map: GoodTimeApp.map,
     title: 'You are here.'
   });
 
   // Include transit lines
-  this.transitLayer = new google.maps.TransitLayer();
-  this.transitLayer.setMap(this.map);
+  GoodTimeApp.transitLayer = new google.maps.TransitLayer();
+  GoodTimeApp.transitLayer.setMap(this.map);
 
   // HTML5 geolocation
   if (navigator.geolocation) {
@@ -182,29 +239,12 @@ GoodTimeApp.initializeMap = function() {
   }
 }
 
+
 GoodTimeApp.init = function() {
-  this.initializeMap();
   this.initEventHandlers();
   this.getTemplate("homepage");
   this.updateUI();
 }.bind(GoodTimeApp);
 
-
-function displayMap() {
-            document.getElementById('map_canvas').style.display="block";
-            initialize();
-        }
- function initialize() {
-          // create the map
-
-        var myOptions = {
-            zoom: 14,
-            center: new google.maps.LatLng(0.0, 0.0),
-            mapTypeId: google.maps.MapTypeId.ROADMAP
-          }
-            map = new google.maps.Map(document.getElementById("map_canvas"),
-                                        myOptions);
-
-         }
 
 $(GoodTimeApp.init);
