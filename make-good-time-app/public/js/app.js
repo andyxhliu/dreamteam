@@ -9,6 +9,11 @@ GoodTimeApp.setRequestHeader = function(jqHXR) {
 
 GoodTimeApp.getTemplate = function(template, data) {
   return $.get('/templates/' + template + '.html').done(function(templateHtml) {
+    if (template === 'homepage' || template === 'register' || template === 'login') {
+      $('#map').hide();
+    } else {
+      $('#map').show();
+    }
     var html = _.template(templateHtml)(data);
     GoodTimeApp.$main.html(html);
     GoodTimeApp.updateUI();
@@ -149,6 +154,8 @@ GoodTimeApp.loadPage = function() {
 GoodTimeApp.initEventHandlers = function() {
   this.$main = $("main");
   this.$option = $("#filters :checkbox");
+  this.$mapNav = $('#map-nav');
+  this.$mapNav.on('click', GoodTimeApp.initializeMap);
   this.$option.on("click", function() {
     return this.value
   })
@@ -190,28 +197,28 @@ GoodTimeApp.initializeMap = function() {
   console.log("loading map");
 
   // Arbitrary starting point
-  this.latLng = { lat: 51.5080072, lng: -0.1019284 };
+  GoodTimeApp.latLng = { lat: 51.5080072, lng: -0.1019284 };
 
   // Position map within #map div
-  this.map = new google.maps.Map(document.getElementById('map'), {
+  GoodTimeApp.map = new google.maps.Map(document.getElementById('map'), {
     zoom: 12,
-    center: this.latLng
+    center: GoodTimeApp.latLng
   });
 
   // this.addFilterListener();
 
-  this.getActivities();
+  GoodTimeApp.getActivities();
 
   // Place marker on map at load time
-  this.startMark = new google.maps.Marker({
-    position: this.latLng,
-    map: this.map,
+  GoodTimeApp.startMark = new google.maps.Marker({
+    position: GoodTimeApp.latLng,
+    map: GoodTimeApp.map,
     title: 'You are here.'
   });
 
   // Include transit lines
-  this.transitLayer = new google.maps.TransitLayer();
-  this.transitLayer.setMap(this.map);
+  GoodTimeApp.transitLayer = new google.maps.TransitLayer();
+  GoodTimeApp.transitLayer.setMap(this.map);
 
   // HTML5 geolocation
   if (navigator.geolocation) {
@@ -234,7 +241,6 @@ GoodTimeApp.initializeMap = function() {
 
 
 GoodTimeApp.init = function() {
-  this.initializeMap();
   this.initEventHandlers();
   this.getTemplate("homepage");
   this.updateUI();
