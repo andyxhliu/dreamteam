@@ -9,49 +9,109 @@ GoodTimeApp.setRequestHeader = function(jqHXR) {
 
 GoodTimeApp.getTemplate = function(template, data) {
   return $.get('/templates/' + template + '.html').done(function(templateHtml) {
+    if (template === 'homepage' || template === 'register' || template === 'login') {
+      $('#map').hide();
+    } else {
+      $('#map').show();
+    }
     var html = _.template(templateHtml)(data);
     GoodTimeApp.$main.html(html);
     GoodTimeApp.updateUI();
   });
 }
 
-// GoodTimeApp.addInfoWindowForActivity = function(activity, activityMarker) {
-//   activityMarker.addListener('click', function() {
+GoodTimeApp.addInfoWindowForActivity = function(activity, activityMarker) {
+  activityMarker.addListener('click', function() {
 
-//     if(GoodTimeApp.infoWindow) GoodTimeApp.infoWindow.close();
+    var iwOuter = $('.gm-style-iw');
+    var iwBackground = iwOuter.prev();
+    iwBackground.children(':nth-child(2)').css({'display' : 'none!important'});
+    iwBackground.children(':nth-child(4)').css({'display' : 'none!important'});
 
-//     GoodTimeApp.infoWindow = new google.maps.InfoWindow({
-//       content: tbd
-//     });
+    if(GoodTimeApp.infoWindow) GoodTimeApp.infoWindow.close();
 
-//     GoodTimeApp.infoWindow.open(GoodTimeApp.map, activityMarker);
-//   });
+    GoodTimeApp.infoWindow = new google.maps.InfoWindow({
+      content: '<div id="iw-container">' +
+                        '<div class="iw-title">'+activity.name+'</div>' +
+                        '<div class="iw-content">' +
+                          '<img src="'+ activity.photo +'" height="200" width="200">' +
+                          '<p>'+ activity.description + '(' + activity.postcode + ')</p>' +
+                          '<div class="iw-subTitle">Contacts</div>' +
+                          '<p>VISTA ALEGRE ATLANTIS, SA<br>3830-292 Ílhavo - Portugal<br>'+
+                          '<br>Phone. +351 234 320 600<br>e-mail: geral@vaa.pt<br>www: www.myvistaalegre.com</p>'+
+                        '</div>' +
+                        '<div class="iw-bottom-gradient"></div>' +
+                      '</div>',
+      maxWidth: 350
+    });
+    GoodTimeApp.infoWindow.open(GoodTimeApp.map, activityMarker);
+  });
+}
+
+filterMarkers = function (category) {
+  // if(event) event.preventDefault();
+  // return $.ajax({
+  //   method: "GET",
+  //   url: "http://localhost:3000/api/activities"
+  // }).done(function(data) {
+  //   GoodTimeApp.getTemplate("index", { activities: data });
+  //   GoodTimeApp.filterActivities( data );
+  // });
+  console.log(gmarkers1);
+  for (i = 0; i < gmarkers1.length; i++) {
+    marker = gmarkers1[i];
+    // If is same category or category not picked
+    if (marker.categories.join(" ").includes(category) || category.length === 0) {
+        marker.setVisible(true);
+    }
+    else if (category === "0") {
+      marker.setVisible(false);
+    }
+    // Categories don't match 
+    else {
+        marker.setVisible(false);
+    }
+  }
+}
+
+// GoodTimeApp.filterActivity = function(data) {
+//   return data.forEach(GoodTimeApp.createMarkerForFilteredActivity);
 // }
 
-// GoodTimeApp.createMarkerForActivity = function(activity) {
-//   var latLng = new google.maps.LatLng(activity.lat, activity.lng);
-//   var activityMarker = new google.maps.Marker({
-//     position: latLng,
-//     map: GoodTimeApp.map,
-//     // icon: tbd
-//   });
-//   GoodTimeApp.addInfoWindowForActivity(activity, activityMarker);
+// GoodTimeApp.createMarkerForFilteredActivity = function(activity) {
+
 // }
+var gmarkers1 = [];
 
-// GoodTimeApp.loopThroughActivities = function(data) {
-//   return data.activities
-//   .forEach(GoodTimeApp.createMarkerForActivity);
-// }
+GoodTimeApp.createMarkerForActivity = function(activity) {
+  var latLng = new google.maps.LatLng(activity.lat, activity.lng);
+  var categories = activity.categories;
+  var activityMarker = new google.maps.Marker({
+    position: latLng,
+    map: GoodTimeApp.map,
+    categories: categories,
+    icon: "http://maps.google.com/mapfiles/ms/icons/yellow-dot.png"
+  });
+  gmarkers1.push(activityMarker);
+  activityMarker.setVisible(false);
 
-// GoodTimeApp.getActivities = function() {
-//   if(event) event.preventDefault();
+  GoodTimeApp.addInfoWindowForActivity(activity, activityMarker);
+}
 
-//   return $.ajax({
-//   }).done(function(data) {
-//     GoodTimeApp.getTemplate("index", { activities: data });
-//   });
-// }
+GoodTimeApp.loopThroughActivities = function(data) {
+  return data.forEach(GoodTimeApp.createMarkerForActivity);
+}
 
+GoodTimeApp.getActivities = function() {
+  if(event) event.preventDefault();
+  return $.ajax({
+    method: "GET",
+    url: "http://localhost:3000/api/activities"
+  }).done(function(data) {
+    GoodTimeApp.getTemplate("index", { activities: data });
+    GoodTimeApp.loopThroughActivities( data );
+  });
+}
 
 GoodTimeApp.handleForm = function() {
   event.preventDefault();
@@ -73,7 +133,7 @@ GoodTimeApp.handleForm = function() {
     if(!!data.token) {
       window.localStorage.setItem("token", data.token);
     }
-    // GoodTimeApp.getActivities();
+    GoodTimeApp.getActivities();
   })
   .fail(GoodTimeApp.handleFormErrors);
 }
@@ -86,7 +146,6 @@ GoodTimeApp.handleFormErrors = function(jqXHR) {
   $form.find('button').removeAttr('disabled');
 }
 
-
 GoodTimeApp.loadPage = function() {
   event.preventDefault();
   GoodTimeApp.getTemplate($(this).data('template'));
@@ -94,6 +153,12 @@ GoodTimeApp.loadPage = function() {
 
 GoodTimeApp.initEventHandlers = function() {
   this.$main = $("main");
+  this.$option = $("#filters :checkbox");
+  this.$mapNav = $('#map-nav');
+  this.$mapNav.on('click', GoodTimeApp.initializeMap);
+  this.$option.on("click", function() {
+    return this.value
+  })
   // $("a.navbar-brand").on('click', this.getActivities);
   this.$main.on("submit", "form", this.handleForm);
   $(".navbar-nav a").not(".logout").on('click', this.loadPage);
@@ -122,30 +187,38 @@ GoodTimeApp.updateUI = function() {
   }
 }
 
+// GoodTimeApp.addFilterListener = function() {
+//   $("#filters :checkbox").click(function() {
+//     console.log("Hello world");
+//   });
+// }
+
 GoodTimeApp.initializeMap = function() {
   console.log("loading map");
 
   // Arbitrary starting point
-  this.latLng = { lat: 51.5080072, lng: -0.1019284 };
+  GoodTimeApp.latLng = { lat: 51.5080072, lng: -0.1019284 };
 
   // Position map within #map div
-  this.map = new google.maps.Map(document.getElementById('map'), {
+  GoodTimeApp.map = new google.maps.Map(document.getElementById('map'), {
     zoom: 12,
-    center: this.latLng
+    center: GoodTimeApp.latLng
   });
 
-  // this.getActivities();
+  // this.addFilterListener();
+
+  GoodTimeApp.getActivities();
 
   // Place marker on map at load time
-  this.startMark = new google.maps.Marker({
-    position: this.latLng,
-    map: this.map,
+  GoodTimeApp.startMark = new google.maps.Marker({
+    position: GoodTimeApp.latLng,
+    map: GoodTimeApp.map,
     title: 'You are here.'
   });
 
   // Include transit lines
-  this.transitLayer = new google.maps.TransitLayer();
-  this.transitLayer.setMap(this.map);
+  GoodTimeApp.transitLayer = new google.maps.TransitLayer();
+  GoodTimeApp.transitLayer.setMap(this.map);
 
   // HTML5 geolocation
   if (navigator.geolocation) {
@@ -164,11 +237,10 @@ GoodTimeApp.initializeMap = function() {
     // Browser doesn't support Geolocation
     handleLocationError(false, infoWindow, map.getCenter());
   }
-
 }
 
+
 GoodTimeApp.init = function() {
-  this.initializeMap();
   this.initEventHandlers();
   this.getTemplate("homepage");
   this.updateUI();
@@ -176,4 +248,3 @@ GoodTimeApp.init = function() {
 
 
 $(GoodTimeApp.init);
-
