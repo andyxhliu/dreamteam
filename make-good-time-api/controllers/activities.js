@@ -17,7 +17,7 @@ function activitiesCreate(req, res) {
 function activitiesShow(req, res) {
   Activity.findById(req.params.id, function(err, activity) {
     if(err) return res.status(500).json(err);
-    if(!activity) return res.status(404).json({ message: "Could not find a activity with tha id" });
+    if(!activity) return res.status(404).json({ message: "Could not find an activity with that id" });
     return res.status(200).json(activity);
   });
 }
