@@ -21,6 +21,8 @@ GoodTimeApp.getTemplate = function(template, data) {
 }
 
 GoodTimeApp.addInfoWindowForActivity = function(activity, activityMarker) {
+  console.log("info before");
+  console.log(activityMarker);
   activityMarker.addListener('click', function() {
 
     if(GoodTimeApp.infoWindow) GoodTimeApp.infoWindow.close();
@@ -82,10 +84,12 @@ GoodTimeApp.createMarkerForActivity = function(activity) {
   activityMarker.setVisible(false);
 
   GoodTimeApp.addInfoWindowForActivity(activity, activityMarker);
+  console.log("in create marker");
 }
 
 GoodTimeApp.loopThroughActivities = function(data) {
   return data.forEach(GoodTimeApp.createMarkerForActivity);
+  console.log("in loopThroughActivities");
 }
 
 GoodTimeApp.getActivities = function() {
