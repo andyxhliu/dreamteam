@@ -41,6 +41,7 @@ GoodTimeApp.addInfoWindowForActivity = function(activity, activityMarker) {
   });
 }
 
+
 filterMarkers = function (category) {
   for (i = 0; i < gmarkers1.length; i++) {
     marker = gmarkers1[i];
@@ -51,7 +52,6 @@ filterMarkers = function (category) {
 }
 
 submitMarkers = function() {
-  console.log(correctMarker);
   GoodTimeApp.$filterBox = $(".filter-box");
   GoodTimeApp.$filterBox.hide();
   GoodTimeApp.$sideBar.show();
@@ -59,11 +59,60 @@ submitMarkers = function() {
     marker = correctMarker[i];
     marker.setVisible(true);
     console.log(marker.name);
-    GoodTimeApp.$sideBar.append("<div><h4>"+marker.name+"</div></h4><p>" + marker.location +"</p>");
+    GoodTimeApp.$sideBar.append("<div>\
+                                  <li>\
+                                    <input type='checkbox' id='"+ marker.name + "' value='"+marker.name+"' onchange='changeMarkers(this.value, this.id);' checked />\
+                                    <label>\
+                                      <h4>"+marker.name+"</h4>\
+                                    </label>\
+                                  </li>\
+                                </div>"
+                                );
+  }
+  GoodTimeApp.$sideBar.append("<div>\
+                                  <input type='submit' value='Change' onclick='amendMarkers();'/>\
+                                </div>");
+}
+
+amendMarkers = function(name) {
+  if(toAddMarker.length !== 0 ) {
+    for (i = 0; i < toAddMarker.length; i++) {
+      marker = toAddMarker[i];
+      marker.setVisible(true);
+      correctMarker.push(marker);
+    }
+  } else if (toDeleteMarker.length !== 0) {
+    for (i = 0; i < toDeleteMarker.length; i++) {
+      marker = toDeleteMarker[i];
+      marker.setVisible(false);
+      correctMarker.pop(marker);
+    }
+  } 
+  toAddMarker = [];
+  toDeleteMarker = [];
+}
+
+
+changeMarkers = function(name, id) {
+  if($('#'+id).prevObject["0"].activeElement.checked == true) {
+    for (i = 0; i < gmarkers1.length; i++) {
+      marker = gmarkers1[i];
+      if (marker.name.includes(name)) {
+        toAddMarker.push(marker);
+      }
+    }
+    console.log(toAddMarker);
+  } else {
+    for (i = 0; i < gmarkers1.length; i++) {
+      marker = gmarkers1[i];
+      if (marker.name.includes(name)) {
+        toDeleteMarker.push(marker);
+      }
+    }
+    console.log(toDeleteMarker);
   }
 }
 
-var gmarkers1 = [];
 
 GoodTimeApp.createMarkerForActivity = function(activity) {
   var latLng = new google.maps.LatLng(activity.lat, activity.lng);
@@ -223,7 +272,11 @@ GoodTimeApp.initializeMap = function() {
 GoodTimeApp.init = function() {
   GoodTimeApp.$sideBar = $("#side-bar");
   GoodTimeApp.$sideBar.hide();
+  gmarkers1 = [];
   correctMarker = [];
+  chosenActicity = [];
+  toDeleteMarker = [];
+  toAddMarker = [];
   this.initEventHandlers();
   this.getTemplate("homepage");
   this.updateUI();
