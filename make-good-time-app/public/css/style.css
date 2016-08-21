@@ -24,6 +24,14 @@ html, body {
 
 
 /*Navbar*/
+nav {
+  z-index : 2;
+}
+
+nav.navbar {
+  border: 0px;
+}
+
 nav.navbar.navbar-default {
     background-color: transparent;
     border-color: #e7e7e7;
@@ -37,12 +45,12 @@ a.navbar-brand.makegoodtimebrand {
 
 /*Main Page*/
 .mainpage-background {
-  height: 200%;
+  height: 100%;
   width: 100%;
   background-color: white;
   z-index: 1;
   position: absolute;
-  top: 84px; 
+  top: 0px; 
   /* need a media query for 691px if we keep the z-index, because breakpoint for navbar at 691px */
   left: 0px;
   background-image: url("https://alphabetcityestates.files.wordpress.com/2013/03/london-skyline.jpg");
@@ -55,7 +63,7 @@ a.navbar-brand.makegoodtimebrand {
     }
 }*/
 .shader {
-  background-color: rgba(1,1,1,0.2);
+  background-color: rgba(255,255,255,0.2);
 
 }
 .title {
