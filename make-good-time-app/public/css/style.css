@@ -4,24 +4,68 @@ html, body {
   margin: 0;
   background: transparent;
 }
-
-
-#map {
-  height: 100%;
-  width: 100%;
-  z-index: -1;
-}
-/*Font*/
+/*Fonts*/
 .primary-font {
   font-family: 'Pacifico', cursive;
 }
+.secondary-font {
+  font-family: 'Roboto', sans-serif;
+}
 
+/*Map Page*/
+#map {
+  height: 100%;
+  width: 100%;
+  z-index: 0;
+}
+
+/*For filter box*/
+.filter-box {
+  height: 300px;
+  width: 500px;
+  border-radius: 25px;
+  top: 350px;
+  left: 50%;
+  position: absolute;
+  /*border: 1px solid black;*/
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+  background: rgba(255,255,255,0.7);
+}
+
+h1.index-h1 {
+    margin-top: 11px;
+}
+#filters li { 
+  list-style-type: none;
+}
+.left-items {
+  position: absolute;
+  font-size: 19px;
+}
+.right-items {
+  position: absolute;
+  right: 20%;
+  font-size: 19px;
+}
+/*ul li .filterbox{
+  font-family: 'Roboto', sans-serif !important;
+Doesnt work }*/  
+input.submit-button {
+  margin-top: 35%;
+  margin-left: 28%; 
+}
 /*Center*/
 .center {
   margin: 0 auto;
   text-align: center;
 }
 
+.vertcenter {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}
 
 /*Navbar*/
 nav {
@@ -33,9 +77,9 @@ nav.navbar {
 }
 
 nav.navbar.navbar-default {
-    background-color: transparent;
-    border-color: #e7e7e7;
-    min-height: 85px;
+  background-color: transparent;
+  border-color: #e7e7e7;
+  min-height: 85px;
 }
 
 a.navbar-brand.makegoodtimebrand {
@@ -63,29 +107,40 @@ a.navbar-brand.makegoodtimebrand {
     }
 }*/
 .shader {
-  background-color: rgba(255,255,255,0.2);
-
+  background-color: rgba(255,255,255,0.6);
+  padding: 20px;
+  border-radius: 25px;
+  width: 60%;
 }
+
 .title {
   font-size: 90px;  
   color: #000099;
-  margin-top: 100px;
+  text-shadow: 2px 2px #05ff93;
+  margin-top: 20px;
   padding-top: 30px;
   /*border: 1px solid blue;*/
 }
 .secondary-title {
-  font-size: 50px;
-  /*border: 1px solid red;*/
-  margin-top: -41px;
-  color: white;
+  font-size: 28px;
+  margin-top: 20px;
+  color: #0d18a7;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 700;
 }
 
 .description {
-  font-size: 30px;
-  width: 310px;
-  /*border: 1px solid black;*/
+  font-size: 24px;
+  width: 50%;
   margin-top: 30px;
-  color: black;
+  margin-bottom: 30px;
+  font-family: 'Roboto', sans-serif;
+  color: #292727;
+  line-height: 1em;
+}
+
+.description p {
+  padding-bottom: 20px;
 }
 
 .button-transparent-blue {
@@ -95,13 +150,15 @@ a.navbar-brand.makegoodtimebrand {
   border-radius: 10px;
   border-color: rgba(22, 28, 44, 0.6);
   background-color: rgba(22, 28, 44, 0.6);
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(255, 255, 255, 0.9);
   font-size: 20px;
+  padding: 10px;
 }
 button:focus {outline:0;}
 
 .button-transparent-blue:hover {
     box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+    color: #007ff1;;
 }
 
 /*Side bar*/
@@ -139,6 +196,7 @@ button:focus {outline:0;}
 .gm-style-iw {
   width: 200px !important;
   margin-right: 200px;
+}
 /*  top: 15px !important;
   left: 0px !important;
   background-color: #fff;
@@ -190,46 +248,4 @@ button:focus {outline:0;}
   background: -moz-linear-gradient(top, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%);
   background: -ms-linear-gradient(top, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%);
 }*/
-
-/*For filter box*/
-
-.filter-box {
-  height: 300px;
-  width: 500px;
-  border-radius: 25px;
-  top: 350px;
-  left: 50%;
-  position: absolute;
-  /*border: 1px solid black;*/
-  margin-right: -50%;
-  transform: translate(-50%, -50%);
-  background: rgba(255,255,255,0.7);
-}
-h1.index-h1 {
-    margin-top: 11px;
-}
-#filters li { 
-  list-style-type: none;
-}
-.left-items {
-  position: absolute;
-  font-size: 19px;
-}
-.right-items {
-  position: absolute;
-  right: 20%;
-  font-size: 19px;
-}
-/*ul li .filterbox{
-  font-family: 'Roboto', sans-serif !important;
-Doesnt work }*/  
-input.submit-button {
-  margin-top: 35%;
-  margin-left: 28%; 
-}
-/*Center*/
-.center {
-  margin: 0 auto;
-  text-align: center;
-}
 

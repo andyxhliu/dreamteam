@@ -193,13 +193,15 @@ GoodTimeApp.loadPage = function() {
 GoodTimeApp.initEventHandlers = function() {
   this.$main = $("main");
   this.$option = $("#filters :checkbox");
-  this.$mapNav = $('#map-nav');
-  this.$mapNav.on('click', GoodTimeApp.initializeMap);
   this.$option.on("click", function() {
     return this.value
   })
   // $("a.navbar-brand").on('click', this.getActivities);
   this.$main.on("submit", "form", this.handleForm);
+  $(document).on('click', '#show-map', function() {
+    GoodTimeApp.getTemplate("index");
+    GoodTimeApp.initializeMap();
+  });
   $(".navbar-nav a").not(".logout").on('click', this.loadPage);
   $(".navbar-nav a.logout").on('click', this.logout);
   this.$main.on("focus", "form input", function() {
@@ -227,7 +229,6 @@ GoodTimeApp.updateUI = function() {
 }
 
 GoodTimeApp.initializeMap = function() {
-  console.log("loading map");
 
   // Arbitrary starting point
   GoodTimeApp.latLng = { lat: 51.5080072, lng: -0.1019284 };
