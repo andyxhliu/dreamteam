@@ -104,6 +104,12 @@ button:focus {outline:0;}
     box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
 }
 
+/*Side bar*/
+#side-bar {
+  height: 300px;
+  width: 400px;
+}
+
 
 /*Forms (register & Login)*/
 .form-group {
@@ -113,13 +119,13 @@ button:focus {outline:0;}
 
 
 /*For info Window styling*/
-.info-photo {
+/*.info-photo {
   max-height: 200px;
   max-width: 200px;
   margin: auto;
-}
+}*/
 
-.iw-title {
+/*.iw-title {
   font-family: 'Open Sans Condensed', sans-serif;
   font-size: 18px;
   font-weight: 400;
@@ -128,18 +134,19 @@ button:focus {outline:0;}
   color: white;
   margin: 1px;
   border-radius: 2px 2px 0 0;
-}
+}*/
 
 .gm-style-iw {
-  width: 350px !important;
-  top: 15px !important;
+  width: 200px !important;
+  margin-right: 200px;
+/*  top: 15px !important;
   left: 0px !important;
   background-color: #fff;
   box-shadow: 0 1px 6px rgba(178, 178, 178, 0.6);
   border: 1px solid rgba(72, 181, 233, 0.6);
-  border-radius: 2px 2px 10px 10px;
+  border-radius: 2px 2px 10px 10px;*/
 }
-#iw-container {
+/*#iw-container {
   margin-bottom: 10px;
 }
 #iw-container .iw-title {
@@ -182,8 +189,46 @@ button:focus {outline:0;}
   background: -moz-linear-gradient(top, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%);
   background: -ms-linear-gradient(top, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%);
 }
-
+*/
 /*For filter box*/
-#filters li {
-  display: inline-block;
+
+.filter-box {
+  height: 300px;
+  width: 500px;
+  border-radius: 25px;
+  top: 350px;
+  left: 50%;
+  position: absolute;
+  /*border: 1px solid black;*/
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+  background: rgba(255,255,255,0.7);
 }
+h1.index-h1 {
+    margin-top: 11px;
+}
+#filters li { 
+  list-style-type: none;
+}
+.left-items {
+  position: absolute;
+  font-size: 19px;
+}
+.right-items {
+  position: absolute;
+  right: 20%;
+  font-size: 19px;
+}
+/*ul li .filterbox{
+  font-family: 'Roboto', sans-serif !important;
+Doesnt work }*/  
+input.submit-button {
+  margin-top: 35%;
+  margin-left: 28%; 
+}
+/*Center*/
+.center {
+  margin: 0 auto;
+  text-align: center;
+}
+
