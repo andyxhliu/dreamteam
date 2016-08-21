@@ -16,7 +16,7 @@ html, body {
 #map {
   height: 100%;
   width: 100%;
-  z-index: -1;
+  z-index: 0;
 }
 
 /*For filter box*/
@@ -102,10 +102,10 @@ a.navbar-brand.makegoodtimebrand {
      top: 84px; 
     }
 }*/
-.shader {
+/*.shader {
   background-color: rgba(255,255,255,0.2);
+}*/
 
-}
 .title {
   font-size: 90px;  
   color: #000099;
@@ -114,18 +114,29 @@ a.navbar-brand.makegoodtimebrand {
   /*border: 1px solid blue;*/
 }
 .secondary-title {
-  font-size: 50px;
-  /*border: 1px solid red;*/
-  margin-top: -41px;
-  color: white;
+  font-size: 28px;
+  margin: 10px;
+  color: #e5e5f3;
+  font-family: 'Roboto', sans-serif;
+  font-style: italic;
+  font-weight: 800;
+  text-shadow: 3px 3px #003d99;
 }
 
 .description {
-  font-size: 30px;
-  width: 310px;
-  /*border: 1px solid black;*/
+  font-size: 24px;
+  width: 50%;
   margin-top: 30px;
-  color: black;
+  margin-bottom: 30px;
+  color: #292727;
+  line-height: 1em;
+  background-color: rgba(255,255,255,0.6);
+  padding: 20px;
+  border-radius: 25px;
+}
+
+.description p {
+  padding-bottom: 20px;
 }
 
 .button-transparent-blue {
@@ -135,13 +146,15 @@ a.navbar-brand.makegoodtimebrand {
   border-radius: 10px;
   border-color: rgba(22, 28, 44, 0.6);
   background-color: rgba(22, 28, 44, 0.6);
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(255, 255, 255, 0.9);
   font-size: 20px;
+  padding: 10px;
 }
 button:focus {outline:0;}
 
 .button-transparent-blue:hover {
     box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+    color: #007ff1;;
 }
 
 /*Side bar*/
