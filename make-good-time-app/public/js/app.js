@@ -15,30 +15,43 @@ GoodTimeApp.getTemplate = function(template, data) {
   });
 }
 
-// GoodTimeApp.addInfoWindowForActivity = function(activity, activityMarker) {
-//   activityMarker.addListener('click', function() {
+GoodTimeApp.addInfoWindowForActivity = function(activity, activityMarker) {
+  activityMarker.addListener('click', function() {
 
-//     if(GoodTimeApp.infoWindow) GoodTimeApp.infoWindow.close();
+    var iwOuter = $('.gm-style-iw');
+    var iwBackground = iwOuter.prev();
+    iwBackground.children(':nth-child(2)').css({'display' : 'none!important'});
+    iwBackground.children(':nth-child(4)').css({'display' : 'none!important'});
+    
+    if(GoodTimeApp.infoWindow) GoodTimeApp.infoWindow.close();
 
-//     GoodTimeApp.infoWindow = new google.maps.InfoWindow({
-//       content: tbd
-//     });
+    GoodTimeApp.infoWindow = new google.maps.InfoWindow({
+      content: '<div id="iw-container">' +
+                        '<div class="iw-title">'+activity.name+'</div>' +
+                        '<div class="iw-content">' +
+                          '<img src="'+ activity.photo +'" height="200" width="200">' +
+                          '<p>'+ activity.description + '(' + activity.postcode + ')</p>' +
+                          '<div class="iw-subTitle">Contacts</div>' +
+                          '<p>VISTA ALEGRE ATLANTIS, SA<br>3830-292 Ílhavo - Portugal<br>'+
+                          '<br>Phone. +351 234 320 600<br>e-mail: geral@vaa.pt<br>www: www.myvistaalegre.com</p>'+
+                        '</div>' +
+                        '<div class="iw-bottom-gradient"></div>' +
+                      '</div>',
+      maxWidth: 350
+    });
+    GoodTimeApp.infoWindow.open(GoodTimeApp.map, activityMarker);
+  });
+}
 
-//     GoodTimeApp.infoWindow.open(GoodTimeApp.map, activityMarker);
-//   });
-// }
 
 GoodTimeApp.createMarkerForActivity = function(activity) {
-  console.log(activity.lat);
-  console.log(activity.lng);
   var latLng = new google.maps.LatLng(activity.lat, activity.lng);
-  console.log(latLng);
   var activityMarker = new google.maps.Marker({
     position: latLng,
     map: GoodTimeApp.map,
     icon: "http://maps.google.com/mapfiles/ms/icons/yellow-dot.png"
   });
-  // GoodTimeApp.addInfoWindowForActivity(activity, activityMarker);
+  GoodTimeApp.addInfoWindowForActivity(activity, activityMarker);
 }
 
 GoodTimeApp.loopThroughActivities = function(data) {
@@ -124,9 +137,10 @@ GoodTimeApp.updateUI = function() {
   }
 }
 
+
+
 GoodTimeApp.initializeMap = function() {
   console.log("loading map");
-
   // Arbitrary starting point
   this.latLng = { lat: 51.5080072, lng: -0.1019284 };
 
@@ -166,7 +180,6 @@ GoodTimeApp.initializeMap = function() {
     // Browser doesn't support Geolocation
     handleLocationError(false, infoWindow, map.getCenter());
   }
-
 }
 
 GoodTimeApp.init = function() {
@@ -177,5 +190,21 @@ GoodTimeApp.init = function() {
 }.bind(GoodTimeApp);
 
 
-$(GoodTimeApp.init);
+function displayMap() {
+            document.getElementById('map_canvas').style.display="block";
+            initialize();
+        }
+ function initialize() {
+          // create the map
 
+        var myOptions = {
+            zoom: 14,
+            center: new google.maps.LatLng(0.0, 0.0),
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+          }
+            map = new google.maps.Map(document.getElementById("map_canvas"),
+                                        myOptions);
+
+         }
+
+$(GoodTimeApp.init);
