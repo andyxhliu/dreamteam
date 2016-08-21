@@ -27,7 +27,8 @@ html, body {
   top: 350px;
   left: 50%;
   position: absolute;
-  /*border: 1px solid black;*/
+  border: 1px solid black;
+  z-index: 2;
   margin-right: -50%;
   transform: translate(-50%, -50%);
   background: rgba(255,255,255,0.7);
@@ -158,13 +159,21 @@ button:focus {outline:0;}
 
 .button-transparent-blue:hover {
     box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
-    color: #007ff1;;
+    color: #007ff1;
 }
 
 /*Side bar*/
 #side-bar {
-  height: 300px;
-  width: 400px;
+  height: 100%;
+  width: 300px;
+  float: right;
+  z-index: 3;
+  border: 1px solid black;
+  background: rgba(255,255,255,0.7);
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 15px;
 }
 
 
