@@ -15,30 +15,82 @@ GoodTimeApp.getTemplate = function(template, data) {
   });
 }
 
-// GoodTimeApp.addInfoWindowForActivity = function(activity, activityMarker) {
-//   activityMarker.addListener('click', function() {
+GoodTimeApp.addInfoWindowForActivity = function(activity, activityMarker) {
+  activityMarker.addListener('click', function() {
 
-//     if(GoodTimeApp.infoWindow) GoodTimeApp.infoWindow.close();
+    var iwOuter = $('.gm-style-iw');
+    var iwBackground = iwOuter.prev();
+    iwBackground.children(':nth-child(2)').css({'display' : 'none!important'});
+    iwBackground.children(':nth-child(4)').css({'display' : 'none!important'});
 
-//     GoodTimeApp.infoWindow = new google.maps.InfoWindow({
-//       content: tbd
-//     });
+    if(GoodTimeApp.infoWindow) GoodTimeApp.infoWindow.close();
 
-//     GoodTimeApp.infoWindow.open(GoodTimeApp.map, activityMarker);
-//   });
+    GoodTimeApp.infoWindow = new google.maps.InfoWindow({
+      content: '<div id="iw-container">' +
+                        '<div class="iw-title">'+activity.name+'</div>' +
+                        '<div class="iw-content">' +
+                          '<img src="'+ activity.photo +'" height="200" width="200">' +
+                          '<p>'+ activity.description + '(' + activity.postcode + ')</p>' +
+                          '<div class="iw-subTitle">Contacts</div>' +
+                          '<p>VISTA ALEGRE ATLANTIS, SA<br>3830-292 Ílhavo - Portugal<br>'+
+                          '<br>Phone. +351 234 320 600<br>e-mail: geral@vaa.pt<br>www: www.myvistaalegre.com</p>'+
+                        '</div>' +
+                        '<div class="iw-bottom-gradient"></div>' +
+                      '</div>',
+      maxWidth: 350
+    });
+    GoodTimeApp.infoWindow.open(GoodTimeApp.map, activityMarker);
+  });
+}
+
+filterMarkers = function (category) {
+  // if(event) event.preventDefault();
+  // return $.ajax({
+  //   method: "GET",
+  //   url: "http://localhost:3000/api/activities"
+  // }).done(function(data) {
+  //   GoodTimeApp.getTemplate("index", { activities: data });
+  //   GoodTimeApp.filterActivities( data );
+  // });
+  console.log(gmarkers1);
+  for (i = 0; i < gmarkers1.length; i++) {
+    marker = gmarkers1[i];
+    // If is same category or category not picked
+    if (marker.categories.join(" ").includes(category) || category.length === 0) {
+        marker.setVisible(true);
+    }
+    else if (category === "0") {
+      marker.setVisible(false);
+    }
+    // Categories don't match 
+    else {
+        marker.setVisible(false);
+    }
+  }
+}
+
+// GoodTimeApp.filterActivity = function(data) {
+//   return data.forEach(GoodTimeApp.createMarkerForFilteredActivity);
 // }
 
+// GoodTimeApp.createMarkerForFilteredActivity = function(activity) {
+
+// }
+var gmarkers1 = [];
+
 GoodTimeApp.createMarkerForActivity = function(activity) {
-  console.log(activity.lat);
-  console.log(activity.lng);
   var latLng = new google.maps.LatLng(activity.lat, activity.lng);
-  console.log(latLng);
+  var categories = activity.categories;
   var activityMarker = new google.maps.Marker({
     position: latLng,
     map: GoodTimeApp.map,
+    categories: categories,
     icon: "http://maps.google.com/mapfiles/ms/icons/yellow-dot.png"
   });
-  // GoodTimeApp.addInfoWindowForActivity(activity, activityMarker);
+  gmarkers1.push(activityMarker);
+  activityMarker.setVisible(false);
+
+  GoodTimeApp.addInfoWindowForActivity(activity, activityMarker);
 }
 
 GoodTimeApp.loopThroughActivities = function(data) {
@@ -96,6 +148,10 @@ GoodTimeApp.loadPage = function() {
 
 GoodTimeApp.initEventHandlers = function() {
   this.$main = $("main");
+  this.$option = $("#filters :checkbox");
+  this.$option.on("click", function() {
+    return this.value
+  })
   // $("a.navbar-brand").on('click', this.getActivities);
   this.$main.on("submit", "form", this.handleForm);
   $(".navbar-nav a").not(".logout").on('click', this.loadPage);
@@ -124,6 +180,12 @@ GoodTimeApp.updateUI = function() {
   }
 }
 
+// GoodTimeApp.addFilterListener = function() {
+//   $("#filters :checkbox").click(function() {
+//     console.log("Hello world");
+//   });
+// }
+
 GoodTimeApp.initializeMap = function() {
   console.log("loading map");
 
@@ -135,6 +197,8 @@ GoodTimeApp.initializeMap = function() {
     zoom: 12,
     center: this.latLng
   });
+
+  // this.addFilterListener();
 
   this.getActivities();
 
@@ -166,8 +230,8 @@ GoodTimeApp.initializeMap = function() {
     // Browser doesn't support Geolocation
     handleLocationError(false, infoWindow, map.getCenter());
   }
-
 }
+
 
 GoodTimeApp.init = function() {
   this.initializeMap();
@@ -178,4 +242,3 @@ GoodTimeApp.init = function() {
 
 
 $(GoodTimeApp.init);
-
