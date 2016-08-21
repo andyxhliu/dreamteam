@@ -21,72 +21,60 @@ GoodTimeApp.getTemplate = function(template, data) {
 }
 
 GoodTimeApp.addInfoWindowForActivity = function(activity, activityMarker) {
+  console.log("info before");
+  console.log(activityMarker);
   activityMarker.addListener('click', function() {
-
-    var iwOuter = $('.gm-style-iw');
-    var iwBackground = iwOuter.prev();
-    iwBackground.children(':nth-child(2)').css({'display' : 'none!important'});
-    iwBackground.children(':nth-child(4)').css({'display' : 'none!important'});
 
     if(GoodTimeApp.infoWindow) GoodTimeApp.infoWindow.close();
 
     GoodTimeApp.infoWindow = new google.maps.InfoWindow({
-      content: '<div id="iw-container">' +
-                        '<div class="iw-title">'+activity.name+'</div>' +
-                        '<div class="iw-content">' +
+      content: '<div>' +
+                        '<div>'+activity.name+'</div>' +
+                        '<div>' +
                           '<img src="'+ activity.photo +'" height="200" width="200">' +
                           '<p>'+ activity.description + '(' + activity.postcode + ')</p>' +
-                          '<div class="iw-subTitle">Contacts</div>' +
-                          '<p>VISTA ALEGRE ATLANTIS, SA<br>3830-292 Ílhavo - Portugal<br>'+
-                          '<br>Phone. +351 234 320 600<br>e-mail: geral@vaa.pt<br>www: www.myvistaalegre.com</p>'+
+                          '<div>Contacts</div>' +
+                          '<p>' + activity.location + '</p>'+
                         '</div>' +
-                        '<div class="iw-bottom-gradient"></div>' +
-                      '</div>',
-      maxWidth: 350
+                        '<div></div>' +
+                      '</div>'
     });
     GoodTimeApp.infoWindow.open(GoodTimeApp.map, activityMarker);
   });
 }
 
 filterMarkers = function (category) {
-  // if(event) event.preventDefault();
-  // return $.ajax({
-  //   method: "GET",
-  //   url: "http://localhost:3000/api/activities"
-  // }).done(function(data) {
-  //   GoodTimeApp.getTemplate("index", { activities: data });
-  //   GoodTimeApp.filterActivities( data );
-  // });
-  console.log(gmarkers1);
   for (i = 0; i < gmarkers1.length; i++) {
     marker = gmarkers1[i];
-    // If is same category or category not picked
     if (marker.categories.join(" ").includes(category) || category.length === 0) {
-        marker.setVisible(true);
-    }
-    else if (category === "0") {
-      marker.setVisible(false);
-    }
-    // Categories don't match 
-    else {
-        marker.setVisible(false);
+        correctMarker.push(marker);
     }
   }
 }
 
-// GoodTimeApp.filterActivity = function(data) {
-//   return data.forEach(GoodTimeApp.createMarkerForFilteredActivity);
-// }
+submitMarkers = function() {
+  console.log(correctMarker);
+  GoodTimeApp.$filterBox = $(".filter-box");
+  GoodTimeApp.$filterBox.hide();
+  GoodTimeApp.$sideBar.show();
+  for (i = 0; i < correctMarker.length; i++) {
+    marker = correctMarker[i];
+    marker.setVisible(true);
+    console.log(marker.name);
+    GoodTimeApp.$sideBar.append("<div><h4>"+marker.name+"</div></h4><p>" + marker.location +"</p>");
+  }
+}
 
-// GoodTimeApp.createMarkerForFilteredActivity = function(activity) {
-
-// }
 var gmarkers1 = [];
 
 GoodTimeApp.createMarkerForActivity = function(activity) {
   var latLng = new google.maps.LatLng(activity.lat, activity.lng);
   var categories = activity.categories;
+  var name = activity.name;
+  var location = activity.location;
   var activityMarker = new google.maps.Marker({
+    name: name,
+    location: location,
     position: latLng,
     map: GoodTimeApp.map,
     categories: categories,
@@ -96,10 +84,12 @@ GoodTimeApp.createMarkerForActivity = function(activity) {
   activityMarker.setVisible(false);
 
   GoodTimeApp.addInfoWindowForActivity(activity, activityMarker);
+  console.log("in create marker");
 }
 
 GoodTimeApp.loopThroughActivities = function(data) {
   return data.forEach(GoodTimeApp.createMarkerForActivity);
+  console.log("in loopThroughActivities");
 }
 
 GoodTimeApp.getActivities = function() {
@@ -187,12 +177,6 @@ GoodTimeApp.updateUI = function() {
   }
 }
 
-// GoodTimeApp.addFilterListener = function() {
-//   $("#filters :checkbox").click(function() {
-//     console.log("Hello world");
-//   });
-// }
-
 GoodTimeApp.initializeMap = function() {
   console.log("loading map");
 
@@ -241,6 +225,9 @@ GoodTimeApp.initializeMap = function() {
 
 
 GoodTimeApp.init = function() {
+  GoodTimeApp.$sideBar = $("#side-bar");
+  GoodTimeApp.$sideBar.hide();
+  correctMarker = [];
   this.initEventHandlers();
   this.getTemplate("homepage");
   this.updateUI();
