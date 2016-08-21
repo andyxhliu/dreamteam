@@ -139,6 +139,7 @@ button:focus {outline:0;}
 .gm-style-iw {
   width: 200px !important;
   margin-right: 200px;
+}
 /*  top: 15px !important;
   left: 0px !important;
   background-color: #fff;
@@ -205,6 +206,7 @@ button:focus {outline:0;}
   transform: translate(-50%, -50%);
   background: rgba(255,255,255,0.7);
 }
+
 h1.index-h1 {
     margin-top: 11px;
 }
