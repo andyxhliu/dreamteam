@@ -70,8 +70,9 @@ GoodTimeApp.amendMarkers = function(name) {
       marker.setVisible(false);
       this.correctMarker.pop(marker);
     }
-    console.log("correct markers: " + this.correctMarker[0].position.lat);
+    console.log(this.correctMarker[0].position);
   } 
+  GoodTimeApp.getDirections();
 }
 
 
@@ -91,16 +92,17 @@ GoodTimeApp.changeMarkers = function(name, id) {
       }
     }
   }
-  // GoodTimeApp.getDirections();
 }
 
 
 GoodTimeApp.createMarkerForActivity = function(activity) {
   var latLng = new google.maps.LatLng(activity.lat, activity.lng);
+  // var points = [activity.lat, activity.lng];  
   var categories = activity.categories;
   var name = activity.name;
   var location = activity.location;
   var activityMarker = new google.maps.Marker({
+    // points: points,
     name: name,
     location: location,
     position: latLng,
@@ -131,43 +133,39 @@ GoodTimeApp.getActivities = function() {
 
 GoodTimeApp.getDirections = function() {
   this.waypoints = [];
-  console.log(this.waypoints);
   for (var i=0; i < this.correctMarker.length; i++) {
-    GoodTimeApp.waypoints.push(GoodTimeApp.correctMarker[i].position);
-    // console.log(GoodTimeApp.waypoints);
+    GoodTimeApp.waypoints.push({"location": GoodTimeApp.correctMarker[i].position});
   }
-  
+  this.calcRoute();
 }
 
-// GoodTimeApp.calcRoute = function(directionsService, directionsDisplay) {
-//   this.getDirections();
-//   this.start = new google.maps.LatLng(51.540805, -0.076285);
-  
-//   this.request = {
-//     origin: this.start,
-//     destination: this.start,
-//     waypoints: this.waypoints,
-//     travelMode: 'WALKING' }
+GoodTimeApp.calcRoute = function(directionsService, directionsDisplay) {
+  this.start = new google.maps.LatLng(51.540805, -0.076285);
+  this.request = {
+    origin: this.start,
+    destination: this.start,
+    waypoints: this.waypoints,
+    travelMode: 'WALKING' }
 
-//     GoodTimeApp.directionsService.route(this.request, function(response, status) {
-//       if (status == 'OK') {
-//         GoodTimeApp.directionsDisplay.setDirections(response);
-//         var route = response.routes[0];
-//         var summaryPanel = document.getElementById('side-bar');
-//         summaryPanel.innerHTML = '';
+    GoodTimeApp.directionsService.route(this.request, function(response, status) {
+      if (status == 'OK') {
+        GoodTimeApp.directionsDisplay.setDirections(response);
+        var route = response.routes[0];
+        var summaryPanel = document.getElementById('side-bar');
+        summaryPanel.innerHTML = '';
         
-//         for (var i = 0; i < route.legs.length; i++) {
-//           var routeSegment = i + 1;
-//           summaryPanel.innerHTML += '<b>Route Segment: ' + routeSegment +
-//               '</b><br>';
-//           summaryPanel.innerHTML += 'to ' + route.legs[i].end_address + '<br>';
-//           summaryPanel.innerHTML += route.legs[i].duration.text + '<br>';
-//           summaryPanel.innerHTML += route.legs[i].distance.text + '<br><br>';
-//         }
-//         // console.log(response.routes[0].legs[1].duration.text);
-//       }
-//     });     
-// }
+        for (var i = 0; i < route.legs.length; i++) {
+          var routeSegment = i + 1;
+          summaryPanel.innerHTML += '<b>Route Segment: ' + routeSegment +
+              '</b><br>';
+          summaryPanel.innerHTML += 'to ' + route.legs[i].end_address + '<br>';
+          summaryPanel.innerHTML += route.legs[i].duration.text + '<br>';
+          summaryPanel.innerHTML += route.legs[i].distance.text + '<br><br>';
+        }
+        console.log(response.routes[0].legs[1].duration.text);
+      }
+    });     
+}
 
 GoodTimeApp.handleForm = function() {
   event.preventDefault();
@@ -244,9 +242,9 @@ GoodTimeApp.updateUI = function() {
 
 GoodTimeApp.initializeMap = function() {
 
-  // this.directionsDisplay = new google.maps.DirectionsRenderer();
+  this.directionsDisplay = new google.maps.DirectionsRenderer();
 
-  // this.directionsService = new google.maps.DirectionsService();
+  this.directionsService = new google.maps.DirectionsService();
 
   // Arbitrary starting point
   GoodTimeApp.latLng = { lat: 51.5080072, lng: -0.1019284 };
