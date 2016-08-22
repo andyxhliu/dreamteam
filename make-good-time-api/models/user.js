@@ -5,7 +5,8 @@ var beautifulUnique = require('mongoose-beautiful-unique-validation');
 var userSchema = new mongoose.Schema({
   username: { type: String, required: true, unique: true },
   email: { type: String, required: true, unique: true },
-  passwordHash: { type: String, required: true }
+  passwordHash: { type: String, required: true },
+  favorites: [{type: mongoose.Schema.ObjectId, ref: 'Activity'}]
 })
 
 userSchema.virtual('password')
