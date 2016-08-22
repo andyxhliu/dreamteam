@@ -9,6 +9,11 @@ GoodTimeApp.getTemplate = function(template, data) {
     } else {
       $('#map').show();
     }
+    if (template === 'homepage') {
+      $('#brand-header').hide();
+    } else {
+      $('#brand-header').show();
+    }
     var html = _.template(templateHtml)(data);
     GoodTimeApp.$main.html(html);
     GoodTimeApp.updateUI();
