@@ -16,10 +16,10 @@ GoodTimeApp.addInfoWindowForActivity = function(activity, activityMarker) {
 }
 
 GoodTimeApp.filterMarkers = function (category) {
-  for (i = 0; i < gmarkers1.length; i++) {
-    marker = gmarkers1[i];
+  for (i = 0; i < GoodTimeApp.markers.length; i++) {
+    marker = GoodTimeApp.markers[i];
     if (marker.categories.join(" ").includes(category) || category.length === 0) {
-        this.correctMarker.push(marker);
+      this.correctMarkers.push(marker);
     }
   }
 }
@@ -28,51 +28,21 @@ GoodTimeApp.submitMarkers = function() {
   this.$filterBox = $(".filter-box");
   this.$filterBox.hide();
   this.$sideBar.show();
-  for (i = 0; i < this.correctMarker.length; i++) {
-    marker = this.correctMarker[i];
+  for (i = 0; i < this.correctMarkers.length; i++) {
+    marker = this.correctMarkers[i];
     marker.setVisible(true);
-    GoodTimeApp.$sideBar.append("<div>\<li>\<input type='checkbox' id='"+ marker.name + "' value='"+marker.name+"' onchange='GoodTimeApp.changeMarkers(this.value, this.id);' checked />\<label>\<h4>"+marker.name+"</h4>\</label>\</li>\</div>"
-    );
+    GoodTimeApp.$sideBar.append("<div>\
+      <li>\
+        <label>\
+          <input type='checkbox' data-marker-id='"+ marker.id + "' checked />\
+          " + marker.name + "\
+        </label>\
+      </li>\
+    </div>");
   }
-  GoodTimeApp.$sideBar.append("<div>\<input type='submit' value='Change' onclick='GoodTimeApp.amendMarkers();'/>\</div>");
-}
-
-GoodTimeApp.amendMarkers = function(name) {
-  if(this.toAddMarker.length !== 0 ) {
-    for (i = 0; i < this.toAddMarker.length; i++) {
-      marker = this.toAddMarker[i];
-      marker.setVisible(true);
-      this.correctMarker.push(marker);
-    }
-  } else if (this.toDeleteMarker.length !== 0) {
-    for (i = 0; i < this.toDeleteMarker.length; i++) {
-      marker = this.toDeleteMarker[i];
-      marker.setVisible(false);
-      this.correctMarker.pop(marker);
-    }
-    console.log(this.correctMarker[0].position);
-  } 
-  GoodTimeApp.getDirections();
-}
-
-
-GoodTimeApp.changeMarkers = function(name, id) {
-  if($('#'+id).prevObject["0"].activeElement.checked == true) {
-    for (i = 0; i < gmarkers1.length; i++) {
-      marker = gmarkers1[i];
-      if (marker.name.includes(name)) {
-        GoodTimeApp.toAddMarker.push(marker);
-      }
-    }
-  } else {
-    for (i = 0; i < gmarkers1.length; i++) {
-      marker = gmarkers1[i];
-      if (marker.name.includes(name)) {
-        GoodTimeApp.toDeleteMarker.push(marker);
-      }
-    }
-  }
-  // GoodTimeApp.getDirections();
+  GoodTimeApp.$sideBar.append("<div>\
+    <button type='button' id='draw-route'>Change</button>\
+  </div>");
 }
 
 
@@ -81,7 +51,9 @@ GoodTimeApp.createMarkerForActivity = function(activity) {
   var categories = activity.categories;
   var name = activity.name;
   var location = activity.location;
+  var now = new Date();
   var activityMarker = new google.maps.Marker({
+    id: activity._id,
     name: name,
     location: location,
     position: latLng,
@@ -89,7 +61,7 @@ GoodTimeApp.createMarkerForActivity = function(activity) {
     categories: categories,
     icon: "http://maps.google.com/mapfiles/ms/icons/yellow-dot.png"
   });
-  gmarkers1.push(activityMarker);
+  GoodTimeApp.markers.push(activityMarker);
   activityMarker.setVisible(false);
 
   GoodTimeApp.addInfoWindowForActivity(activity, activityMarker);
@@ -112,14 +84,17 @@ GoodTimeApp.getActivities = function() {
 
 GoodTimeApp.getDirections = function() {
   this.waypoints = [];
-  console.log(this.waypoints);
-  for (var i=0; i < this.correctMarker.length; i++) {
-    GoodTimeApp.waypoints.push({"location": GoodTimeApp.correctMarker[i].position});
+  // console.log(this.correctMarker);
+  // console.log(this.waypoints);
+  for (var i=0; i < this.correctMarkers.length; i++) {
+    GoodTimeApp.waypoints.push({"location": GoodTimeApp.correctMarkers[i].position});
   }
+  console.log(this.waypoints);
   this.calcRoute();
 }
+
 GoodTimeApp.calcRoute = function(directionsService, directionsDisplay) {
-  this.start = new google.maps.LatLng(51.540805, -0.076285);
+  this.start = new google.maps.LatLng(51.540805, -0.1);
   this.request = {
     origin: this.start,
     destination: this.start,
@@ -194,5 +169,5 @@ GoodTimeApp.initializeMap = function() {
     handleLocationError(false, infoWindow, map.getCenter());
   }
   // GoodTimeApp.calcRoute();
-  // GoodTimeApp.directionsDisplay.setMap(GoodTimeApp.map);
+  GoodTimeApp.directionsDisplay.setMap(GoodTimeApp.map);
 }

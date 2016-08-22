@@ -40,17 +40,40 @@ GoodTimeApp.initEventHandlers = function() {
   $(".navbar-nav a.logout").on('click', this.logout);
   this.$main.on("focus", "form input", function() {
     $(this).parents('.form-group').removeClass('has-error');
-  })
+  });
+
+  this.$sideBar.on('click', 'button#draw-route', function() {
+    var markerIds = GoodTimeApp.$sideBar.find('input:checked').toArray().map(function(checkbox) {
+      return $(checkbox).data('markerId');
+    });
+
+    console.log(markerIds);
+
+    GoodTimeApp.correctMarkers = GoodTimeApp.correctMarkers.filter(function(marker) {
+      if(markerIds.indexOf(marker.id) !== -1) {
+        return true;
+      } else {
+        marker.setMap(null);
+        return false;
+      }
+    });
+
+    GoodTimeApp.getDirections();
+
+    // GoodTimeApp.markers = GoodTimeApp.markers.filter(function(marker) {
+    //   return marker
+    // });
+  });
 }
 
 
 GoodTimeApp.init = function() {
   this.$sideBar = $("#side-bar");
   this.$sideBar.hide();
-  gmarkers1 = [];
-  this.correctMarker = [];
-  this.toDeleteMarker = [];
-  this.toAddMarker = [];
+  this.markers = [];
+  this.correctMarkers = [];
+  // this.toDeleteMarker = [];
+  // this.toAddMarker = [];
   this.initEventHandlers();
   this.getTemplate("homepage");
   this.updateUI();
