@@ -9,7 +9,7 @@ GoodTimeApp.setRequestHeader = function(jqHXR) {
 
 GoodTimeApp.getTemplate = function(template, data) {
   return $.get('/templates/' + template + '.html').done(function(templateHtml) {
-    if (template === 'homepage' || template === 'register' || template === 'login') {
+    if (template !== 'index') {
       $('#map').hide();
     } else {
       $('#map').show();
@@ -26,88 +26,72 @@ GoodTimeApp.addInfoWindowForActivity = function(activity, activityMarker) {
     if(GoodTimeApp.infoWindow) GoodTimeApp.infoWindow.close();
 
     GoodTimeApp.infoWindow = new google.maps.InfoWindow({
-      content: '<div>' +
-                        '<div>'+activity.name+'</div>' +
-                        '<div>' +
-                          '<img src="'+ activity.photo +'" height="200" width="200">' +
-                          '<p>'+ activity.description + '(' + activity.postcode + ')</p>' +
-                          '<div>Contacts</div>' +
-                          '<p>' + activity.location + '</p>'+
-                        '</div>' +
-                        '<div></div>' +
-                      '</div>'
+      content: '<div>' + '<div>' + activity.name + '</div>' + '<div>' + 
+      '<img src="'+ activity.photo + '" height="200" width="200">' + 
+      '<p>'+ activity.description + '(' + activity.postcode + ')</p>' + 
+      '<div>Contacts</div>' + '<p>' + activity.location + '</p>'+ '</div>' + '</div>'
     });
     GoodTimeApp.infoWindow.open(GoodTimeApp.map, activityMarker);
   });
 }
 
-
-filterMarkers = function (category) {
+GoodTimeApp.filterMarkers = function (category) {
   for (i = 0; i < gmarkers1.length; i++) {
     marker = gmarkers1[i];
     if (marker.categories.join(" ").includes(category) || category.length === 0) {
-        correctMarker.push(marker);
+        this.correctMarker.push(marker);
     }
   }
 }
 
-submitMarkers = function() {
-  GoodTimeApp.$filterBox = $(".filter-box");
-  GoodTimeApp.$filterBox.hide();
-  GoodTimeApp.$sideBar.show();
-  for (i = 0; i < correctMarker.length; i++) {
-    marker = correctMarker[i];
+GoodTimeApp.submitMarkers = function() {
+  this.$filterBox = $(".filter-box");
+  this.$filterBox.hide();
+  this.$sideBar.show();
+  for (i = 0; i < this.correctMarker.length; i++) {
+    marker = this.correctMarker[i];
     marker.setVisible(true);
-    GoodTimeApp.$sideBar.append("<div>\
-                                  <li>\
-                                    <input type='checkbox' id='"+ marker.name + "' value='"+marker.name+"' onchange='changeMarkers(this.value, this.id);' checked />\
-                                    <label>\
-                                      <h4>"+marker.name+"</h4>\
-                                    </label>\
-                                  </li>\
-                                </div>"
-                                );
+    GoodTimeApp.$sideBar.append("<div>\<li>\<input type='checkbox' id='"+ marker.name + "' value='"+marker.name+"' onchange='GoodTimeApp.changeMarkers(this.value, this.id);' checked />\<label>\<h4>"+marker.name+"</h4>\</label>\</li>\</div>"
+    );
   }
-  GoodTimeApp.$sideBar.append("<div>\
-                                  <input type='submit' value='Change' onclick='amendMarkers();'/>\
-                                </div>");
+  GoodTimeApp.$sideBar.append("<div>\<input type='submit' value='Change' onclick='GoodTimeApp.amendMarkers();'/>\</div>");
 }
 
-amendMarkers = function(name) {
-  if(toAddMarker.length !== 0 ) {
-    for (i = 0; i < toAddMarker.length; i++) {
-      marker = toAddMarker[i];
+GoodTimeApp.amendMarkers = function(name) {
+  if(this.toAddMarker.length !== 0 ) {
+    for (i = 0; i < this.toAddMarker.length; i++) {
+      marker = this.toAddMarker[i];
       marker.setVisible(true);
-      correctMarker.push(marker);
+      this.correctMarker.push(marker);
     }
-  } else if (toDeleteMarker.length !== 0) {
-    for (i = 0; i < toDeleteMarker.length; i++) {
-      marker = toDeleteMarker[i];
+  } else if (this.toDeleteMarker.length !== 0) {
+    for (i = 0; i < this.toDeleteMarker.length; i++) {
+      marker = this.toDeleteMarker[i];
       marker.setVisible(false);
-      correctMarker.pop(marker);
+      this.correctMarker.pop(marker);
     }
+    console.log("correct markers: " + this.correctMarker[0].position.lat);
   } 
-  toAddMarker = [];
-  toDeleteMarker = [];
 }
 
 
-changeMarkers = function(name, id) {
+GoodTimeApp.changeMarkers = function(name, id) {
   if($('#'+id).prevObject["0"].activeElement.checked == true) {
     for (i = 0; i < gmarkers1.length; i++) {
       marker = gmarkers1[i];
       if (marker.name.includes(name)) {
-        toAddMarker.push(marker);
+        GoodTimeApp.toAddMarker.push(marker);
       }
     }
   } else {
     for (i = 0; i < gmarkers1.length; i++) {
       marker = gmarkers1[i];
       if (marker.name.includes(name)) {
-        toDeleteMarker.push(marker);
+        GoodTimeApp.toDeleteMarker.push(marker);
       }
     }
   }
+  // GoodTimeApp.getDirections();
 }
 
 
@@ -147,50 +131,51 @@ GoodTimeApp.getActivities = function() {
 
 GoodTimeApp.getDirections = function() {
   this.waypoints = [];
-  for (var i=0; i < correctMarker.length; i++) {
-    GoodTimeApp.waypoints.push(correctMarker[i].position);
+  console.log(this.waypoints);
+  for (var i=0; i < this.correctMarker.length; i++) {
+    GoodTimeApp.waypoints.push(GoodTimeApp.correctMarker[i].position);
+    // console.log(GoodTimeApp.waypoints);
   }
-}
-
-GoodTimeApp.calcRoute = function(directionsService, directionsDisplay) {
-  this.getDirections();
-  this.start = new google.maps.LatLng(51.540805, -0.076285);
   
-  this.request = {
-    origin: this.start,
-    destination: this.start,
-    waypoints: this.waypoints,
-    travelMode: 'WALKING' }
-
-    GoodTimeApp.directionsService.route(this.request, function(response, status) {
-      if (status == 'OK') {
-        GoodTimeApp.directionsDisplay.setDirections(response);
-        var route = response.routes[0];
-        var summaryPanel = document.getElementById('side-bar');
-        summaryPanel.innerHTML = '';
-        
-        for (var i = 0; i < route.legs.length; i++) {
-          var routeSegment = i + 1;
-          summaryPanel.innerHTML += '<b>Route Segment: ' + routeSegment +
-              '</b><br>';
-          summaryPanel.innerHTML += 'to ' + route.legs[i].end_address + '<br>';
-          summaryPanel.innerHTML += route.legs[i].duration.text + '<br>';
-          summaryPanel.innerHTML += route.legs[i].distance.text + '<br><br>';
-        }
-        console.log(response.routes[0].legs[1].duration.text);
-      }
-    });     
 }
+
+// GoodTimeApp.calcRoute = function(directionsService, directionsDisplay) {
+//   this.getDirections();
+//   this.start = new google.maps.LatLng(51.540805, -0.076285);
+  
+//   this.request = {
+//     origin: this.start,
+//     destination: this.start,
+//     waypoints: this.waypoints,
+//     travelMode: 'WALKING' }
+
+//     GoodTimeApp.directionsService.route(this.request, function(response, status) {
+//       if (status == 'OK') {
+//         GoodTimeApp.directionsDisplay.setDirections(response);
+//         var route = response.routes[0];
+//         var summaryPanel = document.getElementById('side-bar');
+//         summaryPanel.innerHTML = '';
+        
+//         for (var i = 0; i < route.legs.length; i++) {
+//           var routeSegment = i + 1;
+//           summaryPanel.innerHTML += '<b>Route Segment: ' + routeSegment +
+//               '</b><br>';
+//           summaryPanel.innerHTML += 'to ' + route.legs[i].end_address + '<br>';
+//           summaryPanel.innerHTML += route.legs[i].duration.text + '<br>';
+//           summaryPanel.innerHTML += route.legs[i].distance.text + '<br><br>';
+//         }
+//         // console.log(response.routes[0].legs[1].duration.text);
+//       }
+//     });     
+// }
 
 GoodTimeApp.handleForm = function() {
   event.preventDefault();
-
   $(this).find('button').prop('disabled', true);
 
   var data = $(this).serialize();
   var method = $(this).attr("method");
   var url = GoodTimeApp.API_URL + $(this).attr("action") ;
-
 
   return $.ajax({
     url: url,
@@ -226,7 +211,6 @@ GoodTimeApp.initEventHandlers = function() {
   this.$option.on("click", function() {
     return this.value
   })
-  // $("a.navbar-brand").on('click', this.getActivities);
   this.$main.on("submit", "form", this.handleForm);
   $(document).on('click', '#show-map', function() {
     GoodTimeApp.getTemplate("index");
@@ -260,9 +244,9 @@ GoodTimeApp.updateUI = function() {
 
 GoodTimeApp.initializeMap = function() {
 
-  this.directionsDisplay = new google.maps.DirectionsRenderer();
+  // this.directionsDisplay = new google.maps.DirectionsRenderer();
 
-  this.directionsService = new google.maps.DirectionsService();
+  // this.directionsService = new google.maps.DirectionsService();
 
   // Arbitrary starting point
   GoodTimeApp.latLng = { lat: 51.5080072, lng: -0.1019284 };
@@ -305,19 +289,18 @@ GoodTimeApp.initializeMap = function() {
     // Browser doesn't support Geolocation
     handleLocationError(false, infoWindow, map.getCenter());
   }
-  GoodTimeApp.calcRoute();
-  GoodTimeApp.directionsDisplay.setMap(GoodTimeApp.map);
+  // GoodTimeApp.calcRoute();
+  // GoodTimeApp.directionsDisplay.setMap(GoodTimeApp.map);
 }
 
 
 GoodTimeApp.init = function() {
-  GoodTimeApp.$sideBar = $("#side-bar");
-  GoodTimeApp.$sideBar.hide();
+  this.$sideBar = $("#side-bar");
+  this.$sideBar.hide();
   gmarkers1 = [];
-  correctMarker = [];
-  chosenActicity = [];
-  toDeleteMarker = [];
-  toAddMarker = [];
+  this.correctMarker = [];
+  this.toDeleteMarker = [];
+  this.toAddMarker = [];
   this.initEventHandlers();
   this.getTemplate("homepage");
 
