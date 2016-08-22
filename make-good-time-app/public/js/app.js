@@ -43,6 +43,7 @@ GoodTimeApp.initEventHandlers = function() {
   })
 }
 
+
 GoodTimeApp.init = function() {
   this.$sideBar = $("#side-bar");
   this.$sideBar.hide();

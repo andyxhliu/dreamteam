@@ -9,7 +9,7 @@ GoodTimeApp.addInfoWindowForActivity = function(activity, activityMarker) {
       content: '<div>' + '<div>' + activity.name + '</div>' + '<div>' + 
       '<img src="'+ activity.photo + '" height="200" width="200">' + 
       '<p>'+ activity.description + '</p>' + 
-      '<p>' + activity.location + ', ' + + activity.postcode + '</p>'+ '</div>' + '</div>'
+      '<p>' + activity.location + ', ' + activity.postcode + '</p>'+ '</div>' + '</div>'
     });
     GoodTimeApp.infoWindow.open(GoodTimeApp.map, activityMarker);
   });
@@ -50,8 +50,9 @@ GoodTimeApp.amendMarkers = function(name) {
       marker.setVisible(false);
       this.correctMarker.pop(marker);
     }
-    console.log("correct markers: " + this.correctMarker[0].position.lat);
+    console.log(this.correctMarker[0].position);
   } 
+  GoodTimeApp.getDirections();
 }
 
 
@@ -113,48 +114,43 @@ GoodTimeApp.getDirections = function() {
   this.waypoints = [];
   console.log(this.waypoints);
   for (var i=0; i < this.correctMarker.length; i++) {
-    GoodTimeApp.waypoints.push(GoodTimeApp.correctMarker[i].position);
-    // console.log(GoodTimeApp.waypoints);
+    GoodTimeApp.waypoints.push({"location": GoodTimeApp.correctMarker[i].position});
   }
-  
+  this.calcRoute();
 }
+GoodTimeApp.calcRoute = function(directionsService, directionsDisplay) {
+  this.start = new google.maps.LatLng(51.540805, -0.076285);
+  this.request = {
+    origin: this.start,
+    destination: this.start,
+    waypoints: this.waypoints,
+    travelMode: 'WALKING' }
 
-// GoodTimeApp.calcRoute = function(directionsService, directionsDisplay) {
-//   this.getDirections();
-//   this.start = new google.maps.LatLng(51.540805, -0.076285);
-  
-//   this.request = {
-//     origin: this.start,
-//     destination: this.start,
-//     waypoints: this.waypoints,
-//     travelMode: 'WALKING' }
-
-//     GoodTimeApp.directionsService.route(this.request, function(response, status) {
-//       if (status == 'OK') {
-//         GoodTimeApp.directionsDisplay.setDirections(response);
-//         var route = response.routes[0];
-//         var summaryPanel = document.getElementById('side-bar');
-//         summaryPanel.innerHTML = '';
+    GoodTimeApp.directionsService.route(this.request, function(response, status) {
+      if (status == 'OK') {
+        GoodTimeApp.directionsDisplay.setDirections(response);
+        var route = response.routes[0];
+        var summaryPanel = document.getElementById('side-bar');
+        summaryPanel.innerHTML = '';
         
-//         for (var i = 0; i < route.legs.length; i++) {
-//           var routeSegment = i + 1;
-//           summaryPanel.innerHTML += '<b>Route Segment: ' + routeSegment +
-//               '</b><br>';
-//           summaryPanel.innerHTML += 'to ' + route.legs[i].end_address + '<br>';
-//           summaryPanel.innerHTML += route.legs[i].duration.text + '<br>';
-//           summaryPanel.innerHTML += route.legs[i].distance.text + '<br><br>';
-//         }
-//         // console.log(response.routes[0].legs[1].duration.text);
-//       }
-//     });     
-// }
-
+        for (var i = 0; i < route.legs.length; i++) {
+          var routeSegment = i + 1;
+          summaryPanel.innerHTML += '<b>Route Segment: ' + routeSegment +
+              '</b><br>';
+          summaryPanel.innerHTML += 'to ' + route.legs[i].end_address + '<br>';
+          summaryPanel.innerHTML += route.legs[i].duration.text + '<br>';
+          summaryPanel.innerHTML += route.legs[i].distance.text + '<br><br>';
+        }
+        console.log(response.routes[0].legs[1].duration.text);
+      }
+    });     
+}
 
 GoodTimeApp.initializeMap = function() {
 
-  // this.directionsDisplay = new google.maps.DirectionsRenderer();
+  this.directionsDisplay = new google.maps.DirectionsRenderer();
 
-  // this.directionsService = new google.maps.DirectionsService();
+  this.directionsService = new google.maps.DirectionsService();
 
   // Arbitrary starting point
   GoodTimeApp.latLng = { lat: 51.5080072, lng: -0.1019284 };
