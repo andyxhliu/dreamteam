@@ -14,6 +14,10 @@ GoodTimeApp.getTemplate = function(template, data) {
     } else {
       $('#brand-header').show();
     }
+    if (template !== 'index') {
+      $('#side-bar').hide();
+    }
+
     var html = _.template(templateHtml)(data);
     GoodTimeApp.$main.html(html);
     GoodTimeApp.updateUI();
@@ -26,6 +30,7 @@ GoodTimeApp.loadPage = function() {
 }
 
 GoodTimeApp.initEventHandlers = function() {
+  this.$column = $(".column");
   this.$main = $("main");
   this.$option = $("#filters :checkbox");
   this.$option.on("click", function() {
@@ -42,12 +47,16 @@ GoodTimeApp.initEventHandlers = function() {
     $(this).parents('.form-group').removeClass('has-error');
   });
 
+  this.$sideBar.on('click', '.column', function() {
+    console.log("hello");
+    // if(GoodTimeApp.infoWindow) GoodTimeApp.infoWindow.close();
+    // GoodTimeApp.infoWindow.open();
+  })
+
   this.$sideBar.on('click', 'button#draw-route', function() {
     var markerIds = GoodTimeApp.$sideBar.find('input:checked').toArray().map(function(checkbox) {
       return $(checkbox).data('markerId');
     });
-
-    console.log(markerIds);
 
     GoodTimeApp.correctMarkers = GoodTimeApp.correctMarkers.filter(function(marker) {
       if(markerIds.indexOf(marker.id) !== -1) {
@@ -57,12 +66,7 @@ GoodTimeApp.initEventHandlers = function() {
         return false;
       }
     });
-
-    GoodTimeApp.getDirections();
-
-    // GoodTimeApp.markers = GoodTimeApp.markers.filter(function(marker) {
-    //   return marker
-    // });
+    GoodTimeApp.orderRoute();
   });
 }
 
