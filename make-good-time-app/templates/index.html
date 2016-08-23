@@ -3,29 +3,24 @@
   <h1 class="center index-h1">What do you want to do?</h1>
 <hr>
   <ul id="filters">
-
     <div class="left-items">
       <li>
-          <input type="hidden" value="0" onclick="GoodTimeApp.filterMarkers(this.value);" />
-      </li>
-
-      <li>
-          <input type="checkbox" value="bar" id="Bars" onchange="GoodTimeApp.filterMarkers(this.value);" />
+          <input type="checkbox" value="Bars" id="Bars" data-category-id="bar"/>
           <img src="/public/icons/bars-icon.svg">
-          <label for="filter-Bars">Bars</label>
+          <label for="filter-Bars">Bar</label>
       </li>
       <li>
-          <input type="checkbox" value="Museums" id="Museums" onchange="GoodTimeApp.filterMarkers(this.value);" />
+          <input type="checkbox" value="Museums" id="Museums" data-category-id="museum"/>
           <img src="/public/icons/museums-icon.svg">
           <label for="filter-Museums">Museums</label>
       </li>
       <li>
-          <input type="checkbox" value="Outdoor Activities" id="Outdoor Activities" onchange="GoodTimeApp.filterMarkers(this.value);" />
+          <input type="checkbox" value="Outdoor Activities" id="Outdoor Activities" data-category-id="sport"/>
           <img src="/public/icons/outdoor-icon.svg">
           <label for="filter-Outdoor Activities">Outdoor Activities</label>
       </li>
       <li>
-          <input type="checkbox" value="Food" id="filter-Food" onchange="GoodTimeApp.filterMarkers(this.value);" />
+          <input type="checkbox" value="Food" id="filter-Food" data-category-id="food"/>
           <img src="/public/icons/foods-icon.svg">
           <label for="filter-Food">Food</label>
       </li>
@@ -33,22 +28,22 @@
 
     <div class="right-items">
       <li>
-          <input type="checkbox" value="Science" id="filter-Science" onchange="GoodTimeApp.filterMarkers(this.value);" />
+          <input type="checkbox" value="Science" id="filter-Science" data-category-id="science"/>
           <img src="/public/icons/science-icon.svg">
           <label for="filter-Science">Science</label>
       </li>
       <li>
-          <input type="checkbox" value="Music" id="filter-Music" onchange="GoodTimeApp.filterMarkers(this.value);" />
+          <input type="checkbox" value="Music" id="filter-Music" data-category-id="music"/>
           <img src="/public/icons/music-icon.svg">
           <label for="filter-Music">Music</label>
       </li>
       <li>
-          <input type="checkbox" value="Arts" id="filter-Arts" onchange="GoodTimeApp.filterMarkers(this.value);" />
+          <input type="checkbox" value="Arts" id="filter-Arts" data-category-id="art"/>
           <img src="/public/icons/arts-icon.svg">
           <label for="filter-Arts">Arts</label>
       </li>
       <li>
-          <input type="checkbox" value="Cinemas" id="filter-Cinemas" onchange="GoodTimeApp.filterMarkers(this.value);" />
+          <input type="checkbox" value="Cinemas" id="filter-Cinemas" data-category-id="cinema" />
           <img src="/public/icons/cinemas-icon.svg">
           <label for="filter-Cinemas">Cinemas</label>
       </li>
@@ -57,7 +52,6 @@
     <div>
       <input type="submit center" value="Submit" onclick="GoodTimeApp.submitMarkers();" class="submit-button button-transparent-blue center"/>
     </div>
-
   </ul>
 
 </div>
