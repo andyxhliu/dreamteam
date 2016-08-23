@@ -47,8 +47,6 @@ GoodTimeApp.initEventHandlers = function() {
       return $(checkbox).data('markerId');
     });
 
-    console.log(markerIds);
-
     GoodTimeApp.correctMarkers = GoodTimeApp.correctMarkers.filter(function(marker) {
       if(markerIds.indexOf(marker.id) !== -1) {
         return true;
@@ -57,12 +55,7 @@ GoodTimeApp.initEventHandlers = function() {
         return false;
       }
     });
-
-    GoodTimeApp.getDirections();
-
-    // GoodTimeApp.markers = GoodTimeApp.markers.filter(function(marker) {
-    //   return marker
-    // });
+    GoodTimeApp.orderRoute();
   });
 }
 
