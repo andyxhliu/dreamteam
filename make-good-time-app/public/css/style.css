@@ -43,11 +43,21 @@ body {
 }
 
 h1.index-h1 {
-    margin-top: 11px;
+  margin-top: 11px;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 200;
 }
-#filters li { 
+
+.filter-box li { 
   list-style-type: none;
+
 }
+
+.filter-box label {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 300;
+}
+
 .left-items {
   position: absolute;
   font-size: 19px;
@@ -57,9 +67,7 @@ h1.index-h1 {
   right: 20%;
   font-size: 19px;
 }
-/*ul li .filterbox{
-  font-family: 'Roboto', sans-serif !important;
-Doesnt work }*/  
+
 input.submit-button {
   margin-top: 35%;
   margin-left: 28%; 
@@ -166,6 +174,7 @@ a.navbar-brand.makegoodtimebrand {
   font-size: 20px;
   padding: 10px;
 }
+
 button:focus {outline:0;}
 
 .button-transparent-blue:hover {
