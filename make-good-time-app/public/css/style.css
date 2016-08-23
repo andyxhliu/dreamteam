@@ -43,11 +43,21 @@ body {
 }
 
 h1.index-h1 {
-    margin-top: 11px;
+  margin-top: 11px;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 200;
 }
-#filters li { 
+
+.filter-box li { 
   list-style-type: none;
+
 }
+
+.filter-box label {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 300;
+}
+
 .left-items {
   position: absolute;
   font-size: 19px;
@@ -57,9 +67,7 @@ h1.index-h1 {
   right: 20%;
   font-size: 19px;
 }
-/*ul li .filterbox{
-  font-family: 'Roboto', sans-serif !important;
-Doesnt work }*/  
+
 input.submit-button {
   margin-top: 35%;
   margin-left: 28%; 
@@ -137,15 +145,16 @@ a.navbar-brand.makegoodtimebrand {
   margin-top: 20px;
   color: #0d18a7;
   font-family: 'Roboto', sans-serif;
-  font-weight: 700;
+  font-weight: 300;
 }
 
 .description {
   font-size: 24px;
-  width: 50%;
+  width: 70%;
   margin-top: 30px;
   margin-bottom: 30px;
   font-family: 'Roboto', sans-serif;
+  font-weight: 300;
   color: #292727;
   line-height: 1em;
 }
@@ -165,11 +174,13 @@ a.navbar-brand.makegoodtimebrand {
   font-size: 20px;
   padding: 10px;
 }
+
 button:focus {outline:0;}
 
 .button-transparent-blue:hover {
     box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
     color: #007ff1;
+    text-decoration: none;
 }
 
 /*Side bar*/
