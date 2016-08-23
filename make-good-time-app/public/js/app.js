@@ -48,9 +48,11 @@ GoodTimeApp.initEventHandlers = function() {
   });
 
   this.$sideBar.on('click', '.column', function() {
-    console.log("hello");
-    // if(GoodTimeApp.infoWindow) GoodTimeApp.infoWindow.close();
-    // GoodTimeApp.infoWindow.open();
+    GoodTimeApp.closeAllInfoWindows(GoodTimeApp.orderedMarkers);
+
+    var id = $(this).data('markerId');
+    var marker = _.findWhere(GoodTimeApp.orderedMarkers, { id: id });
+    marker.infoWindow.open(GoodTimeApp.map, marker);
   })
 
   this.$sideBar.on('click', 'button#draw-route', function() {
@@ -76,8 +78,6 @@ GoodTimeApp.init = function() {
   this.$sideBar.hide();
   this.markers = [];
   this.correctMarkers = [];
-  // this.toDeleteMarker = [];
-  // this.toAddMarker = [];
   this.initEventHandlers();
   this.getTemplate("homepage");
   this.updateUI();
