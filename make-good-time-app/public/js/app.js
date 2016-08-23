@@ -79,5 +79,6 @@ GoodTimeApp.init = function() {
   this.updateUI();
 }.bind(GoodTimeApp);
 
-
-$(GoodTimeApp.init);
+document.addEventListener("DOMContentLoaded", function(){
+  GoodTimeApp.init();
+});
