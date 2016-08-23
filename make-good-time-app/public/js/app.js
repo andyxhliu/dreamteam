@@ -60,6 +60,8 @@ GoodTimeApp.initEventHandlers = function() {
       return $(checkbox).data('markerId');
     });
 
+    console.log(markerIds);
+
     GoodTimeApp.correctMarkers = GoodTimeApp.correctMarkers.filter(function(marker) {
       if(markerIds.indexOf(marker.id) !== -1) {
         return true;
@@ -74,6 +76,7 @@ GoodTimeApp.initEventHandlers = function() {
 
 
 GoodTimeApp.init = function() {
+  this.activityData = [];
   this.$sideBar = $("#side-bar");
   this.$sideBar.hide();
   this.markers = [];
