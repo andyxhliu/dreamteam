@@ -14,6 +14,10 @@ GoodTimeApp.getTemplate = function(template, data) {
     } else {
       $('#brand-header').show();
     }
+    if (template !== 'index') {
+      $('#side-bar').hide();
+    }
+
     var html = _.template(templateHtml)(data);
     GoodTimeApp.$main.html(html);
     GoodTimeApp.updateUI();
