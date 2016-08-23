@@ -133,7 +133,8 @@ GoodTimeApp.initializeMap = function() {
   // Position map within #map div
   GoodTimeApp.map = new google.maps.Map(document.getElementById('map'), {
     zoom: 12,
-    center: GoodTimeApp.latLng
+    center: GoodTimeApp.latLng,
+    mapTypeControl: false
   });
 
   // this.addFilterListener();
