@@ -1,10 +1,28 @@
 var mongoose = require('mongoose');
+var request = require('request');
 var Activity = require('../models/activity');
 
 var databaseUri = require('../config/db')('development');
 mongoose.connect(databaseUri);
 
 Activity.collection.drop();
+
+// request.get("https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522,151.1957362&rankby=distance&types=food&key=AIzaSyBxg_NOJq_YykM0AbVF77W70ZFMrtDEIuw", function(err, res) {
+//   var results = JSON.parse(res.body).results;
+//   // console.log(results);
+//   results.forEach(function(result) {
+//     if(result.rating >= 4) {
+//       Activity.create({
+//         name: result.name, 
+//         categories: ["Food"],
+//         description: "",
+//         lat: result.geometry.location.lat,
+//         lng: result.geometry.location.lng,
+//         location: result.vicinity
+//       });
+//     }
+//   })
+// });
 
 Activity.create([
   { 
