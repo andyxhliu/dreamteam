@@ -86,6 +86,7 @@ GoodTimeApp.orderRoute = function() {
   var startingPoint = new google.maps.LatLng(GoodTimeApp.pos.lat, GoodTimeApp.pos.lng);
   this.waypoints = [];
   this.distances = [];
+  this.orderedMarkers = [];
   this.markerLength = this.correctMarkers.length;
 
   this.correctMarkers.forEach(function(marker) {  
@@ -101,21 +102,27 @@ GoodTimeApp.orderRoute = function() {
   GoodTimeApp.distances.sort(function(a,b) {
     return a.distance - b.distance;
   });
+
+  GoodTimeApp.distances.forEach(function(distance) {
+    GoodTimeApp.orderedMarkers.push(distance.marker);
+  })
+
   this.waypoints.push( {location: GoodTimeApp.distances[0].marker.getPosition()} )
   GoodTimeApp.distances.shift();
     
   for (var i = 0; i < this.markerLength-1 ; i++) {
-      var data = ({
-        distance: google.maps.geometry.spherical.computeDistanceBetween(startingPoint, marker.getPosition()),
-        marker: marker
-      });
-      startingPoint = marker.getPosition();
+    var data = ({
+      distance: google.maps.geometry.spherical.computeDistanceBetween(startingPoint, marker.getPosition()),
+      marker: marker
+    });
+    startingPoint = marker.getPosition();
     GoodTimeApp.distances.sort(function(a,b) {
       return a.distance - b.distance;
     });
     this.waypoints.push( {location: GoodTimeApp.distances[0].marker.getPosition()} )
     GoodTimeApp.distances.shift();
   }
+
   this.calcRoute();
 }
 
@@ -134,14 +141,15 @@ GoodTimeApp.calcRoute = function(directionsService, directionsDisplay) {
         var route = response.routes[0];
         var summaryPanel = document.getElementById('side-bar');
         summaryPanel.innerHTML = '';
-        
+        console.log(route.legs);
         for (var i = 0; i < route.legs.length; i++) {
           var routeSegment = i + 1;
-          summaryPanel.innerHTML += '<b>Route Segment: ' + routeSegment +
-              '</b><br>';
-          summaryPanel.innerHTML += 'to ' + route.legs[i].end_address + '<br>';
-          summaryPanel.innerHTML += route.legs[i].duration.text + '<br>';
-          summaryPanel.innerHTML += route.legs[i].distance.text + '<br><br>';
+          summaryPanel.innerHTML += '<div class="column">\
+                                      <b>' + routeSegment +': ' + GoodTimeApp.orderedMarkers[i].name + '</b><br>\
+                                      to ' + route.legs[i].end_address + '<br>' + 
+                                      route.legs[i].duration.text + '<br>' +
+                                      route.legs[i].distance.text + '<br><br>\
+                                    </div>';
         }
       }
     });     

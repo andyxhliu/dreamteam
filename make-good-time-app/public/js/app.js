@@ -30,6 +30,7 @@ GoodTimeApp.loadPage = function() {
 }
 
 GoodTimeApp.initEventHandlers = function() {
+  this.$column = $(".column");
   this.$main = $("main");
   this.$option = $("#filters :checkbox");
   this.$option.on("click", function() {
@@ -45,6 +46,12 @@ GoodTimeApp.initEventHandlers = function() {
   this.$main.on("focus", "form input", function() {
     $(this).parents('.form-group').removeClass('has-error');
   });
+
+  this.$sideBar.on('click', '.column', function() {
+    console.log("hello");
+    // if(GoodTimeApp.infoWindow) GoodTimeApp.infoWindow.close();
+    // GoodTimeApp.infoWindow.open();
+  })
 
   this.$sideBar.on('click', 'button#draw-route', function() {
     var markerIds = GoodTimeApp.$sideBar.find('input:checked').toArray().map(function(checkbox) {
