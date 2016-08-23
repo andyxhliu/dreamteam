@@ -41,7 +41,7 @@ GoodTimeApp.submitMarkers = function() {
     </div>");
   }
   GoodTimeApp.$sideBar.append("<div>\
-    <button type='button' id='draw-route'>Change</button>\
+    <button type='button' id='draw-route' class='btn'>Change</button>\
   </div>");
 }
 
