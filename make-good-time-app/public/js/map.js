@@ -14,19 +14,6 @@ GoodTimeApp.addInfoWindowForActivity = function(activity, activityMarker) {
   });
 }
 
-// GoodTimeApp.filterMarkers = function (category) {
-//   console.log(category);
-//   for (i = 0; i < GoodTimeApp.activityData.length; i++) {
-//     data = GoodTimeApp.activityData[i];
-//     if (data.categories.join(" ").includes(category) || category.length === 0) {
-//       GoodTimeApp.createMarkerForActivity(data);
-//     }
-//   }
-//   GoodTimeApp.markers.forEach(function(marker) {
-//     GoodTimeApp.correctMarkers.push(marker);
-//   })
-// }
-
 GoodTimeApp.getPlaces = function(category, location) {
   return new Promise(function(resolve, reject) {
     GoodTimeApp.placesService.nearbySearch({
@@ -42,13 +29,13 @@ GoodTimeApp.getPlaces = function(category, location) {
 
 GoodTimeApp.submitMarkers = function() {
 
-  var chosenCategoryIds = $('#filters').find('input:checked').toArray().map(function(category) {
+  GoodTimeApp.chosenCategoryIds = $('#filters').find('input:checked').toArray().map(function(category) {
     return $(category).data("categoryId");
   });
 
   var location = GoodTimeApp.map.getCenter();
 
-  var searchPromises = chosenCategoryIds.map(function(category) {
+  var searchPromises = GoodTimeApp.chosenCategoryIds.map(function(category) {
     return GoodTimeApp.getPlaces(category, location);
   });
 
@@ -61,18 +48,19 @@ GoodTimeApp.submitMarkers = function() {
 
       results.forEach(function(result) {
         if (result.rating > 4.1 ) {
-
+          
           var photo = results.photos ? result.photos[0].getUrl({ maxWidth: 200, maxHeight: 200 }) : null;
 
           var data = {
             id: result.id,
             name: result.name,
+            categories: result.types.join(" "),
             location: result.vicinity,
             latLng: result.geometry.location,
             rating: result.rating,
             photo: photo
           };
-
+          
           GoodTimeApp.activityData.push(data);
           GoodTimeApp.createMarkerForActivity(data);
         }
@@ -81,7 +69,7 @@ GoodTimeApp.submitMarkers = function() {
       GoodTimeApp.appendMarker();
     })
     .catch(function(status) {
-      console.error(status);
+      
     });
 }
 
@@ -112,10 +100,10 @@ GoodTimeApp.createMarkerForActivity = function(activity) {
       </div>\
     </div>'
   });
-  console.log(activityMarker);
+  
   GoodTimeApp.markers.push(activityMarker);
   activityMarker.setVisible(false);
-  console.log(GoodTimeApp.markers);
+  
   GoodTimeApp.addInfoWindowForActivity(activity, activityMarker);
 
 
@@ -127,10 +115,11 @@ GoodTimeApp.appendMarker = function() {
   this.$sideBar = $("#side-bar");
   this.$filterBox.hide();
   this.$sideBar.show();
-
+  
 
   for (i = 0; i < GoodTimeApp.markers.length; i++) {
     marker = GoodTimeApp.markers[i];
+    
     marker.setVisible(true);
     GoodTimeApp.$sideBar.append("<div>\
       <li>\
@@ -148,25 +137,8 @@ GoodTimeApp.appendMarker = function() {
   GoodTimeApp.markers.forEach(function(marker) {
     GoodTimeApp.correctMarkers.push(marker);
   })
-  console.log(GoodTimeApp.markers);
+  
 }
-// GoodTimeApp.loopThroughActivities = function(data) {
-//   console.log("in loo throuh")
-//   console.log(data);
-//   return data.forEach(GoodTimeApp.createMarkerForActivity);
-// }
-
-// GoodTimeApp.getActivities = function() {
-//   if(event) event.preventDefault();
-//   return $.ajax({
-//     method: "GET",
-//     url: "http://localhost:3000/api/activities"
-//   }).done(function(data) {
-//     console.log(data);
-//     GoodTimeApp.getTemplate("index", { activities: data });
-//     GoodTimeApp.loopThroughActivities( data );
-//   });
-// }
 
 GoodTimeApp.orderRoute = function() {
   var startingPoint = new google.maps.LatLng(GoodTimeApp.pos.lat, GoodTimeApp.pos.lng);
@@ -258,32 +230,6 @@ GoodTimeApp.initializeMap = function() {
   });
 
   GoodTimeApp.placesService = new google.maps.places.PlacesService(GoodTimeApp.map);
-
-
-  // var service = new google.maps.places.PlacesService(this.map);
-  // service.nearbySearch({
-  //   location: GoodTimeApp.map.getCenter(),
-  //   radius: 500,
-  //   type: ['bar']
-  // }, function(results, status) {
-  //   results.forEach(function(result) {
-  //     if (result.rating > 4.1 ) {
-  //       GoodTimeApp.activityData.push({
-  //         id: result.id,
-  //         name: result.name,
-  //         location: result.vicinity,
-  //         categories: ["Bars"],
-  //         latLng: result.geometry.location,
-  //         rating: result.rating,
-  //         photo: result.photos[0].getUrl({ maxWidth: 200, maxHeight: 200 })
-  //       })
-  //     } 
-  //   })
-  //   console.log(GoodTimeApp.activityData);
-
-  // });
-
-  // GoodTimeApp.getActivities();
 
   // Place marker on map at load time
   GoodTimeApp.startMark = new google.maps.Marker({

@@ -56,20 +56,23 @@ GoodTimeApp.initEventHandlers = function() {
   })
 
   this.$sideBar.on('click', 'button#draw-route', function() {
-    var markerIds = GoodTimeApp.$sideBar.find('input:checked').toArray().map(function(checkbox) {
+    GoodTimeApp.markerIds = GoodTimeApp.$sideBar.find('input:checked').toArray().map(function(checkbox) {
       return $(checkbox).data('markerId');
     });
-    console.log(GoodTimeApp.correctMarkers[0].id);
-    GoodTimeApp.correctMarkers = GoodTimeApp.correctMarkers.filter(function(marker) {
-      if(markerIds.indexOf(marker.id) !== -1) {
-        return true;
-      } else {
-        marker.setMap(null);
-        return false;
-      }
-    });
-    console.log(GoodTimeApp.correctMarkers);
-    GoodTimeApp.orderRoute();
+
+    if (GoodTimeApp.markerIds.length > 8) {
+      GoodTimeApp.$sideBar.append("<h4>Maximum 8 activites per day!</h4>")
+    } else {
+      GoodTimeApp.correctMarkers = GoodTimeApp.correctMarkers.filter(function(marker) {
+        if(GoodTimeApp.markerIds.indexOf(marker.id) !== -1) {
+          return true;
+        } else {
+          marker.setMap(null);
+          return false;
+        }
+      });
+      GoodTimeApp.orderRoute();
+    }
   });
 }
 
