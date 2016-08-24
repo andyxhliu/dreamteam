@@ -1,24 +1,25 @@
 var GoodTimeApp = GoodTimeApp || {};
 
-GoodTimeApp.addInfoWindowForActivity = function(activity, activityMarker) {
-  activityMarker.addListener('click', function() {
-
-    if(GoodTimeApp.infoWindow) GoodTimeApp.infoWindow.close();
-
-    GoodTimeApp.infoWindow = new google.maps.InfoWindow({
-      content: '<div>' + '<div>' + activity.name + '</div>' + '<div>' + 
-      '<img src="'+ activity.photo + '" height="200" width="200">' + 
-      '<p>'+ activity.description + '</p>' + 
-      '<p>' + activity.location + ', ' + activity.postcode + '</p>'+ '</div>' + '</div>'
-    });
-    GoodTimeApp.infoWindow.open(GoodTimeApp.map, activityMarker);
+GoodTimeApp.closeAllInfoWindows = function(markers) {
+// where does markers come from  ? ==> app.js init function 
+  markers.forEach(function(marker) {
+    if(marker.infoWindow) marker.infoWindow.close();
   });
 }
 
-GoodTimeApp.filterMarkers = function (category) {
+GoodTimeApp.addInfoWindowForActivity = function(activity, activityMarker) {
+  activityMarker.addListener('click', function() {
+    GoodTimeApp.closeAllInfoWindows(GoodTimeApp.orderedMarkers);
+    activityMarker.infoWindow.open(GoodTimeApp.map, activityMarker);
+  });
+}
+
+GoodTimeApp.filterMarkers = function(category) {
   for (i = 0; i < GoodTimeApp.markers.length; i++) {
+// why dont we need to call it in the function, whereas we call category ?
     marker = GoodTimeApp.markers[i];
     if (marker.categories.join(" ").includes(category) || category.length === 0) {
+    // why or || category.length === 0 ?
       this.correctMarkers.push(marker);
     }
   }
@@ -31,6 +32,8 @@ GoodTimeApp.submitMarkers = function() {
   for (i = 0; i < this.correctMarkers.length; i++) {
     marker = this.correctMarkers[i];
     marker.setVisible(true);
+
+    //WHat is this part ???
     GoodTimeApp.$sideBar.append("<div>\
       <li>\
         <label>\
@@ -44,7 +47,6 @@ GoodTimeApp.submitMarkers = function() {
     <button type='button' id='draw-route'>Change</button>\
   </div>");
 }
-
 
 GoodTimeApp.createMarkerForActivity = function(activity) {
   var latLng = new google.maps.LatLng(activity.lat, activity.lng);
@@ -61,6 +63,14 @@ GoodTimeApp.createMarkerForActivity = function(activity) {
     categories: categories,
     icon: "http://maps.google.com/mapfiles/ms/icons/yellow-dot.png"
   });
+
+  activityMarker.infoWindow = new google.maps.InfoWindow({
+    content: '<div>' + '<div>' + activity.name + '</div>' + '<div>' + 
+    '<img src="'+ activity.photo + '" height="200" width="200">' + 
+    '<p>'+ activity.description + '</p>' + 
+    '<p>' + activity.location + ', ' + activity.postcode + '</p>'+ '</div>' + '</div>'
+  });
+
   GoodTimeApp.markers.push(activityMarker);
   activityMarker.setVisible(false);
 
@@ -77,6 +87,7 @@ GoodTimeApp.getActivities = function() {
     method: "GET",
     url: "http://localhost:3000/api/activities"
   }).done(function(data) {
+    console.log(data);
     GoodTimeApp.getTemplate("index", { activities: data });
     GoodTimeApp.loopThroughActivities( data );
   });
@@ -86,8 +97,9 @@ GoodTimeApp.orderRoute = function() {
   var startingPoint = new google.maps.LatLng(GoodTimeApp.pos.lat, GoodTimeApp.pos.lng);
   this.waypoints = [];
   this.distances = [];
+  this.orderedMarkers = [];
   this.markerLength = this.correctMarkers.length;
-
+console.log(this.correctMarkers);
   this.correctMarkers.forEach(function(marker) {  
     var data = ({
       distance: google.maps.geometry.spherical.computeDistanceBetween(startingPoint, marker.getPosition()),
@@ -101,30 +113,38 @@ GoodTimeApp.orderRoute = function() {
   GoodTimeApp.distances.sort(function(a,b) {
     return a.distance - b.distance;
   });
+
+  GoodTimeApp.distances.forEach(function(distance) {
+    GoodTimeApp.orderedMarkers.push(distance.marker);
+  })
+
   this.waypoints.push( {location: GoodTimeApp.distances[0].marker.getPosition()} )
   GoodTimeApp.distances.shift();
     
   for (var i = 0; i < this.markerLength-1 ; i++) {
-      var data = ({
-        distance: google.maps.geometry.spherical.computeDistanceBetween(startingPoint, marker.getPosition()),
-        marker: marker
-      });
-      startingPoint = marker.getPosition();
+    var data = ({
+      distance: google.maps.geometry.spherical.computeDistanceBetween(startingPoint, marker.getPosition()),
+      marker: marker
+    });
+    startingPoint = marker.getPosition();
     GoodTimeApp.distances.sort(function(a,b) {
       return a.distance - b.distance;
     });
     this.waypoints.push( {location: GoodTimeApp.distances[0].marker.getPosition()} )
     GoodTimeApp.distances.shift();
   }
+
   this.calcRoute();
 }
 
 
 GoodTimeApp.calcRoute = function(directionsService, directionsDisplay) {
+  this.orderedMarkersLength = this.orderedMarkers.length-1;
   this.start = new google.maps.LatLng(GoodTimeApp.pos.lat, GoodTimeApp.pos.lng);
+  console.log(GoodTimeApp.orderedMarkers[GoodTimeApp.orderedMarkersLength])
   this.request = {
     origin: this.start,
-    destination: this.start,
+    destination: GoodTimeApp.orderedMarkers[GoodTimeApp.orderedMarkersLength].getPosition(),
     waypoints: this.waypoints,
     travelMode: 'WALKING' }
 
@@ -134,14 +154,15 @@ GoodTimeApp.calcRoute = function(directionsService, directionsDisplay) {
         var route = response.routes[0];
         var summaryPanel = document.getElementById('side-bar');
         summaryPanel.innerHTML = '';
-        
-        for (var i = 0; i < route.legs.length; i++) {
+        console.log(route.legs);
+        for (var i = 0; i < route.legs.length-1; i++) {
           var routeSegment = i + 1;
-          summaryPanel.innerHTML += '<b>Route Segment: ' + routeSegment +
-              '</b><br>';
-          summaryPanel.innerHTML += 'to ' + route.legs[i].end_address + '<br>';
-          summaryPanel.innerHTML += route.legs[i].duration.text + '<br>';
-          summaryPanel.innerHTML += route.legs[i].distance.text + '<br><br>';
+          summaryPanel.innerHTML += '<div class="column" data-marker-id="'+ GoodTimeApp.orderedMarkers[i].id + '">\
+            <b>' + routeSegment +': ' + GoodTimeApp.orderedMarkers[i].name + '</b><br>\
+            to ' + route.legs[i].end_address + '<br>' + 
+            route.legs[i].duration.text + '<br>' +
+            route.legs[i].distance.text + '<br><br>\
+          </div>';
         }
       }
     });     
@@ -158,11 +179,20 @@ GoodTimeApp.initializeMap = function() {
   // Position map within #map div
   GoodTimeApp.map = new google.maps.Map(document.getElementById('map'), {
     zoom: 12,
-    center: GoodTimeApp.latLng,
+    center: { lat: 51.4958306, lng: -0.1455704 },
     mapTypeControl: false,
     styles: [{"featureType":"landscape","stylers":[{"hue":"#FFBB00"},{"saturation":43.400000000000006},{"lightness":37.599999999999994},{"gamma":1}]},{"featureType":"road.highway","stylers":[{"hue":"#FFC200"},{"saturation":-61.8},{"lightness":45.599999999999994},{"gamma":1}]},{"featureType":"road.arterial","stylers":[{"hue":"#FF0300"},{"saturation":-100},{"lightness":51.19999999999999},{"gamma":1}]},{"featureType":"road.local","stylers":[{"hue":"#FF0300"},{"saturation":-100},{"lightness":52},{"gamma":1}]},{"featureType":"water","stylers":[{"hue":"#0078FF"},{"saturation":-13.200000000000003},{"lightness":2.4000000000000057},{"gamma":1}]},{"featureType":"poi","stylers":[{"hue":"#00FF6A"},{"saturation":-1.0989010989011234},{"lightness":11.200000000000017},{"gamma":1}]}]
   });
 
+  var service = new google.maps.places.PlacesService(this.map);
+  service.nearbySearch({
+    location: GoodTimeApp.map.getCenter(),
+    radius: 500,
+    type: ['bar']
+  }, function(results, status) {
+    // create markers and infowindows with images
+    console.log(results[0].photos[0].getUrl({ maxWidth: 500, maxHeight: 500 }), status);
+  });
 
   GoodTimeApp.getActivities();
 
@@ -172,10 +202,6 @@ GoodTimeApp.initializeMap = function() {
     map: GoodTimeApp.map,
     title: 'You are here.'
   });
-
-  // Include transit lines
-  // GoodTimeApp.transitLayer = new google.maps.TransitLayer();
-  // GoodTimeApp.transitLayer.setMap(this.map);
 
   // HTML5 geolocation
   if (navigator.geolocation) {
