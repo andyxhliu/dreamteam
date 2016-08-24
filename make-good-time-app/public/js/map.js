@@ -28,30 +28,6 @@ GoodTimeApp.getPlaces = function(category, location) {
 }
 
 GoodTimeApp.submitMarkers = function() {
-//This should be deleted to resolve the merge conflict, right?
-// <<<<<<< HEAD
-// =======
-//   this.$filterBox = $(".filter-box");
-//   this.$filterBox.hide();
-//   this.$sideBar.show();
-//   for (i = 0; i < this.correctMarkers.length; i++) {
-//     marker = this.correctMarkers[i];
-//     marker.setVisible(true);
-//     GoodTimeApp.$sideBar.append("<div>\
-//       <li>\
-//         <label>\
-//           <input type='checkbox' data-marker-id='"+ marker.id + "' checked />\
-//           " + marker.name + "\
-//         </label>\
-//       </li>\
-//     </div>");
-//   }
-//   GoodTimeApp.$sideBar.append("<div>\
-//     <button type='button' id='draw-route' class='btn'>Change</button>\
-//   </div>");
-// }
-// >>>>>>> development --> Delete above this line?
-
   GoodTimeApp.chosenCategoryIds = $('#filters').find('input:checked').toArray().map(function(category) {
     return $(category).data("categoryId");
   });
@@ -92,7 +68,6 @@ GoodTimeApp.submitMarkers = function() {
       GoodTimeApp.appendMarker();
     })
     .catch(function(status) {
-      
     });
 }
 
@@ -114,7 +89,6 @@ GoodTimeApp.createMarkerForActivity = function(activity) {
     icon: "http://maps.google.com/mapfiles/ms/icons/yellow-dot.png"
   });
 
-
   activityMarker.infoWindow = new google.maps.InfoWindow({
     content: '<div>\
       <div>' + activity.name + '</div>\
@@ -126,12 +100,8 @@ GoodTimeApp.createMarkerForActivity = function(activity) {
   
   GoodTimeApp.markers.push(activityMarker);
   activityMarker.setVisible(false);
-  
   GoodTimeApp.addInfoWindowForActivity(activity, activityMarker);
-
-
 }
-
 
 GoodTimeApp.appendMarker = function() {
   this.$filterBox = $(".filter-box");
@@ -169,7 +139,7 @@ GoodTimeApp.orderRoute = function() {
   this.distances = [];
   this.orderedMarkers = [];
   this.markerLength = this.correctMarkers.length;
-  //CALCULATE DISTAMCE FROM THE FIRST MARKER
+  //CALCULATE DISTANCE FROM THE FIRST MARKER
   this.correctMarkers.forEach(function(marker) {  
     GoodTimeApp.distances.push({
       distance: google.maps.geometry.spherical.computeDistanceBetween(startingPoint, marker.getPosition()),
@@ -179,7 +149,7 @@ GoodTimeApp.orderRoute = function() {
 
   //RECALCULATE FROM A NEW MARKER
   startingPoint = marker.getPosition();
-  //FIND THE NEAEST MARKER
+  //FIND THE NEAREST MARKER
   GoodTimeApp.distances.sort(function(a,b) {
     return a.distance - b.distance;
   });
@@ -236,7 +206,31 @@ GoodTimeApp.calcRoute = function(directionsService, directionsDisplay) {
     });     
 }
 
+
+GoodTimeApp.mapSelections = function() {
+  GoodTimeApp.markerIds = GoodTimeApp.$sideBar.find('input:checked').toArray().map(function(checkbox) {
+    return $(checkbox).data('markerId');
+  });
+
+  if (GoodTimeApp.markerIds.length > 8 && tooManySelections === false) {
+    tooManySelections = true;
+    GoodTimeApp.$sideBar.append("<h4>Maximum 8 activites per day!</h4>")
+  } else {
+    GoodTimeApp.correctMarkers = GoodTimeApp.correctMarkers.filter(function(marker) {
+      if(GoodTimeApp.markerIds.indexOf(marker.id) !== -1) {
+        return true;
+      } else {
+        marker.setMap(null);
+        return false;
+      }
+    });
+    GoodTimeApp.orderRoute();
+  }
+}
+
 GoodTimeApp.initializeMap = function() {
+
+
 
   this.directionsDisplay = new google.maps.DirectionsRenderer({
     suppressMarkers: true
