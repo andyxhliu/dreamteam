@@ -59,9 +59,7 @@ GoodTimeApp.initEventHandlers = function() {
     var markerIds = GoodTimeApp.$sideBar.find('input:checked').toArray().map(function(checkbox) {
       return $(checkbox).data('markerId');
     });
-
-    console.log(markerIds);
-
+    console.log(GoodTimeApp.correctMarkers[0].id);
     GoodTimeApp.correctMarkers = GoodTimeApp.correctMarkers.filter(function(marker) {
       if(markerIds.indexOf(marker.id) !== -1) {
         return true;
@@ -70,6 +68,7 @@ GoodTimeApp.initEventHandlers = function() {
         return false;
       }
     });
+    console.log(GoodTimeApp.correctMarkers);
     GoodTimeApp.orderRoute();
   });
 }
