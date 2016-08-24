@@ -251,8 +251,6 @@ GoodTimeApp.mapSelections = function() {
 
 GoodTimeApp.initializeMap = function() {
 
-
-
   this.directionsDisplay = new google.maps.DirectionsRenderer({
     suppressMarkers: true
   });

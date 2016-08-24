@@ -29,17 +29,15 @@ body {
 
 /*For filter box*/
 .filter-box {
-  height: 300px;
-  width: 500px;
+  position: relative;
+  margin: 0 auto;
+  width: 80%;
   border-radius: 25px;
-  top: 350px;
-  left: 50%;
-  position: absolute;
+  transform: translateY(40%);
   border: 1px solid black;
   z-index: 2;
-  margin-right: -50%;
-  transform: translate(-50%, -50%);
   background: rgba(255,255,255,1);
+  padding-right: 5%;
 }
 
 h1.index-h1 {
@@ -58,18 +56,17 @@ h1.index-h1 {
 }
 
 .left-items {
-  position: absolute;
+  float: left;  
   font-size: 19px;
 }
 .right-items {
-  position: absolute;
-  right: 20%;
+  float: right;
   font-size: 19px;
 }
 
 input.submit-button {
-  margin-top: 35%;
-  margin-left: 28%; 
+  display: block;
+  clear: both;
 }
 /*Center*/
 .center {
