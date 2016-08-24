@@ -1,7 +1,5 @@
 var GoodTimeApp = GoodTimeApp || {};
 
-var tooManySelections = false;
-
 GoodTimeApp.API_URL = "http://localhost:3000/api";
 
 GoodTimeApp.getTemplate = function(template, data) {
@@ -55,18 +53,27 @@ GoodTimeApp.initEventHandlers = function() {
     var id = $(this).data('markerId');
     var marker = _.findWhere(GoodTimeApp.orderedMarkers, { id: id });
     marker.infoWindow.open(GoodTimeApp.map, marker);
-  })
+  });
+
+  this.$sideBar.on('click', '.favorite', function(){
+    var id = $(this).data('markerId');
+    // console.log(id);
+    var marker = _.findWhere(GoodTimeApp.orderedMarkers, { id: id });
+    console.log(marker);
+    // console.log(marker.id);
+    // console.log(marker.location);
+  }); 
 
   this.$sideBar.on('click', 'button#draw-route', GoodTimeApp.mapSelections);
 }
-
+GoodTimeApp.markers = [];
+GoodTimeApp.activityData = [];
 
 GoodTimeApp.init = function() {
-  this.activityData = [];
+  
   this.$sideBar = $("#side-bar");
   this.$sideBar.hide();
-  this.markers = [];
-  this.correctMarkers = [];
+
   this.initEventHandlers();
   this.getTemplate("homepage");
   this.updateUI();

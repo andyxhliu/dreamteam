@@ -9,7 +9,7 @@ GoodTimeApp.closeAllInfoWindows = function(markers) {
 GoodTimeApp.addInfoWindowForActivity = function(activity, activityMarker) {
 
   activityMarker.addListener('click', function() {
-    GoodTimeApp.closeAllInfoWindows(GoodTimeApp.correctMarkers);
+    GoodTimeApp.closeAllInfoWindows(GoodTimeApp.markers);
     activityMarker.infoWindow.open(GoodTimeApp.map, activityMarker);
   });
 }
@@ -28,9 +28,12 @@ GoodTimeApp.getPlaces = function(category, location) {
 }
 
 GoodTimeApp.submitMarkers = function() {
+
   GoodTimeApp.chosenCategoryIds = $('#filters').find('input:checked').toArray().map(function(category) {
     return $(category).data("categoryId");
   });
+
+  // ["museum", "bars"]
 
   var location = GoodTimeApp.map.getCenter();
 
@@ -38,36 +41,48 @@ GoodTimeApp.submitMarkers = function() {
     return GoodTimeApp.getPlaces(category, location);
   });
 
+  // [museumPromise, barsPromise]
+
   Promise.all(searchPromises)
     .then(function(resultsArray) {
+      resultsArray.forEach(function(results, index) {
+        var category = GoodTimeApp.chosenCategoryIds[index];
+        var markers = [];
 
-      var results = resultsArray.reduce(function(prev, current) {
-        return prev.concat(current);
-      }, []);
+        // create marker for each result
+        results.forEach(function(result) {
+          if (result.rating > 4.1 ) {
+            
+            var photo = results.photos ? result.photos[0].getUrl({ maxWidth: 200, maxHeight: 200 }) : null;
 
-      results.forEach(function(result) {
-        if (result.rating > 4.1 ) {
-          
-          var photo = results.photos ? result.photos[0].getUrl({ maxWidth: 200, maxHeight: 200 }) : null;
+            var data = {
+              id: result.id,
+              name: result.name,
+              categories: result.types.join(" "),
+              location: result.vicinity,
+              latLng: result.geometry.location,
+              rating: result.rating,
+              photo: photo
+            };
+            
+            GoodTimeApp.activityData.push(data);
+            markers.push(GoodTimeApp.createMarkerForActivity(data));
+          }
+        });
 
-          var data = {
-            id: result.id,
-            name: result.name,
-            categories: result.types.join(" "),
-            location: result.vicinity,
-            latLng: result.geometry.location,
-            rating: result.rating,
-            photo: photo
-          };
-          
-          GoodTimeApp.activityData.push(data);
-          GoodTimeApp.createMarkerForActivity(data);
-        }
-      })
+        GoodTimeApp.appendMarker(category, markers);
 
-      GoodTimeApp.appendMarker();
+      });
+
+      GoodTimeApp.$sideBar.append("<div>\
+        <button type='button' id='draw-route' class='btn'>Change</button>\
+      </div>");
+      GoodTimeApp.$sideBar.append("<h4 class='error hidden'>Maximum 8 activites per day!</h4>");
+
+      
     })
-    .catch(function(status) {
+    .catch(function(error) {
+      console.error(error);
     });
 }
 
@@ -98,19 +113,28 @@ GoodTimeApp.createMarkerForActivity = function(activity) {
     </div>'
   });
   
-  GoodTimeApp.markers.push(activityMarker);
   activityMarker.setVisible(false);
   GoodTimeApp.addInfoWindowForActivity(activity, activityMarker);
+
+  return activityMarker;
 }
 
-GoodTimeApp.appendMarker = function() {
+GoodTimeApp.sentenceCase = function(string) {
+  return string.split(' ').map(function(s) {
+    return s[0].toUpperCase() + s.slice(1)
+  }).join(' ');
+}
+
+GoodTimeApp.appendMarker = function(category, markers) {
   this.$filterBox = $(".filter-box");
   this.$sideBar = $("#side-bar");
   this.$filterBox.hide();
   this.$sideBar.show();
 
-  for (i = 0; i < GoodTimeApp.markers.length; i++) {
-    marker = GoodTimeApp.markers[i];
+  GoodTimeApp.$sideBar.append('<h4>' + GoodTimeApp.sentenceCase(category) + '</h4>');
+
+  for (i = 0; i < markers.length; i++) {
+    marker = markers[i];
     
     marker.setVisible(true);
     GoodTimeApp.$sideBar.append("<div>\
@@ -121,14 +145,9 @@ GoodTimeApp.appendMarker = function() {
         </label>\
       </li>\
     </div>");
+
+    GoodTimeApp.markers.push(marker);
   }
-  GoodTimeApp.$sideBar.append("<div>\
-    <button type='button' id='draw-route' class='btn'>Change</button>\
-  </div>");
-  
-  GoodTimeApp.markers.forEach(function(marker) {
-    GoodTimeApp.correctMarkers.push(marker);
-  })
   
 }
 
@@ -137,9 +156,8 @@ GoodTimeApp.orderRoute = function() {
   this.waypoints = [];
   this.distances = [];
   this.orderedMarkers = [];
-  this.markerLength = this.correctMarkers.length;
   //CALCULATE DISTANCE FROM THE FIRST MARKER
-  this.correctMarkers.forEach(function(marker) {  
+  this.markers.forEach(function(marker) {  
     GoodTimeApp.distances.push({
       distance: google.maps.geometry.spherical.computeDistanceBetween(startingPoint, marker.getPosition()),
       marker: marker
@@ -159,7 +177,7 @@ GoodTimeApp.orderRoute = function() {
   //GET RID OF THE PREVIOUS MARKER FROM THE ARRAY
   GoodTimeApp.distances.shift();
     
-  for (var i = 0; i < this.markerLength-1 ; i++) {
+  for (var i = 0; i < this.markers.length-1 ; i++) {
     var data = ({
       distance: google.maps.geometry.spherical.computeDistanceBetween(startingPoint, marker.getPosition()),
       marker: marker
@@ -194,7 +212,9 @@ GoodTimeApp.calcRoute = function(directionsService, directionsDisplay) {
 
         for (var i = 0; i < route.legs.length-1; i++) {
           var routeSegment = i + 1;
-          summaryPanel.innerHTML += '<div class="column" data-marker-id="'+ GoodTimeApp.orderedMarkers[i].id + '">\
+          summaryPanel.innerHTML += 
+          '<button class="favorite"></button>\
+          <div class="column" data-marker-id="'+ GoodTimeApp.orderedMarkers[i].id + '">\
             <b>' + routeSegment +': ' + GoodTimeApp.orderedMarkers[i].name + '</b><br>\
             to ' + route.legs[i].end_address + '<br>' + 
             route.legs[i].duration.text + '<br>' +
@@ -211,11 +231,12 @@ GoodTimeApp.mapSelections = function() {
     return $(checkbox).data('markerId');
   });
 
-  if (GoodTimeApp.markerIds.length > 8 && tooManySelections === false) {
-    tooManySelections = true;
-    GoodTimeApp.$sideBar.append("<h4>Maximum 8 activites per day!</h4>")
+  if (GoodTimeApp.markerIds.length > 8) {
+    return GoodTimeApp.$sideBar.find('.error').removeClass('hidden');
   } else {
-    GoodTimeApp.correctMarkers = GoodTimeApp.correctMarkers.filter(function(marker) {
+    GoodTimeApp.$sideBar.find('.error').addClass('hidden');
+    GoodTimeApp.markers = GoodTimeApp.markers.filter(function(marker) {
+
       if(GoodTimeApp.markerIds.indexOf(marker.id) !== -1) {
         return true;
       } else {
@@ -223,6 +244,7 @@ GoodTimeApp.mapSelections = function() {
         return false;
       }
     });
+
     GoodTimeApp.orderRoute();
   }
 }
