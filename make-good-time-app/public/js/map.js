@@ -108,7 +108,6 @@ GoodTimeApp.appendMarker = function() {
   this.$sideBar = $("#side-bar");
   this.$filterBox.hide();
   this.$sideBar.show();
-  
 
   for (i = 0; i < GoodTimeApp.markers.length; i++) {
     marker = GoodTimeApp.markers[i];
@@ -124,7 +123,7 @@ GoodTimeApp.appendMarker = function() {
     </div>");
   }
   GoodTimeApp.$sideBar.append("<div>\
-    <button type='button' id='draw-route'>Change</button>\
+    <button type='button' id='draw-route' class='btn'>Change</button>\
   </div>");
   
   GoodTimeApp.markers.forEach(function(marker) {
