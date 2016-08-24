@@ -28,6 +28,29 @@ GoodTimeApp.addInfoWindowForActivity = function(activity, activityMarker) {
 // }
 
 GoodTimeApp.submitMarkers = function() {
+//This should be deleted to resolve the merge conflict, right?
+// <<<<<<< HEAD
+// =======
+//   this.$filterBox = $(".filter-box");
+//   this.$filterBox.hide();
+//   this.$sideBar.show();
+//   for (i = 0; i < this.correctMarkers.length; i++) {
+//     marker = this.correctMarkers[i];
+//     marker.setVisible(true);
+//     GoodTimeApp.$sideBar.append("<div>\
+//       <li>\
+//         <label>\
+//           <input type='checkbox' data-marker-id='"+ marker.id + "' checked />\
+//           " + marker.name + "\
+//         </label>\
+//       </li>\
+//     </div>");
+//   }
+//   GoodTimeApp.$sideBar.append("<div>\
+//     <button type='button' id='draw-route' class='btn'>Change</button>\
+//   </div>");
+// }
+// >>>>>>> development --> Delete above this line?
 
   var chosenCategoryIds = $('#filters').find('input:checked').toArray().map(function(category) {
     return $(category).data("categoryId");
