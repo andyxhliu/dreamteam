@@ -78,11 +78,11 @@ h1.index-h1 {
 
 @media (max-width: 500px) {
   #brand-header {display:none !important}
-  #home {display:block} 
+  a.home-logo {display:block} 
 }
 
 @media (min-width: 500px) {
-  #home {display:none !important}
+  a.home-logo {display:none !important}
 }
 
 @media (min-width: 435px) {
