@@ -5,7 +5,9 @@ GoodTimeApp.API_URL = "http://localhost:3000/api";
 GoodTimeApp.getTemplate = function(template, data) {
   return $.get('/templates/' + template + '.html').done(function(templateHtml) {
     if (template !== 'index') {
-      $('#map').hide();
+      GoodTimeApp.activityData = [];
+      GoodTimeApp.$sideBar.empty();
+      // $('#map').hide();
       $('#main-nav').css('background-color', 'transparent');
     } else {
       $('#map').show();
@@ -19,6 +21,10 @@ GoodTimeApp.getTemplate = function(template, data) {
     if (template !== 'index') {
       $('#side-bar').hide();
     }
+    // $('#select-filters').one('click', GoodTimeApp.submitMarkers);
+    // this.$main.one('click', $('#select-filters'), function() {
+    //   GoodTimeApp.submitMarkers();
+    // });
 
     var html = _.template(templateHtml)(data);
     GoodTimeApp.$main.html(html);
@@ -105,13 +111,15 @@ GoodTimeApp.initEventHandlers = function() {
   this.$option.on("click", function() {
     return this.value
   });
-  this.$main.on("submit", "form", this.handleForm);
+  this.$main.on('click', '#select-filters', GoodTimeApp.submitMarkers);
+  GoodTimeApp.initializeMap();
+
+  this.$main.one("submit", "form", this.handleForm);
   $(document).on('click', '#show-map', function() {
     GoodTimeApp.getTemplate("index");
-    GoodTimeApp.initializeMap();
   });
-  $(".navbar-nav a").not(".logout").on('click', this.loadPage);
-  $(".navbar-nav a.logout").on('click', this.logout);
+  $(".navbar-default a").not(".logout").on('click', this.loadPage);
+  $(".navbar-default a.logout").on('click', this.logout);
   this.$main.on("focus", "form input", function() {
     $(this).parents('.form-group').removeClass('has-error');
   });
