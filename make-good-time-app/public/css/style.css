@@ -131,6 +131,20 @@ nav.navbar.navbar-default li {
   display: inline-block;
 }
 
+.favorite-logo {
+ width: 60px;
+ height:60px;
+ display:block;
+ background:transparent url('/public/icons/favorite.svg') center top no-repeat;
+}
+
+.favorite-logo:hover {
+
+ background:transparent url('/public/icons/favorite-hover.svg') center top no-repeat;
+}
+
+
+
 /*Main Page*/
 .mainpage-background {
   height: 100%;
