@@ -35,7 +35,7 @@ h1 {
   max-width: 500px;
   border-radius: 25px;
   transform: translateY(25%);
-  border: 1px solid black;
+  border: 1px solid rgb(150,150,150);
   z-index: 2;
   background: rgba(255,255,255,1);
   padding-right: 5%;
@@ -70,6 +70,10 @@ h1.index-h1 {
   .button-transparent-blue {
     width: 100px;
   }
+
+  .form-group {
+    width: 90% !important;
+  }
 }
 
 @media (min-width: 435px) {
@@ -98,16 +102,10 @@ input.submit-button {
 }
 
 /*Navbar*/
-nav {
-  z-index : 2;
-}
-
-nav.navbar {
-  border: 0px;
-}
-
-nav.navbar.navbar-default {
+.navbar.navbar-default {
   min-height: 85px;
+  border: none;
+  z-index : 2;
 }
 
 a.navbar-brand.makegoodtimebrand {
@@ -116,6 +114,9 @@ a.navbar-brand.makegoodtimebrand {
   font-size: 40px;
 }
 
+nav.navbar.navbar-default li {
+  display: inline-block;
+}
 
 /*Main Page*/
 .mainpage-background {
@@ -125,17 +126,11 @@ a.navbar-brand.makegoodtimebrand {
   z-index: 1;
   position: absolute;
   top: 0px; 
-  /* need a media query for 691px if we keep the z-index, because breakpoint for navbar at 691px */
   left: 0px;
   background-image: url("https://alphabetcityestates.files.wordpress.com/2013/03/london-skyline.jpg");
   background-repeat: no-repeat;
 }
-/*
-@media only screen and (max-width: 767 px) {
-    .mainpage-background {
-     top: 84px; 
-    }
-}*/
+
 .shader {
   background-color: rgba(255,255,255,0.6);
   padding: 2%;
@@ -170,6 +165,15 @@ a.navbar-brand.makegoodtimebrand {
     font-size: 16px !important;
     margin-top: 15px;
   }
+  #side-bar {
+    height: 20% !important;
+    width: 95% !important;
+    margin-top: 50px;
+  }
+  nav.navbar.navbar-default {
+    height: 50px !important;
+  }
+
 }
 .secondary-title {
   font-size: 28px;
@@ -195,7 +199,7 @@ a.navbar-brand.makegoodtimebrand {
 }
 
 .button-transparent-blue {
-  height: 34px;
+  /*height: 34px;*/
   width: 154px;
   margin-bottom: 50px;
   border-radius: 10px;
@@ -204,7 +208,9 @@ a.navbar-brand.makegoodtimebrand {
   color: rgba(255, 255, 255, 0.9);
   font-size: 20px;
   padding: 10px;
+  vertical-align: middle;
 }
+
 
 button:focus {outline:0;}
 
@@ -220,7 +226,8 @@ button:focus {outline:0;}
   width: 300px;
   float: right;
   z-index: 3;
-  border: 1px solid black;
+  border-radius: 15px;
+  border: 1px solid rgb(150,150,150);
   background: rgba(255,255,255,0.7);
   position: absolute;
   top: 1%;
@@ -229,6 +236,10 @@ button:focus {outline:0;}
   font-family: 'Roboto', sans-serif;
   font-size: 16px;
   overflow: scroll;
+}
+
+#side-bar .btn {
+  margin-right: 10px;
 }
 
 #side-bar li {
@@ -250,76 +261,8 @@ button:focus {outline:0;}
 
 
 /*For info Window styling*/
-/*.info-photo {
-  max-height: 200px;
-  max-width: 200px;
-  margin: auto;
-}*/
-
-/*.iw-title {
-  font-family: 'Open Sans Condensed', sans-serif;
-  font-size: 18px;
-  font-weight: 400;
-  padding: 10px;
-  background-color: #48b5e9;
-  color: white;
-  margin: 1px;
-  border-radius: 2px 2px 0 0;
-}*/
 
 .gm-style-iw {
   width: 200px !important;
   margin-right: 200px;
 }
-/*  top: 15px !important;
-  left: 0px !important;
-  background-color: #fff;
-  box-shadow: 0 1px 6px rgba(178, 178, 178, 0.6);
-  border: 1px solid rgba(72, 181, 233, 0.6);
-  border-radius: 2px 2px 10px 10px;
-}*/
-
-/*#iw-container {
-  margin-bottom: 10px;
-}
-#iw-container .iw-title {
-  font-family: 'Open Sans Condensed', sans-serif;
-  font-size: 22px;
-  font-weight: 400;
-  padding: 10px;
-  background-color: #48b5e9;
-  color: white;
-  margin: 0;
-  border-radius: 2px 2px 0 0;
-}
-#iw-container .iw-content {
-  font-size: 13px;
-  line-height: 18px;
-  font-weight: 400;
-  margin-right: 1px;
-  padding: 15px 5px 20px 15px;
-  max-height: 140px;
-  overflow-y: auto;
-  overflow-x: hidden;
-}
-.iw-content img {
-  float: right;
-  margin: 0 5px 5px 10px; 
-}
-.iw-subTitle {
-  font-size: 16px;
-  font-weight: 700;
-  padding: 5px 0;
-}
-.iw-bottom-gradient {
-  position: absolute;
-  width: 326px;
-  height: 25px;
-  bottom: 10px;
-  right: 18px;
-  background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%);
-  background: -webkit-linear-gradient(top, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%);
-  background: -moz-linear-gradient(top, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%);
-  background: -ms-linear-gradient(top, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%);
-}*/
-

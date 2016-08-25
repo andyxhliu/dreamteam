@@ -3,62 +3,50 @@
 <head>
   <title>Make Good Time</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" href="/public/css/style.css">
+  <link rel="stylesheet" type="text/css" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,200,300,400,700,900" rel="stylesheet">
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAddt2Y0QfzlD038bLd4xRA8mIj-Tg0L_M&libraries=places"></script>
   <script type="text/javascript" src="/bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
   <script type="text/javascript" src="/bower_components/underscore/underscore-min.js"></script>
   <script type="text/javascript" src="/bower_components/bluebird/js/browser/bluebird.min.js"></script>
   <script type="text/javascript" src="/public/js/auth.js"></script>
   <script type="text/javascript" src="/public/js/map.js"></script>
   <script type="text/javascript" src="/public/js/app.js"></script>
-  <link rel="stylesheet" type="text/css" href="/public/css/style.css">
-  <link rel="stylesheet" type="text/css" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
-  <link href="https://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css?family=Roboto:100,200,300,400,700,900" rel="stylesheet">
 </head>
 <body>
-  <nav class="navbar navbar-default" id="main-nav">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-        </div>
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-          <ul class="nav navbar-nav">
-            <li>
-              <a href="#" data-template="register" class="logged-out">
-                <img src="/public/icons/register.svg">
-              </a>
-            </li>
-              <li>
-                <a href="#" data-template="login" class="logged-out">
-                  <img src="/public/icons/login.svg">
-                </a>
-              </li>
+  <nav class="navbar navbar-default" id="main-nav" role="banner">
+    <a class="navbar-brand makegoodtimebrand primary-font" href="#" data-template="homepage" id="brand-header">
+      Make Good Time
+    </a>
 
-              <li>
-                <a href="#" data-template="show" class="logged-in">
-                  <p>User</p>
-                </a>
-              </li>
-              
-            <li>
-              <a href="#" class="logout logged-in">
-                <img src="/public/icons/logout.svg">
-              </a>
-            </li>
-            <li>
-              <a href="#" data-template="homepage" class="navbar-brand makegoodtimebrand primary-font" id="brand-header">
-                Make Good Time
-              </a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
+    <ul class="nav navbar-nav">
+      <li>
+        <a href="#" data-template="register" class="logged-out">
+          <img src="/public/icons/register.svg">
+        </a>
+      </li>
+        <li>
+          <a href="#" data-template="login" class="logged-out">
+            <img src="/public/icons/login.svg">
+          </a>
+        </li>
+
+        <li>
+          <a href="#" data-template="show" class="logged-in">
+            <p>User</p>
+          </a>
+        </li>
+        
+      <li>
+        <a href="#" class="logout logged-in">
+          <img src="/public/icons/logout.svg">
+        </a>
+      </li>
+    </ul>
+  </nav>
     
     <main class="container">
       <h1>Javascript disabled!</h1>

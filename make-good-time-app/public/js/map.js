@@ -29,19 +29,24 @@ GoodTimeApp.getPlaces = function(category, location) {
 
 GoodTimeApp.submitMarkers = function() {
 
+  if(!$(this).parents('.filter-box').find('ul#filters input:checked').length) {
+    return;
+  }
+
+  if($(this).hasClass('disabled')) return;
+  $(this).addClass('disabled');
+
+  console.log("click");
+
   GoodTimeApp.chosenCategoryIds = $('#filters').find('input:checked').toArray().map(function(category) {
     return $(category).data("categoryId");
   });
-
-  // ["museum", "bars"]
 
   var location = GoodTimeApp.map.getCenter();
 
   var searchPromises = GoodTimeApp.chosenCategoryIds.map(function(category) {
     return GoodTimeApp.getPlaces(category, location);
   });
-
-  // [museumPromise, barsPromise]
 
   Promise.all(searchPromises)
     .then(function(resultsArray) {
@@ -75,7 +80,7 @@ GoodTimeApp.submitMarkers = function() {
       });
 
       GoodTimeApp.$sideBar.append("<div>\
-        <button type='button' id='draw-route' class='btn'>Change</button>\
+        <button type='button' id='draw-route' class='btn'>Route</button>\<button type='button' id='clear-selections' class='btn'>Clear</button>\
       </div>");
       GoodTimeApp.$sideBar.append("<h4 class='error hidden'>Maximum 8 activites per day!</h4>");
 
@@ -164,11 +169,8 @@ GoodTimeApp.appendMarker = function(category, markers) {
       <li>\
         <label>\
           <input type='checkbox' data-marker-id='"+ marker.id + "' checked />\
-          " + marker.name + "\
-        </label>\
-        <button class='info-button' data-marker-id='"+ marker.id +"'>Infos</button>\
-      </li>\
-    </div>");
+          </label><a href='#' class='info-button' data-marker-id='" + marker.id + "'>" + marker.name + 
+          "\</a></li></div>");
 
     GoodTimeApp.markers.push(marker);
   }
