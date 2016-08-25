@@ -115,10 +115,17 @@ h1.index-h1 {
 @media (max-width: 500px) {
   #brand-header {display:none !important}
   a.home-logo {display:block} 
+  .home-logo-nav {margin-left: 20px}
+  .favorite-logo {margin-left: -13px}
 }
 
 @media (min-width: 500px) {
   a.home-logo {display:none !important}
+
+/*navbar*/
+  ul.nav.navbar-nav {
+    margin-left: 1px;
+  }
 }
 
 @media (min-width: 550px) {
