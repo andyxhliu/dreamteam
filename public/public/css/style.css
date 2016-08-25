@@ -1,0 +1,421 @@
+html, body {
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  background: transparent;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+}
+
+#user-show {
+  position: relative;
+  z-index: 999!important;
+  background-color: blue;
+  width: 500px;
+  height: auto;
+}
+/*Fonts*/
+.primary-font {
+  font-family: 'Pacifico', cursive;
+}
+
+h1 {
+  margin-top: 85px !important;
+}
+/*Map Page*/
+#map {
+  height: 100%;
+  width: 100%;
+  z-index: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/*User Favourites*/
+.user-faves {
+  padding: 1% 5%;
+}
+
+h2.user-faves {
+  color: #000099;
+  text-transform: uppercase;
+  font-weight: 900;
+  text-shadow: 2px 2px #05ff93;
+}
+
+li.name {
+  font-weight: 700;
+  color: #000099;
+}
+
+.users {
+  transform: translateY(5%) !important;
+  max-width: 700px !important;
+  text-align: center;
+  max-height: 75vh;
+  overflow: scroll;
+}
+
+/*For filter box*/
+.filter-box {
+  position: relative;
+  margin: 0 auto;
+  width: 80%;
+  max-width: 500px;
+  border-radius: 25px;
+  transform: translateY(25%);
+  border: 1px solid rgb(150,150,150);
+  z-index: 2;
+  background: rgba(255,255,255,1);
+  padding-right: 5%;
+}
+
+.filter-box img {
+  height: 40px;
+  padding: 5px;
+}
+
+h1.index-h1 {
+  margin-top: 11px !important;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 200;
+}
+
+.filter-box li { 
+  list-style-type: none;
+  font-size: 19px;
+}
+
+.filter-box label {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 300;
+}
+
+@media (max-width: 500px) {
+  #brand-header {display:none !important}
+  #home {display:block} 
+  .filter-box {
+    width: 95%;
+    transform: translateY(5%);
+  }
+  .shader {
+    width: 95%;
+    padding: 10px;
+  }
+  .button-transparent-blue {
+    width: 100px;
+  }
+
+  .form-group {
+    width: 90% !important;
+  }
+}
+
+/*Iphone 6 display*/
+/*@media (min-width: 375px) and {
+  div.favorite-logo {margin-left: 1px}
+  h1.index-h1 {font-size: 20px}
+  .filter-box img{height: 33px}
+  .filter-box {height: 477px}
+  .button-transparent-blue {height: 34px}
+  .filter-box {margin-top: -28px}
+  div#side-bar {top: 7%}
+  }*/
+/*end */
+
+@media (max-width: 500px) {
+  #brand-header {display:none !important}
+  a.home-logo {display:block} 
+  .home-logo-nav {margin-left: 20px}
+  .favorite-logo {margin-left: -13px}
+}
+
+@media (min-width: 500px) {
+  a.home-logo {display:none !important}
+
+/*navbar*/
+  ul.nav.navbar-nav {
+    margin-left: 1px;
+  }
+}
+
+@media (min-width: 550px) {
+  .left-items {
+    float: left;
+  }
+  .right-items {
+    float: right;
+  }
+}
+
+input.submit-button {
+  display: block;
+  clear: both;
+}
+/*Center*/
+.center {
+  margin: 0 auto;
+  text-align: center;
+}
+
+.vertcenter {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/*Navbar*/
+.navbar.navbar-default {
+  min-height: 85px;
+  border: none;
+  z-index : 2;
+}
+
+a.navbar-brand.makegoodtimebrand {
+  margin-top: 15px;
+  color: #0d18a7;
+  font-size: 40px;
+}
+a.navbar-brand.makegoodtimebrand:hover {
+ color: #05ff93; 
+}
+
+
+nav.navbar.navbar-default li {
+  display: inline-block;
+}
+
+.home-logo-nav {
+ width: 60px;
+ height:60px;
+ display:block;
+ background:transparent url('/public/icons/home.svg') center top no-repeat;
+}
+
+.home-logo-nav:hover {
+ background:transparent url('/public/icons/home-hover.svg') center top no-repeat;
+}
+
+
+.favorite-logo {
+ width: 60px;
+ height:60px;
+ display:block;
+ background:transparent url('/public/icons/favorite.svg') center top no-repeat;
+}
+
+.favorite-logo:hover {
+ background:transparent url('/public/icons/favorite-hover.svg') center top no-repeat;
+}
+
+.logout-logo {
+ width: 60px;
+ height:60px;
+ display:block;
+ background:transparent url('/public/icons/logout.svg') center top no-repeat;
+}
+
+.logout-logo:hover {
+ background:transparent url('/public/icons/logout-hover.svg') center top no-repeat;
+}
+
+.register-logo {
+ width: 60px;
+ height:60px;
+ display:block;
+ background:transparent url('/public/icons/register.svg') center top no-repeat;
+}
+
+.register-logo:hover {
+ background:transparent url('/public/icons/register-hover.svg') center top no-repeat;
+}
+
+.login-logo {
+ width: 60px;
+ height:60px;
+ display:block;
+ background:transparent url('/public/icons/login.svg') center top no-repeat;
+}
+
+.login-logo:hover {
+ background:transparent url('/public/icons/login-hover.svg') center top no-repeat;
+}
+
+/*Main Page*/
+.mainpage-background {
+  height: 100%;
+  width: 100%;
+  background-color: white;
+  z-index: 1;
+  position: absolute;
+  top: 0px; 
+  left: 0px;
+  background-image: url("https://alphabetcityestates.files.wordpress.com/2013/03/london-skyline.jpg");
+  background-repeat: no-repeat;
+}
+
+.shader {
+  background-color: rgba(255,255,255,0.6);
+  padding: 2%;
+  border-radius: 25px;
+  width: 80%;
+}
+
+@media (min-width: 1150px) {
+  .shader {
+    width: 60%;
+  }
+}
+
+.title {
+  font-size: 90px;  
+  color: #000099;
+  text-shadow: 2px 2px #05ff93;
+  margin-top: 20px;
+  padding-top: 30px;
+  line-height: 1.2em;
+}
+
+@media (max-width: 735px) {
+  .title {
+    font-size: 60px;
+  }
+  .secondary-title {
+    font-size: 20px !important;
+    margin-top: 10px;
+  }
+  .description {
+    font-size: 16px !important;
+    margin-top: 15px;
+  }
+  #side-bar {
+    height: 20% !important;
+    width: 95% !important;
+    margin-top: 50px;
+  }
+  nav.navbar.navbar-default {
+    height: 50px !important;
+  }
+
+}
+.secondary-title {
+  font-size: 28px;
+  margin-top: 20px;
+  color: #0d18a7;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 300;
+}
+
+.description {
+  font-size: 24px;
+  width: 70%;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 300;
+  color: #292727;
+  line-height: 1em;
+}
+
+.description p {
+  padding-bottom: 20px;
+}
+
+.button-transparent-blue {
+  /*height: 34px;*/
+  width: 154px;
+  margin-bottom: 50px;
+  border-radius: 10px;
+  border-color: rgba(22, 28, 44, 0.6);
+  background-color: rgba(22, 28, 44, 0.6);
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 20px;
+  padding: 10px;
+  vertical-align: middle;
+}
+
+.no-padding {
+  padding: 0px;
+}
+
+button:focus {outline:0;}
+
+.button-transparent-blue:hover {
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+    color: #007ff1;
+    text-decoration: none;
+}
+
+/*Side bar*/
+#side-bar {
+  height: 98%;
+  width: 300px;
+  float: right;
+  z-index: 3;
+  border-radius: 15px;
+  border: 1px solid rgb(150,150,150);
+  background: rgba(255,255,255,0.7);
+  position: absolute;
+  top: 1%;
+  right: 10px;
+  padding: 15px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  overflow: scroll;
+}
+
+#side-bar a {
+padding-left: 5px;
+}
+
+#side-bar .btn {
+  margin-right: 10px;
+}
+
+#side-bar li {
+  list-style-type: none;
+
+}
+
+#side-bar li label {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 300;
+}
+
+.favorite {
+  float: right;
+  background: none;
+  border: none;
+  height: 30px;
+  width: 30px;
+  background-image: url("/public/images/addtofav.svg");
+  background-size: cover;
+}
+
+.unfavorite {
+  float: right;
+  background: none;
+  border: none;
+  height: 30px;
+  width: 30px;
+  background-image: url("/public/images/addtofav-added.svg");
+  background-size: cover;
+}
+
+
+/*Forms (register & Login)*/
+.form-group {
+  width: 50%;
+  margin: 0 auto;
+}
+
+
+/*For info Window styling*/
+
+.gm-style-iw {
+  width: 200px !important;
+  margin-right: 200px;
+}
