@@ -9,6 +9,13 @@ body {
   font-family: 'Roboto', sans-serif;
 }
 
+#user-show {
+  position: relative;
+  z-index: 999!important;
+  background-color: blue;
+  width: 500px;
+  height: auto;
+}
 /*Fonts*/
 .primary-font {
   font-family: 'Pacifico', cursive;

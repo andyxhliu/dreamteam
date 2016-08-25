@@ -71,6 +71,19 @@ GoodTimeApp.favoritePlace = function(marker){
   });
 }
 
+GoodTimeApp.showUser = function(){
+  return $.ajax({
+      method: "GET",
+      url: GoodTimeApp.API_URL + "/me",
+      beforeSend: GoodTimeApp.setRequestHeader
+      }).done(function(data) {
+        // GoodTimeApp.getTemplate("show", { users: data });
+        console.log("Heres the logged in user!", data);
+      });
+}
+
+GoodTimeApp.showUser();
+
 // GoodTimeApp.saveFavorite = function(marker) {
 //   event.preventDefault();
 
@@ -114,7 +127,7 @@ GoodTimeApp.initEventHandlers = function() {
   this.$main.on('click', '#select-filters', GoodTimeApp.submitMarkers);
   GoodTimeApp.initializeMap();
 
-  this.$main.one("submit", "form", this.handleForm);
+  this.$main.on("submit", "form", this.handleForm);
   $(document).on('click', '#show-map', function() {
     GoodTimeApp.getTemplate("index");
   });
@@ -147,6 +160,14 @@ GoodTimeApp.initEventHandlers = function() {
    var marker = _.findWhere(GoodTimeApp.markers, { id: id });
    marker.infoWindow.open(GoodTimeApp.map, marker);
   });
+
+
+  $(document).on('click', '#clear-selections', function() {
+   $('input[type=checkbox]').each(function() 
+   { 
+    this.checked = false; 
+   }); 
+  })
 }
 GoodTimeApp.markers = [];
 GoodTimeApp.activityData = [];
