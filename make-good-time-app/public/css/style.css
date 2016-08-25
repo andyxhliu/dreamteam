@@ -77,7 +77,7 @@ h1.index-h1 {
 }
 
 @media (max-width: 500px) {
-  #brand-header {display:none}
+  #brand-header {display:none !important}
   #home {display:block} 
 }
 
