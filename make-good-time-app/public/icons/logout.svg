@@ -3,6 +3,9 @@
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 width="66.75px" height="56.635px" viewBox="0 0 66.75 56.635" enable-background="new 0 0 66.75 56.635" xml:space="preserve">
+<defs>
+	 <style type="text/css">@import url('https://fonts.googleapis.com/css?family=Roboto:100,200,300,400,700,900');</style>
+</defs>
 <g id="Layer_1_1_">
 	<path fill="#001DAA" d="M7.79,4.873v30.839h3.467l3.587-3.588v-3.777v-3.468V7.257h16.731v9.749v2.359v12.712l-3.611,3.586H59.25
 		V4.873H7.79z M42.068,8.37c1.215,0,2.197,0.982,2.197,2.195c0,1.215-0.982,2.197-2.197,2.197c-1.213,0-2.195-0.982-2.195-2.197
