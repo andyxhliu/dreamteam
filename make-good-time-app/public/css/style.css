@@ -269,6 +269,26 @@ button:focus {outline:0;}
   font-weight: 300;
 }
 
+.favorite {
+  float: right;
+  background: none;
+  border: none;
+  height: 30px;
+  width: 30px;
+  background-image: url("/public/images/addtofav.svg");
+  background-size: cover;
+}
+
+.unfavorite {
+  float: right;
+  background: none;
+  border: none;
+  height: 30px;
+  width: 30px;
+  background-image: url("/public/images/addtofav-added.svg");
+  background-size: cover;
+}
+
 
 /*Forms (register & Login)*/
 .form-group {

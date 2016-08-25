@@ -119,6 +119,7 @@ GoodTimeApp.initEventHandlers = function() {
     var placeId = $(this).data('markerId');
     var marker = _.findWhere(GoodTimeApp.orderedMarkers, { id: placeId });
     GoodTimeApp.favoritePlace(marker);
+    $(this).toggleClass("unfavorite");
   }); 
 
   this.$sideBar.on('click', 'button#draw-route', GoodTimeApp.mapSelections);

@@ -51,7 +51,7 @@ GoodTimeApp.submitMarkers = function() {
       resultsArray.forEach(function(results, index) {
         var category = GoodTimeApp.chosenCategoryIds[index];
         var markers = [];
-
+        console.log(results);
         // create marker for each result
         results.forEach(function(result) {
           if (result.rating > 4.1 ) {
@@ -60,6 +60,7 @@ GoodTimeApp.submitMarkers = function() {
 
             var data = {
               id: result.place_id,
+              url: result.url,
               name: result.name,
               categories: result.types.join(" "),
               location: result.vicinity,
@@ -110,13 +111,17 @@ GoodTimeApp.getPlaceById = function(placeId) {
 }
 
 GoodTimeApp.createMarkerForActivity = function(activity) {
-  GoodTimeApp.a ++;
   var latLng = activity.latLng;
   var categories = activity.categories;
   var name = activity.name;
   var id = activity.id;
   var rating = activity.rating;
   var location = activity.location;
+  this.iconNum = 1;
+
+  // if (iconNum < 9) {
+  //   var icon = "/public/images/marker" + iconNum + ".png"; 
+  // }
 
   var activityMarker = new google.maps.Marker({
     id: id,
@@ -126,9 +131,12 @@ GoodTimeApp.createMarkerForActivity = function(activity) {
     map: GoodTimeApp.map,
     rating: rating,
     categories: categories,
-    icon: "http://maps.google.com/mapfiles/ms/icons/yellow-dot.png",
+    // icon: icon,
+    // icon: "/public/images/marker1.png",
     photo: activity.photo
   });
+
+  // iconNum = iconNum + 1;
 
   activityMarker.infoWindow = new google.maps.InfoWindow({
     content: '<div>\
@@ -239,7 +247,7 @@ GoodTimeApp.calcRoute = function(directionsService, directionsDisplay) {
         for (var i = 0; i < route.legs.length-1; i++) {
           var routeSegment = i + 1;
           summaryPanel.innerHTML += 
-          '<button class="favorite" data-marker-id="'+ GoodTimeApp.orderedMarkers[i].id +'">Save to favorite</button>\
+          '<button class="favorite" data-marker-id="'+ GoodTimeApp.orderedMarkers[i].id +'"></button>\
           <div class="column" data-marker-id="'+ GoodTimeApp.orderedMarkers[i].id + '">\
             <b>' + routeSegment +': ' + GoodTimeApp.orderedMarkers[i].name + '</b><br>\
             to ' + route.legs[i].end_address + '<br>' + 
@@ -279,7 +287,7 @@ GoodTimeApp.mapSelections = function() {
 GoodTimeApp.initializeMap = function() {
 
   this.directionsDisplay = new google.maps.DirectionsRenderer({
-    suppressMarkers: true
+    // suppressMarkers: true
   });
 
   this.directionsService = new google.maps.DirectionsService();
