@@ -169,11 +169,8 @@ GoodTimeApp.appendMarker = function(category, markers) {
       <li>\
         <label>\
           <input type='checkbox' data-marker-id='"+ marker.id + "' checked />\
-          " + marker.name + "\
-        </label>\
-        <button class='info-button' data-marker-id='"+ marker.id +"'>Infos</button>\
-      </li>\
-    </div>");
+          </label><a href='#' class='info-button' data-marker-id='" + marker.id + "'>" + marker.name + 
+          "\</a></li></div>");
 
     GoodTimeApp.markers.push(marker);
   }
