@@ -29,19 +29,24 @@ GoodTimeApp.getPlaces = function(category, location) {
 
 GoodTimeApp.submitMarkers = function() {
 
+  if(!$(this).parents('.filter-box').find('ul#filters input:checked').length) {
+    return;
+  }
+
+  if($(this).hasClass('disabled')) return;
+  $(this).addClass('disabled');
+
+  console.log("click");
+
   GoodTimeApp.chosenCategoryIds = $('#filters').find('input:checked').toArray().map(function(category) {
     return $(category).data("categoryId");
   });
-
-  // ["museum", "bars"]
 
   var location = GoodTimeApp.map.getCenter();
 
   var searchPromises = GoodTimeApp.chosenCategoryIds.map(function(category) {
     return GoodTimeApp.getPlaces(category, location);
   });
-
-  // [museumPromise, barsPromise]
 
   Promise.all(searchPromises)
     .then(function(resultsArray) {

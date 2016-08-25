@@ -7,7 +7,7 @@ GoodTimeApp.getTemplate = function(template, data) {
     if (template !== 'index') {
       GoodTimeApp.activityData = [];
       GoodTimeApp.$sideBar.empty();
-      $('#map').hide();
+      // $('#map').hide();
       $('#main-nav').css('background-color', 'transparent');
     } else {
       $('#map').show();
@@ -21,6 +21,10 @@ GoodTimeApp.getTemplate = function(template, data) {
     if (template !== 'index') {
       $('#side-bar').hide();
     }
+    // $('#select-filters').one('click', GoodTimeApp.submitMarkers);
+    // this.$main.one('click', $('#select-filters'), function() {
+    //   GoodTimeApp.submitMarkers();
+    // });
 
     var html = _.template(templateHtml)(data);
     GoodTimeApp.$main.html(html);
@@ -40,10 +44,12 @@ GoodTimeApp.initEventHandlers = function() {
   this.$option.on("click", function() {
     return this.value
   });
+  this.$main.on('click', '#select-filters', GoodTimeApp.submitMarkers);
+  GoodTimeApp.initializeMap();
+
   this.$main.one("submit", "form", this.handleForm);
   $(document).on('click', '#show-map', function() {
     GoodTimeApp.getTemplate("index");
-    GoodTimeApp.initializeMap();
   });
   $(".navbar-default a").not(".logout").on('click', this.loadPage);
   $(".navbar-default a.logout").on('click', this.logout);
@@ -69,13 +75,6 @@ GoodTimeApp.initEventHandlers = function() {
   }); 
 
   this.$sideBar.on('click', 'button#draw-route', GoodTimeApp.mapSelections);
-
-  $(document).on('click', '#clear-selections', function() {
-    $('input[type=checkbox]').each(function() 
-    { 
-            this.checked = false; 
-    }); 
-  })
 }
 GoodTimeApp.markers = [];
 GoodTimeApp.activityData = [];
