@@ -9,10 +9,12 @@ GoodTimeApp.getTemplate = function(template, data) {
       GoodTimeApp.$sideBar.empty();
       // $('#map').hide();
       $('#main-nav').css('background-color', 'transparent');
+    } else if (template === 'show') {
+      $('#map').hide();
     } else {
       $('#map').show();
       $('#main-nav').css('background-color', 'rgba(255,255,255,0.6)');
-    }
+    } 
     if (template === 'homepage') {
       $('#brand-header').hide();
     } else {
@@ -77,12 +79,10 @@ GoodTimeApp.showUser = function(){
       url: GoodTimeApp.API_URL + "/me",
       beforeSend: GoodTimeApp.setRequestHeader
       }).done(function(data) {
-        // GoodTimeApp.getTemplate("show", { users: data });
+        GoodTimeApp.getTemplate("show", { user: data });
         console.log("Heres the logged in user!", data);
       });
 }
-
-GoodTimeApp.showUser();
 
 // GoodTimeApp.saveFavorite = function(marker) {
 //   event.preventDefault();
@@ -118,7 +118,9 @@ GoodTimeApp.loadPage = function() {
 }
 
 GoodTimeApp.initEventHandlers = function() {
+  this.$map = $("#map");
   this.$column = $(".column");
+  this.$user = $("#user");
   this.$main = $("main");
   this.$option = $("#filters :checkbox");
   this.$option.on("click", function() {
@@ -160,6 +162,10 @@ GoodTimeApp.initEventHandlers = function() {
    var marker = _.findWhere(GoodTimeApp.markers, { id: id });
    marker.infoWindow.open(GoodTimeApp.map, marker);
   });
+
+  this.$user.on('click', function() {
+    GoodTimeApp.showUser();
+  })
 
 
   $(document).on('click', '#clear-selections', function() {
