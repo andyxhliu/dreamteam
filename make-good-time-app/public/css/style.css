@@ -39,8 +39,22 @@ h1 {
   padding: 2% 5%;
 }
 
+h2.user-faves {
+  color: #000099;
+  text-transform: uppercase;
+  font-weight: 900;
+  text-shadow: 2px 2px #05ff93;
+}
+
 li.name {
-  font-weight: 800;
+  font-weight: 700;
+  color: #000099;
+}
+
+.users {
+  transform: translateY(5%) !important;
+  max-width: 700px !important;
+  text-align: center;
 }
 
 /*For filter box*/
