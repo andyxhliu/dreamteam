@@ -238,6 +238,10 @@ button:focus {outline:0;}
   overflow: scroll;
 }
 
+#side-bar .btn {
+  margin-right: 10px;
+}
+
 #side-bar li {
   list-style-type: none;
 

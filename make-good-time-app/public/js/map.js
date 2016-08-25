@@ -75,7 +75,7 @@ GoodTimeApp.submitMarkers = function() {
       });
 
       GoodTimeApp.$sideBar.append("<div>\
-        <button type='button' id='draw-route' class='btn'>Change</button>\
+        <button type='button' id='draw-route' class='btn'>Route</button>\<button type='button' id='clear-selections' class='btn'>Clear</button>\
       </div>");
       GoodTimeApp.$sideBar.append("<h4 class='error hidden'>Maximum 8 activites per day!</h4>");
 

@@ -40,13 +40,13 @@ GoodTimeApp.initEventHandlers = function() {
   this.$option.on("click", function() {
     return this.value
   });
-  this.$main.on("submit", "form", this.handleForm);
+  this.$main.one("submit", "form", this.handleForm);
   $(document).on('click', '#show-map', function() {
     GoodTimeApp.getTemplate("index");
     GoodTimeApp.initializeMap();
   });
-  $(".navbar-nav a").not(".logout").on('click', this.loadPage);
-  $(".navbar-nav a.logout").on('click', this.logout);
+  $(".navbar-default a").not(".logout").on('click', this.loadPage);
+  $(".navbar-default a.logout").on('click', this.logout);
   this.$main.on("focus", "form input", function() {
     $(this).parents('.form-group').removeClass('has-error');
   });
@@ -69,6 +69,13 @@ GoodTimeApp.initEventHandlers = function() {
   }); 
 
   this.$sideBar.on('click', 'button#draw-route', GoodTimeApp.mapSelections);
+
+  $(document).on('click', '#clear-selections', function() {
+    $('input[type=checkbox]').each(function() 
+    { 
+            this.checked = false; 
+    }); 
+  })
 }
 GoodTimeApp.markers = [];
 GoodTimeApp.activityData = [];
