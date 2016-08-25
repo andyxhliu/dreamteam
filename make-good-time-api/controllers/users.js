@@ -1,8 +1,15 @@
 var User = require("../models/user");
 var Place = require('../models/place');
 
-function favorite(req, res) {
+function me(req, res) {
+  User.findById(req.user._id).populate('favorites').exec(function(err, user) {
+    if(err) return res.status(500).json(err);
+    return res.status(200).json(user);
+  });
+}
 
+function favorite(req, res) {
+  console.log("this is the favorite user..", req.user);
   // find favorite by place_id
   Place.findOne({ placeId: req.params.placeId })
     .then(function(place) {
@@ -33,14 +40,6 @@ function favorite(req, res) {
       res.status(500).json(err);
     });
 };
-
-function me(req, res) {
-  User.findById(req.user._id).populate('favorites').exec(function(err, user) {
-    if(err) return res.status(500).json(err);
-
-    return res.status(200).json(user);
-  });
-}
 
 module.exports = {
   favorite: favorite,

@@ -25,7 +25,8 @@ GoodTimeApp.handleForm = function() {
       console.log("data is", data);
     }
     // GoodTimeApp.getActivities();
-      GoodTimeApp.getUser();
+      // GoodTimeApp.getUser();
+      GoodTimeApp.getTemplate("index");
   })
   .fail(GoodTimeApp.handleFormErrors);
 }

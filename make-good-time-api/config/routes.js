@@ -30,7 +30,7 @@ function secureRoute(req, res, next) {
 // router.route('/activities/:id')
 //   // .all(secureRoute)
 //   .get(activitiesController.show)
-//   .put(secureRoute, activitiesController.update)
+//   .put(secureRoute, activitiesController.update),
 //   .patch(secureRoute, activitiesController.update)
 //   .delete(secureRoute, activitiesController.delete);
 
