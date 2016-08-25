@@ -69,6 +69,8 @@ li.name {
   z-index: 2;
   background: rgba(255,255,255,1);
   padding-right: 5%;
+  max-height: 75vh;
+  overflow: scroll;
 }
 
 .filter-box img {
