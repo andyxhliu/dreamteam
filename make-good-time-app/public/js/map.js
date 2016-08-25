@@ -29,14 +29,14 @@ GoodTimeApp.getPlaces = function(category, location) {
 
 GoodTimeApp.submitMarkers = function() {
 
-  if(!$(this).parents('.filter-box').find('ul#filters input:checked').length) {
+  if(!$(this).parents('.filter-box').find('ul.filters input:checked').length) {
     return;
   }
 
   if($(this).hasClass('disabled')) return;
   $(this).addClass('disabled');
 
-  GoodTimeApp.chosenCategoryIds = $('#filters').find('input:checked').toArray().map(function(category) {
+  GoodTimeApp.chosenCategoryIds = $('.filters').find('input:checked').toArray().map(function(category) {
     return $(category).data("categoryId");
   });
 

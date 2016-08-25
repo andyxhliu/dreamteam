@@ -80,7 +80,7 @@ GoodTimeApp.showUser = function(){
 }
 
 GoodTimeApp.loadPage = function() {
-  GoodTimeApp.reset();
+  // GoodTimeApp.reset();
   event.preventDefault();
   GoodTimeApp.getTemplate($(this).data('template'));
 }
@@ -90,7 +90,7 @@ GoodTimeApp.initEventHandlers = function() {
   this.$column = $(".column");
   this.$user = $("#user");
   this.$main = $("main");
-  this.$option = $("#filters :checkbox");
+  this.$option = $(".filters :checkbox");
   this.$option.on("click", function() {
     return this.value
   });
