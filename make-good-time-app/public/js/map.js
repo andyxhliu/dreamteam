@@ -120,7 +120,7 @@ GoodTimeApp.createMarkerForActivity = function(activity) {
 }
 
 GoodTimeApp.sentenceCase = function(string) {
-  return string.split(' ').map(function(s) {
+  return string.replace('_', ' ').split(' ').map(function(s) {
     return s[0].toUpperCase() + s.slice(1)
   }).join(' ');
 }
