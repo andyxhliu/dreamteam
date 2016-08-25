@@ -4,10 +4,9 @@ GoodTimeApp.API_URL = "http://localhost:3000/api";
 
 GoodTimeApp.getTemplate = function(template, data) {
   return $.get('/templates/' + template + '.html').done(function(templateHtml) {
-    if (template !== 'index') {
+    if (template !== 'index' && template !== 'show') {
       GoodTimeApp.activityData = [];
       GoodTimeApp.$sideBar.empty();
-      // $('#map').hide();
       $('#main-nav').css('background-color', 'transparent');
     } else {
       $('#map').show();
@@ -15,10 +14,10 @@ GoodTimeApp.getTemplate = function(template, data) {
     } 
     if (template === 'homepage') {
       $('#brand-header').hide();
-      $('#home').hide();
+      $('.home-logo').hide();
     } else {
       $('#brand-header').show();
-      $('#home').show();
+      $('.home-logo').show();
     }
     if (template !== 'index') {
       $('#side-bar').hide();

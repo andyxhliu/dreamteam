@@ -7,18 +7,16 @@
 	<g>
 		<g>
 			<rect x="6" y="37.26" fill="none" width="66.75" height="19.375"/>
-			<text transform="matrix(1 0 0 1 9.6528 49.8066)" fill="#001DAA" font-family="'Roboto-Regular'" font-size="16">  Home</text>
+			<text transform="matrix(1 0 0 1 9.6528 54.8066)" fill="#001DAA" font-family="'Roboto-Regular'" font-size="14">  Home</text>
 		</g>
 	</g>
 	<g>
-		<path fill="#001DAA" d="M48.34,36.258H37.697H27.053H16.41V20.293c-1.47,0-2.661-1.19-2.661-2.66L32.374,1.668l7.981,6.842V4.328
-			h5.322v8.742l5.321,4.562c0,1.469-1.19,2.658-2.66,2.658L48.34,36.258z"/>
+		<path fill="#001DAA" d="M48.34,36.258H37.697H27.053H16.41V20.293c-1.471,0-2.661-1.19-2.661-2.66L32.374,1.668l7.981,6.842V4.328
+			h5.321v8.742l5.321,4.562c0,1.469-1.189,2.658-2.66,2.658L48.34,36.258z"/>
 	</g>
 	<circle fill="#FFFFFF" cx="26.165" cy="18.502" r="2"/>
 	<circle fill="#FFFFFF" cx="38.832" cy="18.502" r="2"/>
-	<path fill="none" stroke="#FFFFFF" stroke-miterlimit="10" d="M20.408,25.074c0,0,2.823,7.373,10.981,7.373
-		c8.158,0,12.864-6.902,12.864-6.902"/>
-</g>
-<g id="nyt_x5F_exporter_x5F_info" display="none">
+	<path fill="none" stroke="#FFFFFF" stroke-miterlimit="10" d="M20.408,25.074c0,0,2.822,7.373,10.98,7.373
+		s12.864-6.902,12.864-6.902"/>
 </g>
 </svg>

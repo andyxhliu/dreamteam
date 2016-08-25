@@ -1,12 +1,10 @@
-<div id="user-show">
-  <h1>User Show</h1>
+<div class="filter-box users">
+  <h2 class="user-faves">Favorite Places</h2>
   <% user.favorites.forEach(function(favorite) {%>
-    <div class="saved-marker">
-      <ul>
+      <ul class="user-faves">
         <li class="name"><%= favorite.name %></li>
-        <li class="location"><%= favorite.location %> </li>
+        <li class="location"><%= favorite.location %></li>
       </ul>
-    </div>
+      <a href ="https://maps.googleapis.com/maps/api/place/details/json?key=AIzaSyAddt2Y0QfzlD038bLd4xRA8mIj-Tg0L_M&placeid=<%= favorite.placeId %>">link </a>
   <% }) %>
-  <button id="back-to-map">Back</button>
 </div>
