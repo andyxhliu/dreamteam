@@ -34,7 +34,7 @@ h1 {
   width: 80%;
   max-width: 500px;
   border-radius: 25px;
-  transform: translateY(40%);
+  transform: translateY(25%);
   border: 1px solid black;
   z-index: 2;
   background: rgba(255,255,255,1);
@@ -60,6 +60,8 @@ h1.index-h1 {
 @media (max-width: 430px) {
   .filter-box {
     width: 95%;
+    transform: translateY(5%);
+
   }
   .shader {
     width: 95%;
