@@ -41,6 +41,10 @@ h1 {
   padding-right: 5%;
 }
 
+.logos {
+  width: 40px;
+}
+
 h1.index-h1 {
   margin-top: 11px !important;
   font-family: 'Roboto', sans-serif;
