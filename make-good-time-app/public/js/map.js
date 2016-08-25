@@ -27,21 +27,15 @@ GoodTimeApp.getPlaces = function(category, location) {
   });
 }
 
-// GoodTimeApp.getPlaceUrls = function() {
-//   return $.ajax({
-//     method: "GET",
-//     url: 
-//     'https://maps.googleapis.com/maps/api/place/details/json?key=AIzaSyAddt2Y0QfzlD038bLd4xRA8mIj-Tg0L_M&placeid=ChIJpSJacrccdkgRYSfPYr24ZtI',
-//     beforeSend: function (xhr) {
-//     xhr.setRequestHeader('Authorization', 'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1N2I1YWJlZmM0Nzg0ZTMzM2M3YzFjYmYiLCJ1c2VybmFtZSI6ImthaXRseW4iLCJpYXQiOjE0NzE1MjQ5MjIsImV4cCI6MTQ3MTYxMTMyMn0.IeeqyCLXeY6xEidCFO5NJsTXf0nkYCFpcbj41kk6NL0');
-// },
-//   }).done(function(data) {
-//     console.log(data);
-//   });
-// }
+GoodTimeApp.getPlaceUrls = function() {
+
+  GoodTimeApp.placesService.getDetails({ placeId: 'ChIJpSJacrccdkgRYSfPYr24ZtI' }, function(results, status) {
+    console.log(results.url);
+  });
+}
 
 
-// GoodTimeApp.getPlaceUrls();
+
 
 GoodTimeApp.submitMarkers = function() {
 

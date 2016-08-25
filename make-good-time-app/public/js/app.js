@@ -95,6 +95,7 @@ GoodTimeApp.initEventHandlers = function() {
   });
   this.$main.on('click', '#select-filters', GoodTimeApp.submitMarkers);
   GoodTimeApp.initializeMap();
+  GoodTimeApp.getPlaceUrls();
 
   this.$main.on("submit", "form", this.handleForm);
   $(document).on('click', '#show-map', function() {
