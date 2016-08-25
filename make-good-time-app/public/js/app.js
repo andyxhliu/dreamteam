@@ -6,8 +6,10 @@ GoodTimeApp.getTemplate = function(template, data) {
   return $.get('/templates/' + template + '.html').done(function(templateHtml) {
     if (template !== 'index') {
       $('#map').hide();
+      $('#main-nav').css('background-color', 'transparent');
     } else {
       $('#map').show();
+      $('#main-nav').css('background-color', 'rgba(255,255,255,0.6)');
     }
     if (template === 'homepage') {
       $('#brand-header').hide();
