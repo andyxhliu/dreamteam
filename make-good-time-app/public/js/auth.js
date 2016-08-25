@@ -22,8 +22,10 @@ GoodTimeApp.handleForm = function() {
   .done(function(data) {
     if(!!data.token) {
       window.localStorage.setItem("token", data.token);
+      console.log("data is", data);
     }
-    GoodTimeApp.getActivities();
+    // GoodTimeApp.getActivities();
+      GoodTimeApp.getUser();
   })
   .fail(GoodTimeApp.handleFormErrors);
 }
