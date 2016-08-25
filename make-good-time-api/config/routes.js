@@ -4,6 +4,7 @@ var router = require('express').Router();
 // require our controller(s)
 var activitiesController = require('../controllers/activities');
 var authController = require('../controllers/authentications');
+var usersController = require("../controllers/users");
 var secret = require('../config/token').secret;
 var jwt = require('jsonwebtoken');
 
@@ -35,6 +36,14 @@ router.route('/activities/:id')
 
 router.post('/register', authController.register);
 router.post('/login', authController.login);
+
+
+router.route("/users")
+  .get(usersController.index);
+
+router.route("/users/:id")
+  .get(usersController.show)
+  .put(usersController.update);
 
 // export the router
 module.exports = router;

@@ -213,13 +213,14 @@ GoodTimeApp.calcRoute = function(directionsService, directionsDisplay) {
         for (var i = 0; i < route.legs.length-1; i++) {
           var routeSegment = i + 1;
           summaryPanel.innerHTML += 
-          '<button class="favorite"></button>\
+          '<button class="favorite" data-marker-id="'+ GoodTimeApp.orderedMarkers[i].id +'">Save to favorite</button>\
           <div class="column" data-marker-id="'+ GoodTimeApp.orderedMarkers[i].id + '">\
             <b>' + routeSegment +': ' + GoodTimeApp.orderedMarkers[i].name + '</b><br>\
             to ' + route.legs[i].end_address + '<br>' + 
             route.legs[i].duration.text + '<br>' +
             route.legs[i].distance.text + '<br><br>\
           </div>';
+
         }
       }
     });     
