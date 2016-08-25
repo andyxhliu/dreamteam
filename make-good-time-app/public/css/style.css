@@ -112,12 +112,16 @@ h1.index-h1 {
   }
 }
 
-@media (max-width: 375px) {
-  #brand-header {display:none !important}
-  a.home-logo {display:block} 
-  .home-logo-nav {margin-left: 20px}
-  .favorite-logo {margin-left: -13px}
-}
+/*Iphone 6 display*/
+@media (min-width: 375px) {
+  div.favorite-logo {margin-left: 1px}
+  h1.index-h1 {font-size: 20px}
+  .filter-box img{height: 33px}
+  .filter-box {height: 477px}
+  .button-transparent-blue {height: 34px}
+  .filter-box {margin-top: -28px}
+  div#side-bar {top: 7%}
+  }
 
 @media (max-width: 500px) {
   #brand-header {display:none !important}
