@@ -112,13 +112,32 @@ h1.index-h1 {
   }
 }
 
+/*Iphone 6 display*/
+/*@media (min-width: 375px) and {
+  div.favorite-logo {margin-left: 1px}
+  h1.index-h1 {font-size: 20px}
+  .filter-box img{height: 33px}
+  .filter-box {height: 477px}
+  .button-transparent-blue {height: 34px}
+  .filter-box {margin-top: -28px}
+  div#side-bar {top: 7%}
+  }*/
+/*end */
+
 @media (max-width: 500px) {
   #brand-header {display:none !important}
   a.home-logo {display:block} 
+  .home-logo-nav {margin-left: 20px}
+  .favorite-logo {margin-left: -13px}
 }
 
 @media (min-width: 500px) {
   a.home-logo {display:none !important}
+
+/*navbar*/
+  ul.nav.navbar-nav {
+    margin-left: 1px;
+  }
 }
 
 @media (min-width: 550px) {
@@ -158,6 +177,10 @@ a.navbar-brand.makegoodtimebrand {
   color: #0d18a7;
   font-size: 40px;
 }
+a.navbar-brand.makegoodtimebrand:hover {
+ color: #05ff93; 
+}
+
 
 nav.navbar.navbar-default li {
   display: inline-block;
@@ -312,6 +335,9 @@ nav.navbar.navbar-default li {
   vertical-align: middle;
 }
 
+.no-padding {
+  padding: 0px;
+}
 
 button:focus {outline:0;}
 
