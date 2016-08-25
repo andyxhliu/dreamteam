@@ -168,6 +168,15 @@ a.navbar-brand.makegoodtimebrand {
     font-size: 16px !important;
     margin-top: 15px;
   }
+  #side-bar {
+    height: 20% !important;
+    width: 95% !important;
+    margin-top: 50px;
+  }
+  nav.navbar.navbar-default {
+    height: 50px !important;
+  }
+
 }
 .secondary-title {
   font-size: 28px;
@@ -220,6 +229,7 @@ button:focus {outline:0;}
   width: 300px;
   float: right;
   z-index: 3;
+  border-radius: 15px;
   border: 1px solid black;
   background: rgba(255,255,255,0.7);
   position: absolute;
