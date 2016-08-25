@@ -1,10 +1,9 @@
-<h1>User Show page</h1>
-
-<div class="saved-marker">
-  <ul>
-    <li class="name"></li>
-    <li class="location"></li>
-    <li class="street-view"></li>
-
-  </ul>
+<div class="filter-box users">
+  <h2 class="user-faves">Favorite Places</h2>
+  <% user.favorites.forEach(function(favorite) {%>
+      <ul class="user-faves">
+        <li class="name"><%= favorite.name %></li>
+        <li class="location"><%= favorite.location %> </li>
+      </ul>
+  <% }) %>
 </div>

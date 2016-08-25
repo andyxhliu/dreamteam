@@ -29,16 +29,14 @@ GoodTimeApp.getPlaces = function(category, location) {
 
 GoodTimeApp.submitMarkers = function() {
 
-  if(!$(this).parents('.filter-box').find('ul#filters input:checked').length) {
+  if(!$(this).parents('.filter-box').find('ul.filters input:checked').length) {
     return;
   }
 
   if($(this).hasClass('disabled')) return;
   $(this).addClass('disabled');
 
-  console.log("click");
-
-  GoodTimeApp.chosenCategoryIds = $('#filters').find('input:checked').toArray().map(function(category) {
+  GoodTimeApp.chosenCategoryIds = $('.filters').find('input:checked').toArray().map(function(category) {
     return $(category).data("categoryId");
   });
 
@@ -221,6 +219,8 @@ GoodTimeApp.orderRoute = function() {
 
 
 GoodTimeApp.calcRoute = function(directionsService, directionsDisplay) {
+  GoodTimeApp.directionsDisplay.setMap(GoodTimeApp.map);
+
   this.orderedMarkersLength = this.orderedMarkers.length-1;
   this.start = new google.maps.LatLng(GoodTimeApp.pos.lat, GoodTimeApp.pos.lng);
   this.request = {
