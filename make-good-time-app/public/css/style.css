@@ -158,6 +158,10 @@ a.navbar-brand.makegoodtimebrand {
   color: #0d18a7;
   font-size: 40px;
 }
+a.navbar-brand.makegoodtimebrand:hover {
+ color: #05ff93; 
+}
+
 
 nav.navbar.navbar-default li {
   display: inline-block;

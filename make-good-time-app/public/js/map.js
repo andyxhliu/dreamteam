@@ -27,21 +27,21 @@ GoodTimeApp.getPlaces = function(category, location) {
   });
 }
 
-GoodTimeApp.getPlaceUrls = function() {
-  return $.ajax({
-    method: "GET",
-    url: 
-    'https://maps.googleapis.com/maps/api/place/details/json?key=AIzaSyAddt2Y0QfzlD038bLd4xRA8mIj-Tg0L_M&placeid=ChIJpSJacrccdkgRYSfPYr24ZtI',
-    beforeSend: function (xhr) {
-    xhr.setRequestHeader('Authorization', 'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1N2I1YWJlZmM0Nzg0ZTMzM2M3YzFjYmYiLCJ1c2VybmFtZSI6ImthaXRseW4iLCJpYXQiOjE0NzE1MjQ5MjIsImV4cCI6MTQ3MTYxMTMyMn0.IeeqyCLXeY6xEidCFO5NJsTXf0nkYCFpcbj41kk6NL0');
-},
-  }).done(function(data) {
-    console.log(data);
-  });
-}
+// GoodTimeApp.getPlaceUrls = function() {
+//   return $.ajax({
+//     method: "GET",
+//     url: 
+//     'https://maps.googleapis.com/maps/api/place/details/json?key=AIzaSyAddt2Y0QfzlD038bLd4xRA8mIj-Tg0L_M&placeid=ChIJpSJacrccdkgRYSfPYr24ZtI',
+//     beforeSend: function (xhr) {
+//     xhr.setRequestHeader('Authorization', 'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1N2I1YWJlZmM0Nzg0ZTMzM2M3YzFjYmYiLCJ1c2VybmFtZSI6ImthaXRseW4iLCJpYXQiOjE0NzE1MjQ5MjIsImV4cCI6MTQ3MTYxMTMyMn0.IeeqyCLXeY6xEidCFO5NJsTXf0nkYCFpcbj41kk6NL0');
+// },
+//   }).done(function(data) {
+//     console.log(data);
+//   });
+// }
 
 
-GoodTimeApp.getPlaceUrls();
+// GoodTimeApp.getPlaceUrls();
 
 GoodTimeApp.submitMarkers = function() {
 
@@ -67,7 +67,6 @@ GoodTimeApp.submitMarkers = function() {
       resultsArray.forEach(function(results, index) {
         var category = GoodTimeApp.chosenCategoryIds[index];
         var markers = [];
-        console.log(results);
         // create marker for each result
         results.forEach(function(result) {
           if (result.rating > 4.1 ) {
@@ -133,11 +132,6 @@ GoodTimeApp.createMarkerForActivity = function(activity) {
   var id = activity.id;
   var rating = activity.rating;
   var location = activity.location;
-  this.iconNum = 1;
-
-  // if (iconNum < 9) {
-  //   var icon = "/public/images/marker" + iconNum + ".png"; 
-  // }
 
   var activityMarker = new google.maps.Marker({
     id: id,
@@ -147,12 +141,9 @@ GoodTimeApp.createMarkerForActivity = function(activity) {
     map: GoodTimeApp.map,
     rating: rating,
     categories: categories,
-    // icon: icon,
-    // icon: "/public/images/marker1.png",
+    icon: "/public/images/marker1.png",
     photo: activity.photo
   });
-
-  // iconNum = iconNum + 1;
 
   activityMarker.infoWindow = new google.maps.InfoWindow({
     content: '<div>\
@@ -303,7 +294,7 @@ GoodTimeApp.mapSelections = function() {
 GoodTimeApp.initializeMap = function() {
 
   this.directionsDisplay = new google.maps.DirectionsRenderer({
-    // suppressMarkers: true
+    suppressMarkers: true
   });
 
   this.directionsService = new google.maps.DirectionsService();
