@@ -20,12 +20,11 @@ GoodTimeApp.handleForm = function() {
     beforeSend: GoodTimeApp.setRequestHeader
   })
   .done(function(data) {
+    GoodTimeApp.getTemplate("homepage");
     if(!!data.token) {
       window.localStorage.setItem("token", data.token);
       console.log("data is", data);
     }
-    // GoodTimeApp.getActivities();
-      GoodTimeApp.getUser();
   })
   .fail(GoodTimeApp.handleFormErrors);
 }
