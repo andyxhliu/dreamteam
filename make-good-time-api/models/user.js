@@ -6,7 +6,7 @@ var userSchema = new mongoose.Schema({
   username: { type: String, required: true, unique: true },
   email: { type: String, required: true, unique: true },
   passwordHash: { type: String, required: true },
-  favorites: [{type: mongoose.Schema.ObjectId, ref: 'Activity'}]
+  favorites: [{ type: mongoose.Schema.ObjectId, ref: 'Place' }]
 })
 
 userSchema.virtual('password')

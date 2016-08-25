@@ -1,29 +1,48 @@
 var User = require("../models/user");
+var Place = require('../models/place');
 
-function usersIndex(req, res){
-  User.find(function(err, users){
-    if (err) return res.status(404).json({ message: "Couldn't find the users"});
-    res.status(200).json({ users: users });
-  });
-}
+function favorite(req, res) {
 
-function usersShow(req, res){
-  User.findById(req.params.id, function(err, user){
-    if (err) return res.status(404).json({ message: "Couldn't find the user"});
-    res.status(200).json({ user: user });
-  });
-}
+  // find favorite by place_id
+  Place.findOne({ placeId: req.params.placeId })
+    .then(function(place) {
+      if(!place) {
+        return Place.create(req.body)
+      }
+      return new Promise(function(resolve, reject) { resolve(place); });
+    })
+    .then(function(place) {
+      return User.findById(req.user._id)
+        .then(function(user) {
 
-function usersUpdate(req, res){
-  User.findByIdAndUpdate({ _id: req.params.id }, req.body.user, {new: true}, function(err, user){
-   if (err) return res.status(500).json(err);
-   if (!user) return res.status(404).json(err);
-   res.status(200).json({ user: user }); 
+          var idx = user.favorites.indexOf(place._id.toString());
+
+          if(idx === -1) {
+            user.favorites.push(place);
+          } else {
+            user.favorites.splice(idx, 1);
+          }
+
+          return user.save();
+        });
+    })
+    .then(function(user) {
+      res.status(200).json(user);
+    })
+    .catch(function(err) {
+      res.status(500).json(err);
+    });
+};
+
+function me(req, res) {
+  User.findById(req.user._id).populate('favorites').exec(function(err, user) {
+    if(err) return res.status(500).json(err);
+
+    return res.status(200).json(user);
   });
 }
 
 module.exports = {
-  index: usersIndex,
-  show: usersShow,
-  update: usersUpdate
+  favorite: favorite,
+  me: me
 }

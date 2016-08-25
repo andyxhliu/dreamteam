@@ -7,6 +7,9 @@ var environment = app.get('env');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 var cors = require('cors');
+var bluebird = require('bluebird');
+
+mongoose.Promise = bluebird;
 
 var port = process.env.PORT || 3000;
 
