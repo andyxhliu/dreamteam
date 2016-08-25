@@ -53,10 +53,10 @@ GoodTimeApp.submitMarkers = function() {
         results.forEach(function(result) {
           if (result.rating > 4.1 ) {
             
-            var photo = results.photos ? result.photos[0].getUrl({ maxWidth: 200, maxHeight: 200 }) : null;
+            var photo = result.photos ? result.photos[0].getUrl({ maxWidth: 200, maxHeight: 200 }) : null;
 
             var data = {
-              id: result.id,
+              id: result.place_id,
               name: result.name,
               categories: result.types.join(" "),
               location: result.vicinity,
@@ -86,12 +86,33 @@ GoodTimeApp.submitMarkers = function() {
     });
 }
 
+GoodTimeApp.geocoder = new google.maps.Geocoder();
+
+GoodTimeApp.getPlaceById = function(placeId) {
+  return new Promise(function(resolve, reject) {
+    GoodTimeApp.geocoder.geocode({ placeId: placeId }, function(results, status) {
+      if(status !== "OK") return reject(status);
+      
+      var activity = {
+        id: results[0].place_id,
+        name: results[0].address_components[0].long_name,
+        categories: results[0].types.join(" "),
+        location: results[0].formatted_address,
+        latLng: results[0].geometry.location
+      };
+
+      resolve(activity);
+    });
+  });
+}
+
 GoodTimeApp.createMarkerForActivity = function(activity) {
   GoodTimeApp.a ++;
   var latLng = activity.latLng;
   var categories = activity.categories;
   var name = activity.name;
   var id = activity.id;
+  var rating = activity.rating;
   var location = activity.location;
 
   var activityMarker = new google.maps.Marker({
@@ -100,8 +121,10 @@ GoodTimeApp.createMarkerForActivity = function(activity) {
     location: location,
     position: latLng,
     map: GoodTimeApp.map,
+    rating: rating,
     categories: categories,
-    icon: "http://maps.google.com/mapfiles/ms/icons/yellow-dot.png"
+    icon: "http://maps.google.com/mapfiles/ms/icons/yellow-dot.png",
+    photo: activity.photo
   });
 
   activityMarker.infoWindow = new google.maps.InfoWindow({
@@ -143,6 +166,7 @@ GoodTimeApp.appendMarker = function(category, markers) {
           <input type='checkbox' data-marker-id='"+ marker.id + "' checked />\
           " + marker.name + "\
         </label>\
+        <button class='info-button' data-marker-id='"+ marker.id +"'>Infos</button>\
       </li>\
     </div>");
 
@@ -213,13 +237,14 @@ GoodTimeApp.calcRoute = function(directionsService, directionsDisplay) {
         for (var i = 0; i < route.legs.length-1; i++) {
           var routeSegment = i + 1;
           summaryPanel.innerHTML += 
-          '<button class="favorite"></button>\
+          '<button class="favorite" data-marker-id="'+ GoodTimeApp.orderedMarkers[i].id +'">Save to favorite</button>\
           <div class="column" data-marker-id="'+ GoodTimeApp.orderedMarkers[i].id + '">\
             <b>' + routeSegment +': ' + GoodTimeApp.orderedMarkers[i].name + '</b><br>\
             to ' + route.legs[i].end_address + '<br>' + 
             route.legs[i].duration.text + '<br>' +
             route.legs[i].distance.text + '<br><br>\
           </div>';
+
         }
       }
     });     

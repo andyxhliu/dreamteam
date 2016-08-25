@@ -26,6 +26,73 @@ GoodTimeApp.getTemplate = function(template, data) {
   });
 }
 
+/////////////////////////
+
+// GoodTimeApp.getUser = function(){
+//   return $.ajax({
+//     method: "GET",
+//     url: GoodTimeApp.API_URL + "/users",
+//     beforeSend: GoodTimeApp.setRequestHeader
+//     }).done(function(data) {
+//       // GoodTimeApp.getTemplate("show", { users: data });
+//       console.log(data);
+//     });
+// }
+
+GoodTimeApp.favoritePlace = function(marker){
+
+  var position = marker.getPosition();
+
+  var data = {
+    placeId: marker.id,
+    name: marker.name,
+    location: marker.location,
+    latLng: { lat: position.lat(), lng: position.lng() },
+    rating: marker.rating,
+    categories: marker.categories.split(" "),
+    photo: marker.photo
+  }
+
+  console.log(data);
+
+  return $.ajax({
+    method: "PUT",
+    url: GoodTimeApp.API_URL + "/favorite/" + marker.id,
+    data: data,
+    beforeSend: GoodTimeApp.setRequestHeader
+  }).done(function(data) {
+    console.log(data);
+  });
+}
+
+// GoodTimeApp.saveFavorite = function(marker) {
+//   event.preventDefault();
+
+//   console.log("Works");
+//   // $(this).find('button').prop('disabled', true);
+//   var method = "PUT";
+//   var url = GoodTimeApp.API_URL;
+
+//   if("PUT" === method) { 
+//     var id = marker.id;
+//     url += id;
+//   }
+
+//   return $.ajax({
+//     url: url,
+//     method: method,
+//     data: marker
+//   })
+//   .done()
+//   .fail();               
+// }
+
+
+
+
+///////////////////////////
+
+
 GoodTimeApp.loadPage = function() {
   event.preventDefault();
   GoodTimeApp.getTemplate($(this).data('template'));
@@ -58,15 +125,20 @@ GoodTimeApp.initEventHandlers = function() {
   });
 
   this.$sideBar.on('click', '.favorite', function(){
-    var id = $(this).data('markerId');
-    // console.log(id);
-    var marker = _.findWhere(GoodTimeApp.orderedMarkers, { id: id });
-    console.log(marker);
-    // console.log(marker.id);
-    // console.log(marker.location);
+    var placeId = $(this).data('markerId');
+    var marker = _.findWhere(GoodTimeApp.orderedMarkers, { id: placeId });
+    GoodTimeApp.favoritePlace(marker);
   }); 
 
   this.$sideBar.on('click', 'button#draw-route', GoodTimeApp.mapSelections);
+
+  this.$sideBar.on('click', '.info-button', function(){
+   GoodTimeApp.closeAllInfoWindows(GoodTimeApp.markers);
+
+   var id = $(this).data('markerId');
+   var marker = _.findWhere(GoodTimeApp.markers, { id: id });
+   marker.infoWindow.open(GoodTimeApp.map, marker);
+  });
 }
 GoodTimeApp.markers = [];
 GoodTimeApp.activityData = [];
