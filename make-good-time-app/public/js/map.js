@@ -167,17 +167,8 @@ GoodTimeApp.appendMarker = function(category, markers) {
       <li>\
         <label>\
           <input type='checkbox' data-marker-id='"+ marker.id + "' checked />\
-         " + marker.name + 
-          "\</label></li></div>");
-
-    // Alternate content for append, to include links with info windows:
-    // ONLY INCLUDE THIS IF WE CAN FIX DISPLAY BUGS
-    // "<div>\
-      // <li>\
-      //   <label>\
-      //     <input type='checkbox' data-marker-id='"+ marker.id + "' checked />\
-      //     </label><a href='#' class='info-button' data-marker-id='" + marker.id + "'>" + marker.name + 
-      //     "\</a></li></div>"
+          </label><a href='#' class='info-button' data-marker-id='" + marker.id + "'>" + marker.name + 
+          "\</a></li></div>");
 
     GoodTimeApp.markers.push(marker);
   }
