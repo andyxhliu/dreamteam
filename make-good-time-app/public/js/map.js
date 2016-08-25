@@ -27,6 +27,22 @@ GoodTimeApp.getPlaces = function(category, location) {
   });
 }
 
+// GoodTimeApp.getPlaceUrls = function() {
+//   return $.ajax({
+//     method: "GET",
+//     url: 
+//     'https://maps.googleapis.com/maps/api/place/details/json?key=AIzaSyAddt2Y0QfzlD038bLd4xRA8mIj-Tg0L_M&placeid=ChIJpSJacrccdkgRYSfPYr24ZtI',
+//     beforeSend: function (xhr) {
+//     xhr.setRequestHeader('Authorization', 'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1N2I1YWJlZmM0Nzg0ZTMzM2M3YzFjYmYiLCJ1c2VybmFtZSI6ImthaXRseW4iLCJpYXQiOjE0NzE1MjQ5MjIsImV4cCI6MTQ3MTYxMTMyMn0.IeeqyCLXeY6xEidCFO5NJsTXf0nkYCFpcbj41kk6NL0');
+// },
+//   }).done(function(data) {
+//     console.log(data);
+//   });
+// }
+
+
+// GoodTimeApp.getPlaceUrls();
+
 GoodTimeApp.submitMarkers = function() {
 
   if(!$(this).parents('.filter-box').find('ul.filters input:checked').length) {
@@ -51,7 +67,6 @@ GoodTimeApp.submitMarkers = function() {
       resultsArray.forEach(function(results, index) {
         var category = GoodTimeApp.chosenCategoryIds[index];
         var markers = [];
-
         // create marker for each result
         results.forEach(function(result) {
           if (result.rating > 4.1 ) {
@@ -60,6 +75,7 @@ GoodTimeApp.submitMarkers = function() {
 
             var data = {
               id: result.place_id,
+              url: result.url,
               name: result.name,
               categories: result.types.join(" "),
               location: result.vicinity,
@@ -110,7 +126,6 @@ GoodTimeApp.getPlaceById = function(placeId) {
 }
 
 GoodTimeApp.createMarkerForActivity = function(activity) {
-  GoodTimeApp.a ++;
   var latLng = activity.latLng;
   var categories = activity.categories;
   var name = activity.name;
@@ -126,7 +141,7 @@ GoodTimeApp.createMarkerForActivity = function(activity) {
     map: GoodTimeApp.map,
     rating: rating,
     categories: categories,
-    icon: "http://maps.google.com/mapfiles/ms/icons/yellow-dot.png",
+    icon: "/public/images/marker1.png",
     photo: activity.photo
   });
 
@@ -239,7 +254,7 @@ GoodTimeApp.calcRoute = function(directionsService, directionsDisplay) {
         for (var i = 0; i < route.legs.length-1; i++) {
           var routeSegment = i + 1;
           summaryPanel.innerHTML += 
-          '<button class="favorite" data-marker-id="'+ GoodTimeApp.orderedMarkers[i].id +'">Save to favorite</button>\
+          '<button class="favorite" data-marker-id="'+ GoodTimeApp.orderedMarkers[i].id +'"></button>\
           <div class="column" data-marker-id="'+ GoodTimeApp.orderedMarkers[i].id + '">\
             <b>' + routeSegment +': ' + GoodTimeApp.orderedMarkers[i].name + '</b><br>\
             to ' + route.legs[i].end_address + '<br>' + 
