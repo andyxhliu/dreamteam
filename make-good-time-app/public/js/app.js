@@ -21,10 +21,6 @@ GoodTimeApp.getTemplate = function(template, data) {
     if (template !== 'index') {
       $('#side-bar').hide();
     }
-    // $('#select-filters').one('click', GoodTimeApp.submitMarkers);
-    // this.$main.one('click', $('#select-filters'), function() {
-    //   GoodTimeApp.submitMarkers();
-    // });
 
     var html = _.template(templateHtml)(data);
     GoodTimeApp.$main.html(html);
@@ -32,18 +28,17 @@ GoodTimeApp.getTemplate = function(template, data) {
   });
 }
 
-/////////////////////////
 
-// GoodTimeApp.getUser = function(){
-//   return $.ajax({
-//     method: "GET",
-//     url: GoodTimeApp.API_URL + "/users",
-//     beforeSend: GoodTimeApp.setRequestHeader
-//     }).done(function(data) {
-//       // GoodTimeApp.getTemplate("show", { users: data });
-//       console.log(data);
-//     });
-// }
+GoodTimeApp.getUser = function(){
+  return $.ajax({
+    method: "GET",
+    url: GoodTimeApp.API_URL + "/users",
+    beforeSend: GoodTimeApp.setRequestHeader
+    }).done(function(data) {
+      GoodTimeApp.getTemplate("show", { users: data });
+      console.log(data);
+    });
+}
 
 GoodTimeApp.favoritePlace = function(marker){
 
@@ -84,35 +79,8 @@ GoodTimeApp.showUser = function(){
 
 GoodTimeApp.showUser();
 
-// GoodTimeApp.saveFavorite = function(marker) {
-//   event.preventDefault();
-
-//   console.log("Works");
-//   // $(this).find('button').prop('disabled', true);
-//   var method = "PUT";
-//   var url = GoodTimeApp.API_URL;
-
-//   if("PUT" === method) { 
-//     var id = marker.id;
-//     url += id;
-//   }
-
-//   return $.ajax({
-//     url: url,
-//     method: method,
-//     data: marker
-//   })
-//   .done()
-//   .fail();               
-// }
-
-
-
-
-///////////////////////////
-
-
 GoodTimeApp.loadPage = function() {
+  GoodTimeApp.reset();
   event.preventDefault();
   GoodTimeApp.getTemplate($(this).data('template'));
 }
@@ -161,14 +129,20 @@ GoodTimeApp.initEventHandlers = function() {
    marker.infoWindow.open(GoodTimeApp.map, marker);
   });
 
-
   $(document).on('click', '#clear-selections', function() {
-   $('input[type=checkbox]').each(function() 
-   { 
-    this.checked = false; 
-   }); 
+    $('input[type=checkbox]').each(function() { 
+      this.checked = false; 
+    }); 
   })
 }
+
+GoodTimeApp.reset = function() {
+  GoodTimeApp.closeAllInfoWindows(GoodTimeApp.orderedMarkers);
+  this.markers = [];
+  this.activityData = [];
+  GoodTimeApp.directionsDisplay.setMap(null);
+}
+
 GoodTimeApp.markers = [];
 GoodTimeApp.activityData = [];
 

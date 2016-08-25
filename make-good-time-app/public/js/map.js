@@ -36,8 +36,6 @@ GoodTimeApp.submitMarkers = function() {
   if($(this).hasClass('disabled')) return;
   $(this).addClass('disabled');
 
-  console.log("click");
-
   GoodTimeApp.chosenCategoryIds = $('#filters').find('input:checked').toArray().map(function(category) {
     return $(category).data("categoryId");
   });
@@ -169,11 +167,17 @@ GoodTimeApp.appendMarker = function(category, markers) {
       <li>\
         <label>\
           <input type='checkbox' data-marker-id='"+ marker.id + "' checked />\
-          " + marker.name + "\
-        </label>\
-        <button class='info-button' data-marker-id='"+ marker.id +"'>Infos</button>\
-      </li>\
-    </div>");
+         " + marker.name + 
+          "\</label></li></div>");
+
+    // Alternate content for append, to include links with info windows:
+    // ONLY INCLUDE THIS IF WE CAN FIX DISPLAY BUGS
+    // "<div>\
+      // <li>\
+      //   <label>\
+      //     <input type='checkbox' data-marker-id='"+ marker.id + "' checked />\
+      //     </label><a href='#' class='info-button' data-marker-id='" + marker.id + "'>" + marker.name + 
+      //     "\</a></li></div>"
 
     GoodTimeApp.markers.push(marker);
   }
@@ -224,6 +228,8 @@ GoodTimeApp.orderRoute = function() {
 
 
 GoodTimeApp.calcRoute = function(directionsService, directionsDisplay) {
+  GoodTimeApp.directionsDisplay.setMap(GoodTimeApp.map);
+
   this.orderedMarkersLength = this.orderedMarkers.length-1;
   this.start = new google.maps.LatLng(GoodTimeApp.pos.lat, GoodTimeApp.pos.lng);
   this.request = {
