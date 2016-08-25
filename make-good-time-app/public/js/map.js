@@ -135,10 +135,6 @@ GoodTimeApp.createMarkerForActivity = function(activity) {
   var location = activity.location;
   this.iconNum = 1;
 
-  // if (iconNum < 9) {
-  //   var icon = "/public/images/marker" + iconNum + ".png"; 
-  // }
-
   var activityMarker = new google.maps.Marker({
     id: id,
     name: name,
@@ -147,13 +143,10 @@ GoodTimeApp.createMarkerForActivity = function(activity) {
     map: GoodTimeApp.map,
     rating: rating,
     categories: categories,
-    // icon: icon,
-    // icon: "/public/images/marker1.png",
+    icon: "/public/images/marker1.png",
     photo: activity.photo
   });
-
-  // iconNum = iconNum + 1;
-
+  
   activityMarker.infoWindow = new google.maps.InfoWindow({
     content: '<div>\
       <div>' + activity.name + '</div>\
@@ -303,7 +296,7 @@ GoodTimeApp.mapSelections = function() {
 GoodTimeApp.initializeMap = function() {
 
   this.directionsDisplay = new google.maps.DirectionsRenderer({
-    // suppressMarkers: true
+    suppressMarkers: true
   });
 
   this.directionsService = new google.maps.DirectionsService();
