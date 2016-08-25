@@ -76,6 +76,15 @@ h1.index-h1 {
   }
 }
 
+@media (max-width: 500px) {
+  #brand-header {display:none}
+  #home {display:block} 
+}
+
+@media (min-width: 500px) {
+  #home {display:none !important}
+}
+
 @media (min-width: 435px) {
   .left-items {
     float: left;
