@@ -122,7 +122,7 @@ h1.index-h1 {
   .filter-box {margin-top: -28px}
   div#side-bar {top: 7%}
   }
-
+/*end */
 @media (max-width: 500px) {
   #brand-header {display:none !important}
   a.home-logo {display:block} 
@@ -330,6 +330,9 @@ nav.navbar.navbar-default li {
   vertical-align: middle;
 }
 
+.no-padding {
+  padding: 0px;
+}
 
 button:focus {outline:0;}
 
