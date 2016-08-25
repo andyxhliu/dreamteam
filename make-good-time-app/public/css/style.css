@@ -131,6 +131,18 @@ nav.navbar.navbar-default li {
   display: inline-block;
 }
 
+.home-logo-nav {
+ width: 60px;
+ height:60px;
+ display:block;
+ background:transparent url('/public/icons/home.svg') center top no-repeat;
+}
+
+.home-logo-nav:hover {
+ background:transparent url('/public/icons/home-hover.svg') center top no-repeat;
+}
+
+
 .favorite-logo {
  width: 60px;
  height:60px;
@@ -139,11 +151,41 @@ nav.navbar.navbar-default li {
 }
 
 .favorite-logo:hover {
-
  background:transparent url('/public/icons/favorite-hover.svg') center top no-repeat;
 }
 
+.logout-logo {
+ width: 60px;
+ height:60px;
+ display:block;
+ background:transparent url('/public/icons/logout.svg') center top no-repeat;
+}
 
+.logout-logo:hover {
+ background:transparent url('/public/icons/logout-hover.svg') center top no-repeat;
+}
+
+.register-logo {
+ width: 60px;
+ height:60px;
+ display:block;
+ background:transparent url('/public/icons/register.svg') center top no-repeat;
+}
+
+.register-logo:hover {
+ background:transparent url('/public/icons/register-hover.svg') center top no-repeat;
+}
+
+.login-logo {
+ width: 60px;
+ height:60px;
+ display:block;
+ background:transparent url('/public/icons/login.svg') center top no-repeat;
+}
+
+.login-logo:hover {
+ background:transparent url('/public/icons/login-hover.svg') center top no-repeat;
+}
 
 /*Main Page*/
 .mainpage-background {
