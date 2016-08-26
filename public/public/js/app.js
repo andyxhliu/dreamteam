@@ -144,9 +144,12 @@ GoodTimeApp.initEventHandlers = function() {
 
 GoodTimeApp.reset = function() {
   GoodTimeApp.closeAllInfoWindows(GoodTimeApp.markers);
-  this.markers = [];
   this.activityData = [];
   GoodTimeApp.directionsDisplay.setMap(null);
+  GoodTimeApp.markers = [];
+  GoodTimeApp.waypoints = [];
+  GoodTimeApp.distances = [];
+  GoodTimeApp.orderedMarkers = [];
 }
 
 GoodTimeApp.markers = [];
