@@ -11,7 +11,10 @@ Make Good Time is, ironically, an application about planning one's time wisely. 
 We used Trello for project management, assigning cards to members of the group. Wireframes were created in Adobe Illustrator.
 
 ![trello screenshot](https://cloud.githubusercontent.com/assets/2197306/17998194/02da0956-6b6b-11e6-91bf-8dcdec0fd20b.png)
-[wireframe screenshot]
+
+![makegoodtime-phone-version](https://cloud.githubusercontent.com/assets/2197306/18001028/dd7404ba-6b78-11e6-9947-a43ee7328893.png)
+
+![makegoodtime-web-version](https://cloud.githubusercontent.com/assets/2197306/18001029/dd8d3458-6b78-11e6-93b7-21019070b5a6.png)
 
 ## Project Requirements
 This project was created for General Assembly's Web Development Immersive (WDI) third project, and only group project assignment. Groups were assigned by the instructional team, and the project had several arbitrary requirements associated with it:
