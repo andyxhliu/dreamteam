@@ -164,7 +164,7 @@ GoodTimeApp.appendMarker = function(category, markers) {
     GoodTimeApp.$sideBar.append("<div>\
       <li>\
         <label>\
-          <input type='checkbox' data-marker-id='"+ marker.id + "' checked />\
+          <input type='checkbox' data-marker-id='"+ marker.id + "' />\
           </label><a href='#' class='info-button' data-marker-id='" + marker.id + "'>" + marker.name + 
           "\</a></li></div>");
 
