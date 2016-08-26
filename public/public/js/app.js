@@ -142,7 +142,14 @@ GoodTimeApp.initEventHandlers = function() {
   })
 }
 
+GoodTimeApp.clearOverlays = function() {
+  for (var i = 0; i < GoodTimeApp.markers.length; i++ ) {
+    GoodTimeApp.markers[i].setMap(null);
+  }
+}
+
 GoodTimeApp.reset = function() {
+  GoodTimeApp.clearOverlays();
   GoodTimeApp.closeAllInfoWindows(GoodTimeApp.markers);
   this.activityData = [];
   GoodTimeApp.directionsDisplay.setMap(null);
