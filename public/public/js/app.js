@@ -65,21 +65,21 @@ GoodTimeApp.favoritePlace = function(marker){
   }).done(function(data) {
     console.log(data);
   });
+
 }
 
 GoodTimeApp.showUser = function(){
   return $.ajax({
-      method: "GET",
-      url: GoodTimeApp.API_URL + "/me",
-      beforeSend: GoodTimeApp.setRequestHeader
-      }).done(function(data) {
-        GoodTimeApp.getTemplate("show", { user: data });
-        console.log("Heres the logged in user!", data);
-      });
+    method: "GET",
+    url: GoodTimeApp.API_URL + "/me",
+    beforeSend: GoodTimeApp.setRequestHeader
+    }).done(function(data) {
+      GoodTimeApp.getTemplate("show", { user: data });
+    });
 }
 
 GoodTimeApp.loadPage = function() {
-  // GoodTimeApp.reset();
+  GoodTimeApp.reset();
   event.preventDefault();
   GoodTimeApp.getTemplate($(this).data('template'));
 }
@@ -95,8 +95,6 @@ GoodTimeApp.initEventHandlers = function() {
   });
   this.$main.on('click', '#select-filters', GoodTimeApp.submitMarkers);
   GoodTimeApp.initializeMap();
-  GoodTimeApp.getPlaceUrls();
-
   this.$main.on("submit", "form", this.handleForm);
   $(document).on('click', '#show-map', function() {
     GoodTimeApp.getTemplate("index");
@@ -108,7 +106,7 @@ GoodTimeApp.initEventHandlers = function() {
   });
 
   this.$sideBar.on('click', '.column', function() {
-    GoodTimeApp.closeAllInfoWindows(GoodTimeApp.orderedMarkers);
+    GoodTimeApp.closeAllInfoWindows(GoodTimeApp.markers);
 
     var id = $(this).data('markerId');
     var marker = _.findWhere(GoodTimeApp.orderedMarkers, { id: id });
@@ -145,7 +143,7 @@ GoodTimeApp.initEventHandlers = function() {
 }
 
 GoodTimeApp.reset = function() {
-  GoodTimeApp.closeAllInfoWindows(GoodTimeApp.orderedMarkers);
+  GoodTimeApp.closeAllInfoWindows(GoodTimeApp.markers);
   this.markers = [];
   this.activityData = [];
   GoodTimeApp.directionsDisplay.setMap(null);

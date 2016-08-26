@@ -27,16 +27,6 @@ GoodTimeApp.getPlaces = function(category, location) {
   });
 }
 
-GoodTimeApp.getPlaceUrls = function() {
-
-  GoodTimeApp.placesService.getDetails({ placeId: 'ChIJpSJacrccdkgRYSfPYr24ZtI' }, function(results, status) {
-    console.log(results.url);
-  });
-}
-
-
-
-
 GoodTimeApp.submitMarkers = function() {
 
   if(!$(this).parents('.filter-box').find('ul.filters input:checked').length) {
@@ -308,10 +298,6 @@ GoodTimeApp.initializeMap = function() {
     map: GoodTimeApp.map,
     title: 'You are here.'
   });
-
-  // Include transit lines
-  // GoodTimeApp.transitLayer = new google.maps.TransitLayer();
-  // GoodTimeApp.transitLayer.setMap(this.map);
 
   // HTML5 geolocation
   if (navigator.geolocation) {
